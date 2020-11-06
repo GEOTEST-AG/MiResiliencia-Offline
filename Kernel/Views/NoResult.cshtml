@@ -1,0 +1,104 @@
+﻿@using ResTB_API.Helpers
+@using ResTB_API.Models
+@using ResTB_API.Models.Database.Domain
+@using ResTB_API.Resources
+@model ResTB_API.Models.ProjectResult
+
+@{
+    ViewBag.Title = ResSummary.TXT_Summary;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@Raw(ResSummary.TXT_ProjectSummary)</title>
+    @if (ViewBag.attachCss ?? false)
+    {
+        @*<link href="~/Content/bootstrap.css" rel="stylesheet" />*@
+        <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    }
+    @if (ViewBag.attachCss ?? false)
+    {
+        <style>
+            .collapse {
+                display: block !important
+            }
+        </style>
+    }
+    @if (ViewBag.print ?? false)
+    {
+        <style>
+            html, body {
+                height: 297mm;
+                width: 210mm;
+            }
+        </style>
+    }
+    <script src="~/Scripts/Chart.min.js" type="text/javascript"></script>
+</head>
+<body>
+    <p><br /></p>
+    @*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*@
+    @* PROJECT SUMMARY *@
+    @*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*@
+
+    <div class="card card-bordered style-danger">
+        @*HEADER*@
+        <div class="card-head">
+            <header>
+                @if (ViewBag.attachCss ?? false)
+                {<h1 class="bg-danger">@ResSummary.TXT_ProjectSummary</h1> }
+            else
+            { <h1>@ResSummary.TXT_ProjectSummary</h1>}
+            </header>
+            <div class="tools">
+                @*<a class="btn btn-icon-toggle btn-collapse"><i class="fa fa-angle-down"></i></a>*@
+            </div>
+        </div>
+        @*CONTENT*@
+        <div class="card-body style-default-bright" style="display: block;">
+            <h2 class="bg-info">@ResSummary.TXT_Project</h2>
+            <table class="table table-condensed table-bordered table-hover table-responsive">
+                <tr>
+                    <th>
+                        @Raw(ResSummary.TXT_Number)
+                    </th>
+                    <th>
+                        @Raw(ResSummary.TXT_Name)
+                    </th>
+                    <th>
+                        @Raw(ResSummary.TXT_Message)
+                    </th>
+                </tr>
+                <tr>
+                    <td>
+                        @Model.Project.Number
+                        @*@Html.DisplayFor(model => model.Project.Number)*@
+                    </td>
+                    <td>
+                        @Raw(Model.Project.Name)
+                        @*@Html.DisplayFor(model => model.Project.Name)*@
+                    </td>
+                    <td>
+                        @Raw(ResResult.PRJ_NoDamageExtent)
+                    </td>
+                </tr>
+            </table>
+
+
+        </div>
+    </div>
+
+    @*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*@
+    @* FOOTER *@
+    @*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*@
+    <p>
+        <hr />
+        WebApp Version @typeof(ResTB_API.Controllers.ResultController).Assembly.GetName().Version
+        <br />
+        Built @System.IO.File.GetLastWriteTime(System.Reflection.Assembly.GetExecutingAssembly().Location).ToString()
+    </p>
+</body>
+</html>

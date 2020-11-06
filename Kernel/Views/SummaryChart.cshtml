@@ -1,0 +1,132 @@
+﻿@model ResTB_API.Models.ProjectResult
+@using ResTB_API.Models
+@using ResTB_API.Models.Database.Domain
+@using ResTB_API.Resources
+
+@{
+    List<string> datasets = new List<string>();
+    //List<string> colors = new List<string>() { "red", "blue", "green", "orange", "brown", "magenta" };
+
+    //int colorIndex = 0;
+
+    if (Model == null)
+    {
+
+    }
+    else
+    {
+        //string color = colors.ElementAt(colorIndex);
+        string dataset = "";
+
+        dataset = $"{{ " +
+            $"label: \"{ResResult.PR_CollectiveRiskTotalBefore}\", " +
+            $"data: [{Model.CollectiveRiskTotalBefore:F0},0,0,0], " +
+            $"backgroundColor: [\"rgb(0, 230, 0)\",,,], " +
+            $"}} ";
+        datasets.Add(dataset);
+
+        dataset = $"{{ " +
+            $"label: \"{ResResult.PR_CollectiveRiskTotalAfter}\", " +
+            $"data: [0,{Model.CollectiveRiskTotalAfter:F0},0,0], " +
+            $"backgroundColor: [,\"rgb(0, 64, 0)\",,], " +
+            $"}} ";
+        datasets.Add(dataset);
+
+        dataset = $"{{ " +
+            $"label: \"{ResResult.PR_RiskReduktion2}\", " +
+            $"data: [0,0,{Model.RiskReduction:F0},0], " +
+            $"backgroundColor: [,,\"rgb(0, 128, 0)\",], " +
+            $"}} ";
+        datasets.Add(dataset);
+
+        dataset = $"{{ " +
+                    $"label: \"{ResResult.PR_ProtectionMeasureYearlyCosts}\", " +
+                    $"data: [0,0,0,{Model.ProtectionMeasureYearlyCosts:F0}], " +
+                    $"backgroundColor: \"rgb(64, 64, 64)\", " +
+                    $"}} ";
+        datasets.Add(dataset);
+    }
+    //colorIndex++;
+}
+
+
+<div>
+
+    <div style="width:100%">
+        <canvas id="projectChart_ratio" style="height:10px"></canvas>
+        @*<img id="img64" />
+        <div id="imgWrap"></div>*@
+    </div>
+    <script>
+        var ctxSummary = document.getElementById("projectChart_ratio");
+        var mySummaryChart = new Chart(ctxSummary, {
+            type: 'bar',
+            data: {
+                labels: ['@Raw(ResResult.PR_CollectiveRiskTotalBefore)','@Raw(ResResult.PR_CollectiveRiskTotalAfter)','@Raw(ResResult.PR_RiskReduktion2)','@Raw(ResResult.PR_ProtectionMeasureYearlyCosts)'],
+                datasets: [@Raw(String.Join(",", datasets.ToArray()))]
+            },
+            options: {
+                scales: {
+                    responsive: true,
+                    title: {
+                    },
+                    tooltips: {
+                    },
+                    xAxes: [{
+                        stacked: true,
+                        ticks: {
+                            autoSkip: false,
+                        },
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                        }
+                    }],
+                    yAxes: [
+                        {
+                        stacked: false,
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: '@Raw(ResResult.PR_YearlyCosts)'
+                        },
+                        ticks: {
+                            beginAtZeto: true,
+                            callback: function (value, index, values) {
+                                return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + '@Raw(ResFormat.DF_PerYear)';
+                            }
+                        },
+                        }
+                    ]
+                },                
+                animation: {
+                    onComplete: done
+                },
+                line: {
+                    borderWidth: 3
+                },
+                legend: {
+                    display: false
+                },
+                tooltips: {
+                    callbacks: {
+                        label: function (tooltipItem, data) {
+                            var label = data.datasets[tooltipItem.datasetIndex].label || '';
+
+                            if (label) {
+                                label += ': ';
+                            }
+                            label += tooltipItem.yLabel.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + '@Raw(ResFormat.DF_PerYear)';
+                            return label;
+                        }
+                    }
+                }
+            }
+        });
+
+        function done() {
+            //var img64 = mySummaryChart.toBase64Image();
+            //document.getElementById("img64").src = img64;
+        }
+    </script>
+</div>

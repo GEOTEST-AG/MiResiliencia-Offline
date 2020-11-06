@@ -1,0 +1,48 @@
+﻿<UserControl x:Class="ResTB.GUI.View.MySplashScreen"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             DataContext="{Binding RelativeSource={RelativeSource Self}}"
+             xmlns:resx="clr-namespace:ResTB.Translation.Properties;assembly=ResTBTranslation"
+             mc:Ignorable="d" Height="503" Width="750" MinHeight="503" MinWidth="750"
+             d:DesignHeight="1006" d:DesignWidth="1500"
+             >
+    <Control.BorderBrush>
+        <SolidColorBrush>#AE0F0A</SolidColorBrush>
+    </Control.BorderBrush>    
+    <Control.BorderThickness>
+        <Thickness>3</Thickness>
+    </Control.BorderThickness>
+    <Control.Resources>
+        <!--<BitmapImage x:Key="SplashScreen" UriSource="pack://application:,,,/Design/SplashScreen.png" />-->
+        <BitmapImage x:Key="SplashScreen" UriSource="SplashScreen.png" />
+    </Control.Resources>
+    <Control.Background>
+        <ImageBrush ImageSource="{StaticResource SplashScreen}"/>
+    </Control.Background>
+    <Grid Margin="30" >
+        <!--<TextBlock Text="" FontSize="48" DockPanel.Dock="Right"/>-->
+        <!--<Decorator Width="40" DockPanel.Dock="Right"/>-->
+
+        <StackPanel HorizontalAlignment="Right" DockPanel.Dock="Top" Background="Transparent" VerticalAlignment="Top">
+            <!--<Decorator Height="250" />-->
+            <TextBlock Text="{x:Static resx:Resources.App_Name_ES}"  Margin="5" Padding="3"
+                       Foreground="Black" FontSize="40" TextWrapping="Wrap" Background="White" TextAlignment="Right" HorizontalAlignment="Right"/>
+            <!--<Decorator Height="10" />-->
+            <TextBlock Text="{x:Static resx:Resources.App_Teaser_ES}"  Margin="5" MaxWidth="500" Padding="3"
+                       Foreground="Black" FontSize="18" TextWrapping="Wrap" Background="White" TextAlignment="Right" HorizontalAlignment="Right" />
+            <!--<Decorator Height="10" />-->
+            <TextBlock Margin="5" Padding="3"
+                       Foreground="Black" FontSize="18" TextAlignment="Right" HorizontalAlignment="Right" Background="White">
+                <Run Text="Version" />
+                <Run Text="{Binding FileVersionInfo.ProductVersion, Mode=OneWay}" />
+            </TextBlock>
+            <!--<Decorator Height="10" />-->
+            <!--<TextBlock DockPanel.Dock="Right" Foreground="Black" FontSize="18" HorizontalAlignment="Right" Background="White">
+                <Run Text="{Binding FileVersionInfo.FileVersion, Mode=OneWay}" />
+            </TextBlock>-->
+
+        </StackPanel>
+    </Grid>
+</UserControl>

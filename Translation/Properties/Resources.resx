@@ -1,0 +1,604 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+		Microsoft ResX Schema
+
+		Version 1.3
+
+		The primary goals of this format is to allow a simple XML format 
+		that is mostly human readable. The generation and parsing of the 
+		various data types are done through the TypeConverter classes 
+		associated with the data types.
+
+		Example:
+
+		... ado.net/XML headers & schema ...
+		<resheader name="resmimetype">text/microsoft-resx</resheader>
+		<resheader name="version">1.3</resheader>
+		<resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+		<resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+		<data name="Name1">this is my long string</data>
+		<data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+		<data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+			[base64 mime encoded serialized .NET Framework object]
+		</data>
+		<data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+			[base64 mime encoded string representing a byte array form of the .NET Framework object]
+		</data>
+
+		There are any number of "resheader" rows that contain simple 
+		name/value pairs.
+
+		Each data row contains a name, and value. The row also contains a 
+		type or mimetype. Type corresponds to a .NET class that support 
+		text/value conversion through the TypeConverter architecture. 
+		Classes that don't support this are serialized and stored with the 
+		mimetype set.
+
+		The mimetype is used for serialized objects, and tells the 
+		ResXResourceReader how to depersist the object. This is currently not 
+		extensible. For a given mimetype the value must be set accordingly:
+
+		Note - application/x-microsoft.net.object.binary.base64 is the format 
+		that the ResXResourceWriter will generate, however the reader can 
+		read any of the formats listed below.
+
+		mimetype: application/x-microsoft.net.object.binary.base64
+		value   : The object must be serialized with 
+			: System.Serialization.Formatters.Binary.BinaryFormatter
+			: and then encoded with base64 encoding.
+
+		mimetype: application/x-microsoft.net.object.soap.base64
+		value   : The object must be serialized with 
+			: System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+			: and then encoded with base64 encoding.
+
+		mimetype: application/x-microsoft.net.object.bytearray.base64
+		value   : The object must be serialized into a byte array 
+			: using a System.ComponentModel.TypeConverter
+			: and then encoded with base64 encoding.
+	-->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>1.3</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="File" xml:space="preserve">
+    <value>File</value>
+  </data>
+  <data name="Folder" xml:space="preserve">
+    <value>Folder</value>
+  </data>
+  <data name="Tab_Map" xml:space="preserve">
+    <value>Map</value>
+  </data>
+  <data name="Project_New" xml:space="preserve">
+    <value>New Project</value>
+  </data>
+  <data name="Project_Open" xml:space="preserve">
+    <value>Open project</value>
+  </data>
+  <data name="Project_Export" xml:space="preserve">
+    <value>Export project</value>
+  </data>
+  <data name="App_Name" xml:space="preserve">
+    <value>MiResiliencia Honduras</value>
+  </data>
+  <data name="Project_Name" xml:space="preserve">
+    <value>Project name</value>
+  </data>
+  <data name="Project_Number" xml:space="preserve">
+    <value>Project number</value>
+  </data>
+  <data name="Project_Create" xml:space="preserve">
+    <value>Create project</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="Project_List" xml:space="preserve">
+    <value>Project list</value>
+  </data>
+  <data name="Info_Edit_End" xml:space="preserve">
+    <value>End editing</value>
+  </data>
+  <data name="Info_Edit_Polygone" xml:space="preserve">
+    <value>Double click to close the polygon , ESC key to delete faulty polygons</value>
+  </data>
+  <data name="Project_Management" xml:space="preserve">
+    <value>Project management</value>
+  </data>
+  <data name="Export" xml:space="preserve">
+    <value>Export</value>
+  </data>
+  <data name="Map_Control" xml:space="preserve">
+    <value>Map control</value>
+  </data>
+  <data name="Map_Zoom_In" xml:space="preserve">
+    <value>Zoom in</value>
+  </data>
+  <data name="Map_Zoom_Out" xml:space="preserve">
+    <value>Zoom out</value>
+  </data>
+  <data name="Map_Pan" xml:space="preserve">
+    <value>Pan</value>
+  </data>
+  <data name="Project_Perimeter" xml:space="preserve">
+    <value>Project perimeter</value>
+  </data>
+  <data name="New" xml:space="preserve">
+    <value>New</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="DamagePotential" xml:space="preserve">
+    <value>Damage potential</value>
+  </data>
+  <data name="Project_Save" xml:space="preserve">
+    <value>Save project</value>
+  </data>
+  <data name="Hazard_Map" xml:space="preserve">
+    <value>Hazard map</value>
+  </data>
+  <data name="Hazard_Maps_before_Measure" xml:space="preserve">
+    <value>Hazard maps (before measure)</value>
+  </data>
+  <data name="Hazard_Maps_after_Measure" xml:space="preserve">
+    <value>Hazard maps (after measure)</value>
+  </data>
+  <data name="Resilience" xml:space="preserve">
+    <value>Resilience</value>
+  </data>
+  <data name="Resilience_before_Measure" xml:space="preserve">
+    <value>Resilience (before measure)</value>
+  </data>
+  <data name="Resilience_after_Measure" xml:space="preserve">
+    <value>Resilience (after measure)</value>
+  </data>
+  <data name="MitigationMeasure" xml:space="preserve">
+    <value>Mitigation measure</value>
+  </data>
+  <data name="Analysis" xml:space="preserve">
+    <value>Analysis</value>
+  </data>
+  <data name="Project" xml:space="preserve">
+    <value>Project</value>
+  </data>
+  <data name="Info_DoubleClick_Minimize" xml:space="preserve">
+    <value>Double click to minimize</value>
+  </data>
+  <data name="Raster_Add" xml:space="preserve">
+    <value>Add raster file</value>
+  </data>
+  <data name="Layer_Move_Top" xml:space="preserve">
+    <value>Move layer to the top</value>
+  </data>
+  <data name="Layer_Move_Up" xml:space="preserve">
+    <value>Move layer up</value>
+  </data>
+  <data name="Layer_Move_Down" xml:space="preserve">
+    <value>Move layer down</value>
+  </data>
+  <data name="Layer_Move_Bottom" xml:space="preserve">
+    <value>Move layer to the bottom</value>
+  </data>
+  <data name="Layer_Show" xml:space="preserve">
+    <value>Show layer</value>
+  </data>
+  <data name="Layer_Hide" xml:space="preserve">
+    <value>Hide layer</value>
+  </data>
+  <data name="Layer_Fit" xml:space="preserve">
+    <value>Fit layer to view</value>
+  </data>
+  <data name="Layer_Remove" xml:space="preserve">
+    <value>Remove layer</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="Msg_Internet_No" xml:space="preserve">
+    <value>No Internet</value>
+  </data>
+  <data name="Msg_Internet_Ok" xml:space="preserve">
+    <value>Internet OK</value>
+  </data>
+  <data name="Msg_Db_Disconnected" xml:space="preserve">
+    <value>No Database</value>
+  </data>
+  <data name="Msg_Db_Connected" xml:space="preserve">
+    <value>Database OK</value>
+  </data>
+  <data name="GUI_Help" xml:space="preserve">
+    <value>Help</value>
+  </data>
+  <data name="Map_Mapping" xml:space="preserve">
+    <value>Mapping</value>
+  </data>
+  <data name="Map_Selection" xml:space="preserve">
+    <value>Select</value>
+  </data>
+  <data name="Map_SelectByPolygon" xml:space="preserve">
+    <value>Select by polygon</value>
+  </data>
+  <data name="Edit_Geometry" xml:space="preserve">
+    <value>Edit geometry</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="Info_Edit_Undo" xml:space="preserve">
+    <value>Undo</value>
+  </data>
+  <data name="MapControl_ProjectLoaded" xml:space="preserve">
+    <value>Project loaded</value>
+  </data>
+  <data name="MapControl_Error_UndefinedError" xml:space="preserve">
+    <value>Undefined error</value>
+  </data>
+  <data name="MapControl_Error_CouldNotLoadLayer" xml:space="preserve">
+    <value>Could not add layer</value>
+  </data>
+  <data name="MapControl_Error_CouldNotAddLayer" xml:space="preserve">
+    <value>Failed to open layer</value>
+  </data>
+  <data name="MapControl_Error_CouldNotConnectDatabase" xml:space="preserve">
+    <value>Could not connect to database</value>
+  </data>
+  <data name="MapControl_Error_FailedToRunSQLQuery" xml:space="preserve">
+    <value>Could not reproject layer</value>
+  </data>
+  <data name="MapControl_Error_MissingDBConfiguration" xml:space="preserve">
+    <value>OGR layer doesn't support editing</value>
+  </data>
+  <data name="MapControl_Error_GdalWarpError" xml:space="preserve">
+    <value>Editing of dynamically loaded OGR layers isn't allowed.</value>
+  </data>
+  <data name="MapControl_Error_EditingNotAllowed" xml:space="preserve">
+    <value>Failed to run SQL Query</value>
+  </data>
+  <data name="MapControl_Error_EditingNotSupported" xml:space="preserve">
+    <value>Missing database connection configuration</value>
+  </data>
+  <data name="MapControl_Error_UseStartEditing" xml:space="preserve">
+    <value>Use StartEditing first</value>
+  </data>
+  <data name="MapControl_Error_ShapeInvalid" xml:space="preserve">
+    <value>Shape invalid</value>
+  </data>
+  <data name="MapControl_Busy_RasterReprojection" xml:space="preserve">
+    <value>Raster reprojection</value>
+  </data>
+  <data name="MapControl_Busy_StartRasterReprojection" xml:space="preserve">
+    <value>Starting raster reprojection</value>
+  </data>
+  <data name="Info_Edit_Delete" xml:space="preserve">
+    <value>Delete geometry (after selection)</value>
+  </data>
+  <data name="Layers" xml:space="preserve">
+    <value>Layers</value>
+  </data>
+  <data name="Project_Layers" xml:space="preserve">
+    <value>Project layers</value>
+  </data>
+  <data name="Rasters" xml:space="preserve">
+    <value>Rasters</value>
+  </data>
+  <data name="Before_Mitigation" xml:space="preserve">
+    <value>Before mitigation</value>
+  </data>
+  <data name="After_Mitigation" xml:space="preserve">
+    <value>After mitigation</value>
+  </data>
+  <data name="Perimeter" xml:space="preserve">
+    <value>Perimeter</value>
+  </data>
+  <data name="MapControl_Error_ImportExportError" xml:space="preserve">
+    <value>Error while Import or Export project</value>
+  </data>
+  <data name="Project_Import" xml:space="preserve">
+    <value>Import project</value>
+  </data>
+  <data name="Version" xml:space="preserve">
+    <value>Version</value>
+  </data>
+  <data name="MapControl_Exporting_Layers" xml:space="preserve">
+    <value>Exporting layers</value>
+  </data>
+  <data name="MapControl_Exporting_Database" xml:space="preserve">
+    <value>Exported Project Database</value>
+  </data>
+  <data name="MapControl_Exporting_ExportetTo" xml:space="preserve">
+    <value>Project exportet to</value>
+  </data>
+  <data name="MapControl_Importing" xml:space="preserve">
+    <value>Importing project</value>
+  </data>
+  <data name="MapControl_Importing_Success" xml:space="preserve">
+    <value>Project imported</value>
+  </data>
+  <data name="Project_Delete" xml:space="preserve">
+    <value>Delete project</value>
+  </data>
+  <data name="Project_Print" xml:space="preserve">
+    <value>Print view</value>
+  </data>
+  <data name="NatHazard" xml:space="preserve">
+    <value>Natural hazard</value>
+  </data>
+  <data name="HazardIndex" xml:space="preserve">
+    <value>Hazard index</value>
+  </data>
+  <data name="PleaseSelect" xml:space="preserve">
+    <value>Select please...</value>
+  </data>
+  <data name="Hazard_Map_Mapping" xml:space="preserve">
+    <value>Registration of hazard maps</value>
+  </data>
+  <data name="Hazard_Map_Selected" xml:space="preserve">
+    <value>Selected hazard map</value>
+  </data>
+  <data name="DamagePotential_Mapping" xml:space="preserve">
+    <value>Registration of damage potential</value>
+  </data>
+  <data name="DamagePotential_Objektclass" xml:space="preserve">
+    <value>Object class</value>
+  </data>
+  <data name="DamagePotential_Object" xml:space="preserve">
+    <value>Object</value>
+  </data>
+  <data name="Layer_Management" xml:space="preserve">
+    <value>Layer management</value>
+  </data>
+  <data name="Map_Provider" xml:space="preserve">
+    <value>Online map provider</value>
+  </data>
+  <data name="Map_Extent" xml:space="preserve">
+    <value>Map Extent</value>
+  </data>
+  <data name="GeoNames_DB" xml:space="preserve">
+    <value>GeoNames (offline)</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="Search_Hits" xml:space="preserve">
+    <value>Search hits</value>
+  </data>
+  <data name="MM_Costs" xml:space="preserve">
+    <value>Construction costs</value>
+  </data>
+  <data name="MM_LifeSpan" xml:space="preserve">
+    <value>Life span [years]</value>
+  </data>
+  <data name="MM_MaintenanceCosts" xml:space="preserve">
+    <value>Maintenance costs per year</value>
+  </data>
+  <data name="MM_YearlyCosts" xml:space="preserve">
+    <value>Total yearly costs</value>
+  </data>
+  <data name="OP_Name" xml:space="preserve">
+    <value>Object name</value>
+  </data>
+  <data name="OP_ValuePerUnit" xml:space="preserve">
+    <value>Actual value / unit</value>
+  </data>
+  <data name="OP_ValueChange" xml:space="preserve">
+    <value>Motivation to change value</value>
+  </data>
+  <data name="OP_Unity" xml:space="preserve">
+    <value>Unity of object</value>
+  </data>
+  <data name="OP_Floors" xml:space="preserve">
+    <value>Number of floors</value>
+  </data>
+  <data name="OP_PersonFloor" xml:space="preserve">
+    <value>Persons per floor / vehicle</value>
+  </data>
+  <data name="OP_PersonChange" xml:space="preserve">
+    <value>Motivation to change person per floor</value>
+  </data>
+  <data name="OP_Presence" xml:space="preserve">
+    <value>Person precense [hours/day]</value>
+  </data>
+  <data name="OP_Vehicles" xml:space="preserve">
+    <value>Number of vehicles / day</value>
+  </data>
+  <data name="OP_VehicleSpeed" xml:space="preserve">
+    <value>Average speed [km/h]</value>
+  </data>
+  <data name="OP_Staffs" xml:space="preserve">
+    <value>Daily operating loss</value>
+  </data>
+  <data name="App_Teaser" xml:space="preserve">
+    <value>Risk and Cost-Efficiency Analysis of Disaster Risk Reduction Measures</value>
+  </data>
+  <data name="App_Teaser_ES" xml:space="preserve">
+    <value>Análisis del Riesgo y de la Costo-eficiencia de Medidas para Reducción de Riesgos a Desastres</value>
+  </data>
+  <data name="App_Name_ES" xml:space="preserve">
+    <value>MiResiliencia Honduras</value>
+  </data>
+  <data name="DamagePotential_Selected" xml:space="preserve">
+    <value>Selected damage potential</value>
+  </data>
+  <data name="Legend" xml:space="preserve">
+    <value>Legend</value>
+  </data>
+  <data name="RiskMap" xml:space="preserve">
+    <value>Risk map</value>
+  </data>
+  <data name="DamagePotential_ObjectGeometry" xml:space="preserve">
+    <value>Geometry type</value>
+  </data>
+  <data name="Point" xml:space="preserve">
+    <value>Point</value>
+  </data>
+  <data name="Line" xml:space="preserve">
+    <value>Line</value>
+  </data>
+  <data name="Polygon" xml:space="preserve">
+    <value>Polygon</value>
+  </data>
+  <data name="Geometry" xml:space="preserve">
+    <value>Geometry</value>
+  </data>
+  <data name="Result_CalcStarted" xml:space="preserve">
+    <value>Calculation started...</value>
+  </data>
+  <data name="Result_IntensMapCreated" xml:space="preserve">
+    <value>Intensitiy maps created.</value>
+  </data>
+  <data name="Result_CalcFinished" xml:space="preserve">
+    <value>Calculation finished.</value>
+  </data>
+  <data name="Result_ShowCalc" xml:space="preserve">
+    <value>Show calculation</value>
+  </data>
+  <data name="Result_Header" xml:space="preserve">
+    <value>Analysis</value>
+  </data>
+  <data name="Resilience_Index" xml:space="preserve">
+    <value>Capacity index</value>
+  </data>
+  <data name="Resilience_SocialCapacity" xml:space="preserve">
+    <value>Social capacity</value>
+  </data>
+  <data name="Resilience_Relevance" xml:space="preserve">
+    <value>Relevance factor</value>
+  </data>
+  <data name="Resilience_Criteria" xml:space="preserve">
+    <value>Criteria</value>
+  </data>
+  <data name="Resilience_Copy" xml:space="preserve">
+    <value>Transfer resilience to other damage potential</value>
+  </data>
+  <data name="Info_Copy_Resilience" xml:space="preserve">
+    <value>Click on other damage potentials to transfer resilience values</value>
+  </data>
+  <data name="Result_ShowCalcDetails" xml:space="preserve">
+    <value>Show calculation with details</value>
+  </data>
+  <data name="Msg_Question" xml:space="preserve">
+    <value>Question</value>
+  </data>
+  <data name="Msg_QuestionDeleteProject" xml:space="preserve">
+    <value>This will delete the currently selected project.</value>
+  </data>
+  <data name="Msg_QuestionContinue" xml:space="preserve">
+    <value>Continue anyway?</value>
+  </data>
+  <data name="App_Files" xml:space="preserve">
+    <value>MiResiliencia Files</value>
+  </data>
+  <data name="Project_ExportPDF" xml:space="preserve">
+    <value>Save to PDF</value>
+  </data>
+  <data name="Intensity_low" xml:space="preserve">
+    <value>low</value>
+  </data>
+  <data name="Intensity_medium" xml:space="preserve">
+    <value>medium</value>
+  </data>
+  <data name="Intensity_high" xml:space="preserve">
+    <value>high</value>
+  </data>
+  <data name="RiskMapWithMitigationMeasure" xml:space="preserve">
+    <value>Riskmap (after measure)</value>
+  </data>
+  <data name="RiskMapWithoutMitigationMeasure" xml:space="preserve">
+    <value>Riskmap (before measure)</value>
+  </data>
+  <data name="Coord_Goto" xml:space="preserve">
+    <value>Go to coordinates</value>
+  </data>
+  <data name="Coord_Long" xml:space="preserve">
+    <value>Longitude</value>
+  </data>
+  <data name="Coord_Lat" xml:space="preserve">
+    <value>Latitude</value>
+  </data>
+  <data name="Coord_Long_WGS" xml:space="preserve">
+    <value>Longitude in degrees (WGS84)</value>
+  </data>
+  <data name="Coord_Lat_WGS" xml:space="preserve">
+    <value>Latitude in degrees (WGS84)</value>
+  </data>
+  <data name="Coord_Go" xml:space="preserve">
+    <value>Go</value>
+  </data>
+  <data name="Resilience_CopyAll" xml:space="preserve">
+    <value>Transfer resilience to all damage potentials</value>
+  </data>
+  <data name="Resilience_CopyDetail_Before" xml:space="preserve">
+    <value>This will only overwrite the values before and after mitigation.</value>
+  </data>
+  <data name="Resilience_CopyDetail_After" xml:space="preserve">
+    <value>This will only overwrite the values after mitigation.</value>
+  </data>
+  <data name="MapControl_AddProjectLayers" xml:space="preserve">
+    <value>Adding project layers</value>
+  </data>
+  <data name="MapControl_AddedPerimeter" xml:space="preserve">
+    <value>Perimeter added</value>
+  </data>
+  <data name="MapControl_AddingHazardMaps" xml:space="preserve">
+    <value>Adding hazard maps</value>
+  </data>
+  <data name="MapControl_AddedDamagePotentials" xml:space="preserve">
+    <value>Damage potentials added</value>
+  </data>
+  <data name="MapControl_RedrawMap" xml:space="preserve">
+    <value>Redrawing map</value>
+  </data>
+  <data name="MapControl_ReloadLayers" xml:space="preserve">
+    <value>Reloading layers</value>
+  </data>
+  <data name="MapControl_MapRefreshed" xml:space="preserve">
+    <value>Map refreshed</value>
+  </data>
+</root>

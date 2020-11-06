@@ -1,0 +1,1080 @@
+﻿@using ResTB_API.Helpers
+@using ResTB_API.Models
+@using ResTB_API.Models.Database.Domain
+@using ResTB_API.Resources
+@model ResTB_API.Models.ProjectResult
+
+@{
+    ViewBag.Title = ResSummary.TXT_Summary;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <meta charset="UTF-8">
+
+    <title>@Raw(ResSummary.TXT_ProjectSummary)</title>
+    @if (ViewBag.attachCss ?? false)
+    {
+
+        <link href="./Script/bootstrap.min.css" rel="stylesheet" />
+        @*//TODO add css locally*@
+        @*<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">*@
+    }
+    @if (ViewBag.attachCss ?? false)
+    {
+        <style>
+            .collapse {
+                display: block !important
+            }
+        </style>
+    }
+    @if (ViewBag.print ?? false)
+    {
+        <style>
+            html, body {
+                height: 297mm;
+                width: 210mm;
+            }
+        </style>
+
+        @*
+            <script src="~/Scripts/jquery-3.2.1.min.js"></script>
+            <script type="text/javascript">
+                    $(document).ready(function () { window.print();  });
+            </script>*@
+
+    }
+
+    @*//TODO: LOCAL SCRIPTS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*@
+    <script src="./Script/Chart.min.js"></script>
+    @*<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.js"></script>*@
+
+</head>
+<body style="margin:20px">
+    @if (!(ViewBag.print ?? false))
+    {
+        @*<button id="export">Export to Word</button>*@
+    }
+
+    <div id="docx">
+        <div class="WordSection1">
+            <p><br /></p>
+            @*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*@
+            @* PROJECT SUMMARY *@
+            @*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*@
+
+            <div class="card card-bordered style-danger">
+                @*HEADER*@
+                <div class="card-head">
+                    <header>
+                        @if (ViewBag.attachCss ?? false)
+                        {<h1 class="bg-danger">@ResSummary.TXT_ProjectSummary</h1> }
+                    else
+                    { <h1>@ResSummary.TXT_ProjectSummary</h1>}
+                    </header>
+                    <div class="tools">
+                        @*@if (!(ViewBag.print ?? false))
+                            {
+
+                            var urlPrint = Url.Action("Summary", "Result", new { id = Model.Project.Id, details = false, attachCss = true, print = true });
+                            //cut off the left hand part, because some path is added before Result/Summary sometimes
+                            int indexLeft = urlPrint.LastIndexOf("Result/Summary");
+                            if (indexLeft >= 0)
+                            {
+                                urlPrint = urlPrint.Substring(indexLeft);
+                            }
+
+                            //var requestUri = this.Request.Url;  //requestUri.Authority
+                                <button class="btn ink-reaction btn-raised btn-primary" type="button"
+                                        onclick="window.open('calc-api/@Raw(urlPrint)', '_blank')">
+                                    @Raw(ResSummary.TXT_Print)
+                                </button>
+
+                            }*@
+                    </div>
+                </div>
+                @*CONTENT*@
+            <div class="card-body style-default-bright" style="display: block;">
+                <h2 class="bg-info">@ResSummary.TXT_Project</h2>
+                <table class="table table-condensed table-bordered table-hover table-responsive">
+                    <tr>
+                        <th>
+                            @Raw(ResSummary.TXT_Number)
+                        </th>
+                        <th>
+                            @Raw(ResSummary.TXT_Name)
+                        </th>
+                        <th>
+                            @Raw(ResModel.PM_Description)
+                        </th>
+                        <th>
+                            @Raw(ResResult.PR_CreationTime)
+                        </th>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Model.Project.Number
+                        </td>
+                        <td>
+                            @Model.Project.Name
+                        </td>
+                        <td>
+                            @Model.Project.Description
+                        </td>
+                        <td>
+                            @Model.CreationDate
+                        </td>
+                    </tr>
+                </table>
+
+                @*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*@
+                <h2 class="bg-info">@ResSummary.TXT_BenefitCostRatio</h2>
+                @Raw(Model.ObjectToHtmlTable("table table-condensed table-bordered table-hover table-responsive", "header", "rowStyle", "alternate", Model.ShowDetails))
+
+
+
+                <br />
+
+                <div style="width:80%;min-width:800px">
+                    @*@Html.Partial("SummaryChart", Model)*@
+                    @{
+                        List<string> datasets = new List<string>();
+                        //List<string> colors = new List<string>() { "red", "blue", "green", "orange", "brown", "magenta" };
+
+                        //int colorIndex = 0;
+
+                        if (Model == null)
+                        {
+
+                        }
+                        else
+                        {
+                            //string color = colors.ElementAt(colorIndex);
+                            string dataset = "";
+
+                            dataset = String.Format("{{ " +
+                                "label: \"{0}\", " +
+                                "data: [{1:F0},0,0,0], " +
+                                "backgroundColor: [\"rgb(0, 230, 0)\",,,], " +
+                                "}} ", ResResult.PR_CollectiveRiskTotalBefore, Model.CollectiveRiskTotalBefore);
+                            datasets.Add(dataset);
+
+                            dataset = String.Format("{{ " +
+                                "label: \"{0}\", " +
+                                "data: [0,{1:F0},0,0], " +
+                                "backgroundColor: [,\"rgb(0, 64, 0)\",,], " +
+                                "}} ", ResResult.PR_CollectiveRiskTotalAfter, Model.CollectiveRiskTotalAfter);
+                            datasets.Add(dataset);
+
+                            dataset = String.Format("{{ " +
+                                "label: \"{0}\", " +
+                                "data: [0,0,{1:F0},0], " +
+                                "backgroundColor: [,,\"rgb(0, 128, 0)\",], " +
+                                "}} ", ResResult.PR_RiskReduktion2, Model.RiskReduction);
+                            datasets.Add(dataset);
+
+                            dataset = String.Format("{{ " +
+                                        "label: \"{0}\", " +
+                                        "data: [0,0,0,{1:F0}], " +
+                                        "backgroundColor: \"rgb(64, 64, 64)\", " +
+                                        "}} ", ResResult.PR_ProtectionMeasureYearlyCosts, Model.ProtectionMeasureYearlyCosts);
+                            datasets.Add(dataset);
+                        }
+                        //colorIndex++;
+                    }
+
+
+                    <div>
+
+                        <div style="width:100%">
+                            <canvas id="projectChart_ratio" style="height:10px"></canvas>
+                            @*<img id="img64" />
+                    <div id="imgWrap"></div>*@
+                        </div>
+                        <script>
+        var ctxSummary = document.getElementById("projectChart_ratio");
+        var mySummaryChart = new Chart(ctxSummary, {
+            type: 'bar',
+            data: {
+                labels: ['@Raw(ResResult.PR_CollectiveRiskTotalBefore)','@Raw(ResResult.PR_CollectiveRiskTotalAfter)','@Raw(ResResult.PR_RiskReduktion2)','@Raw(ResResult.PR_ProtectionMeasureYearlyCosts)'],
+                datasets: [@Raw(String.Join(",", datasets.ToArray()))]
+            },
+            options: {
+                scales: {
+                    responsive: true,
+                    title: {
+                    },
+                    tooltips: {
+                    },
+                    xAxes: [{
+                        stacked: true,
+                        ticks: {
+                            autoSkip: false,
+                        },
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                        }
+                    }],
+                    yAxes: [
+                        {
+                        stacked: false,
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: '@Raw(ResResult.PR_YearlyCosts)'
+                        },
+                        ticks: {
+                            beginAtZeto: true,
+                            callback: function (value, index, values) {
+                                return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + '@Raw(ResFormat.DF_PerYear)';
+                            }
+                        },
+                        }
+                    ]
+                },
+                animation: {
+                    onComplete: done
+                },
+                line: {
+                    borderWidth: 3
+                },
+                legend: {
+                    display: false
+                },
+                tooltips: {
+                    callbacks: {
+                        label: function (tooltipItem, data) {
+                            var label = data.datasets[tooltipItem.datasetIndex].label || '';
+
+                            if (label) {
+                                label += ': ';
+                            }
+                            label += tooltipItem.yLabel.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + '@Raw(ResFormat.DF_PerYear)';
+                            return label;
+                        }
+                    }
+                }
+            }
+        });
+
+        function done() {
+            //var img64 = mySummaryChart.toBase64Image();
+            //document.getElementById("img64").src = img64;
+        }
+                        </script>
+                    </div>
+
+
+                </div>
+
+                @*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*@
+                <h2 class="bg-info">@ResSummary.TXT_RiskPerProcess</h2>
+                <h3 class="bg-info">@ResSummary.TXT_CollectiveRisk @ResSummary.TXT_beforeMeasure</h3>
+                <table class="table table-condensed table-bordered table-hover table-responsive">
+                    <tr>
+                        <th>@ResSummary.TXT_Process</th>
+                        <th>@ResSummary.TXT_CollectiveRisk @ResSummary.TXT_Total</th>
+                        <th>@ResSummary.TXT_CollectiveRisk @ResSummary.TXT_Person</th>
+                        <th>@ResSummary.TXT_CollectiveRisk @ResSummary.TXT_Property</th>
+                        <th>@ResSummary.TXT_CollectiveRisk @ResSummary.TXT_Indirect</th>
+                    </tr>
+
+                    @foreach (var process in Model.ProcessResultsSorted.Where(p => p.BeforeAction == true))
+                    {
+                        <tr>
+                            <td>
+                                @process.NatHazard.Name
+                            </td>
+                            <td>
+                                @process.CollectiveRiskTotal.Item1.ToString("C0") @Raw(ResFormat.DF_PerYear)
+                            </td>
+                            <td>
+                                @process.CollectiveRiskPerson.Item1.ToString("C0") @Raw(ResFormat.DF_PerYear)
+                            </td>
+                            <td>
+                                @process.CollectiveRiskProperty.Item1.ToString("C0") @Raw(ResFormat.DF_PerYear)
+                            </td>
+                            <td>
+                                @process.CollectiveRiskIndirect.Item1.ToString("C0") @Raw(ResFormat.DF_PerYear)
+                            </td>
+                        </tr>
+
+                    }
+                </table>
+
+                @if (Model.ProcessResultsSorted.Where(p => p.BeforeAction == false).Any())
+                {
+                    <h3 class="bg-info">@ResSummary.TXT_CollectiveRisk @ResSummary.TXT_afterMeasure</h3>
+                    <table class="table table-condensed table-bordered table-hover table-responsive">
+                        <tr>
+                            <th>@ResSummary.TXT_Process</th>
+                            <th>@ResSummary.TXT_CollectiveRisk @ResSummary.TXT_Total</th>
+                            <th>@ResSummary.TXT_CollectiveRisk @ResSummary.TXT_Person</th>
+                            <th>@ResSummary.TXT_CollectiveRisk @ResSummary.TXT_Property</th>
+                            <th>@ResSummary.TXT_CollectiveRisk @ResSummary.TXT_Indirect</th>
+                        </tr>
+
+                        @foreach (var process in Model.ProcessResultsSorted.Where(p => p.BeforeAction == false))
+                        {
+                            <tr>
+                                <td>
+                                    @process.NatHazard.ToString()
+                                </td>
+                                <td>
+                                    @process.CollectiveRiskTotal.Item1.ToString("C0") @Raw(ResFormat.DF_PerYear)
+                                </td>
+                                <td>
+                                    @process.CollectiveRiskPerson.Item1.ToString("C0") @Raw(ResFormat.DF_PerYear)
+                                </td>
+                                <td>
+                                    @process.CollectiveRiskProperty.Item1.ToString("C0") @Raw(ResFormat.DF_PerYear)
+                                </td>
+                                <td>
+                                    @process.CollectiveRiskIndirect.Item1.ToString("C0") @Raw(ResFormat.DF_PerYear)
+                                </td>
+                            </tr>
+
+                        }
+                    </table>
+                }
+                <br />
+
+                <div style="width:80%;min-width:800px" ;>
+                    @*@Html.Partial("ProjectChartStacked2", Model)*@
+                    @{
+                        List<string> datasets2 = new List<string>();
+                        //List<string> colors = new List<string>() { "orange", "violet", "blue", "red", "yellow" };
+
+                        // "Sequía","Aluvión","Inundación","Caída","Deslizamiento rápido"
+                        Dictionary<int, string> colorsDic = new Dictionary<int, string>() {
+                            { 1, "orange"},{ 2, "purple"},{ 3, "blue"},{ 4, "red"},{ 5, "brown"},{ 6, "brown"},{ 7, "purple"},{ 8, "red"}};
+
+                        //2   Aluvión(toDELETE)
+                        //3   Inundación dinámica
+                        //6   Flujos en ladera
+                        //7   Flujos detríticos
+                        //8   Caídas
+
+                        Dictionary<int, string> colorsDic2 = new Dictionary<int, string>() {
+{ 11, "rgb(255, 201, 102)"},
+{ 12, "rgb(153, 99, 0)" },
+{ 13, "rgb(255, 165, 0)"},
+{ 21, "rgb(230, 0, 230)"},
+{ 22, "rgb(56, 0, 56)"},
+{ 23, "rgb(128, 0, 128)"},
+{ 31, "rgb(102, 102, 255)"},
+{ 32, "rgb(0, 0, 153)"},
+{ 33, "rgb(0, 0, 255)"},
+{ 41, "rgb(255, 102, 102)"},
+{ 42, "rgb(153, 0, 0)"},
+{ 43, "rgb(255, 0, 0)"},
+{ 51, "rgb(214, 95, 95)"},
+{ 52, "rgb(84, 21, 21)"},
+{ 53, "rgb(186, 21, 21)"},
+{ 61, "rgb(214, 95, 95)"},
+{ 62, "rgb(84, 21, 21)"},
+{ 63, "rgb(186, 21, 21)"},
+{ 71, "rgb(230, 0, 230)"},
+{ 72, "rgb(56, 0, 56)"},
+{ 73, "rgb(128, 0, 128)"},
+{ 81, "rgb(255, 102, 102)"},
+{ 82, "rgb(153, 0, 0)"},
+{ 83, "rgb(255, 0, 0)"}
+};
+
+
+                        if (Model == null)
+                        {
+
+                        }
+                        else
+                        {
+                            //foreach (bool beforeAction in new List<bool>() { true, false })
+                            //{
+                            foreach (NatHazard hazard in Model.NatHazards)
+                            {
+                                if (Model.ProcessResults.Where(p => p.NatHazard.ID == hazard.ID).Any())
+                                {
+                                    ProcessResult left = Model.ProcessResults.Where(p => p.BeforeAction == true && p.NatHazard.ID == hazard.ID).SingleOrDefault();
+                                    ProcessResult right = Model.ProcessResults.Where(p => p.BeforeAction == false && p.NatHazard.ID == hazard.ID).SingleOrDefault();
+
+                                    double valueP1 = left == null ? 0 : (left.CollectiveRiskPerson.Item1);
+                                    double valueP2 = right == null ? 0 : (right.CollectiveRiskPerson.Item1);
+                                    double valueS1 = left == null ? 0 : (left.CollectiveRiskProperty.Item1);
+                                    double valueS2 = right == null ? 0 : (right.CollectiveRiskProperty.Item1);
+                                    double valueI1 = left == null ? 0 : (left.CollectiveRiskIndirect.Item1);
+                                    double valueI2 = right == null ? 0 : (right.CollectiveRiskIndirect.Item1);
+
+                                    string color;
+                                    string dataset = "";
+                                    int colorID = hazard.ID * 10; ;
+
+                                    if (!colorsDic2.TryGetValue(colorID + 1, out color)) { color = "lightgray"; }
+
+                                    dataset = String.Format("{{ " +
+                                        "label: \"{0} - {1}\", " +
+                                        "data: [{2:F0},{3:F0}], " +
+                                        "backgroundColor: [\"{4}\",\"{4}\"], " +
+                                        "stack: \"{5}\" " +
+                                        "}} ", hazard.Name, ResSummary.TXT_Person, valueP1, valueP2, color, hazard.ID);
+                                    datasets2.Add(dataset);
+
+                                    if (!colorsDic2.TryGetValue(colorID + 2, out color)) { color = "gray"; }
+
+                                    dataset = String.Format("{{ " +
+                                        "label: \"{0} - {1}\", " +
+                                        "data: [{2:F0},{3:F0}], " +
+                                        "backgroundColor: [\"{4}\",\"{4}\"], " +
+                                        "stack: \"{5}\" " +
+                                        "}} ", hazard.Name, ResSummary.TXT_Property, valueS1, valueS2, color, hazard.ID);
+                                    datasets2.Add(dataset);
+
+                                    if (!colorsDic2.TryGetValue(colorID + 3, out color)) { color = "darkgray"; }
+
+                                    dataset = String.Format("{{ " +
+                                        "label: \"{0} - {1}\", " +
+                                        "data: [{2:F0},{3:F0}], " +
+                                        "backgroundColor: [\"{4}\",\"{4}\"], " +
+                                        "stack: \"{5}\" " +
+                                        "}} ", hazard.Name, ResSummary.TXT_Indirect, valueI1, valueI2, color, hazard.ID);
+                                    datasets2.Add(dataset);
+
+
+                                }
+                            }
+
+                            //}
+                        }
+                    }
+
+
+                    <div>
+
+                        <div style="width:100%">
+                            <canvas id="projectChart_beforeAfterStacked2"></canvas>
+                        </div>
+                        <script>
+        var ctx = document.getElementById("projectChart_beforeAfterStacked2");
+                                    var myChart = new Chart(ctx, {
+
+                                        type: 'bar',
+                                        data: {
+
+                                            labels: ['@Raw(ResResult.PR_beforeActionString)', '@Raw(ResResult.PR_afterActionString)'],
+                                            datasets: [@Raw(String.Join(",", datasets2.ToArray()))]
+            },
+            options: {
+                scales: {
+                    responsive: true,
+                    title: {
+                    },
+                    xAxes: [{
+                        stacked: true,
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                        },
+                        ticks: {
+                            autoSkip: false,
+                        },
+                    }],
+                    yAxes: [{
+                        stacked: true,
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: '@Raw(ResResult.PR_Risk)'
+                        },
+                        ticks: {
+                            beginAtZeto: true,
+                            callback: function (value, index, values) {
+                                return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + '@Raw(ResFormat.DF_PerYear)';
+                            }
+                        },
+                    }]
+                },
+                line: {
+                    borderWidth: 3
+                },
+                legend: {
+                    position: 'right'
+                },
+                tooltips: {
+                    mode: 'x',
+                    callbacks: {
+                        label: function (tooltipItem, data) {
+                                var label = data.datasets[tooltipItem.datasetIndex].label || '';
+
+                                if (label) {
+                                    label += ': ';
+                                }
+                                label += tooltipItem.yLabel.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + '@Raw(ResFormat.DF_PerYear)';
+                                return label;
+                            }
+                    }
+                }
+            }
+        });
+                        </script>
+                    </div>
+
+                </div>
+
+                @*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*@
+                <h2 class="bg-info">@ResSummary.TXT_ProtectionMeasure</h2>
+                @Raw(Model.ProtectionMeasure.ObjectToHtmlTable("table table-condensed table-bordered table-hover table-responsive", "header", "rowStyle", "alternate", Model.ShowDetails))
+
+            </div>
+            </div>
+
+            @*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*@
+            @* PROCESSES IN DETAIL*@
+            @*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*@
+            @if (!(ViewBag.print ?? false) || Model.ShowDetails)
+            {
+                <hr />
+                <div class="card card-bordered style-danger">
+                    @*HEADER*@
+                    <div class="card-head">
+                        <header>
+                            @if (ViewBag.attachCss ?? false)
+                            {<h1 class="bg-danger">@ResSummary.TXT_ProcessesDetail</h1>}
+                        else
+                        {<h1>@ResSummary.TXT_ProcessesDetail</h1>}
+                        </header>
+                        <div class="tools">
+                            @*<a class="btn btn-icon-toggle btn-collapse"><i class="fa fa-angle-down"></i></a>*@
+                        </div>
+                    </div>
+                    @*CONTENT*@
+                    <div class="card-body style-default-bright" style="display: block;">
+
+                        @*PROCESSES PANEL GROUP*@
+                        <div class="panel-group" id="processes">
+
+                            @{int i = 0; }
+                            @foreach (NatHazard hazard in Model.NatHazards)
+                            {
+                                i++;
+
+                                <div class="card panel">
+                                    @*HEADER*@
+                                    <div class="card-head collapsed style-danger" data-toggle="collapse" data-parent="#processes" data-target="#processes-@i">
+                                        <header>
+                                            @if (ViewBag.attachCss ?? false)
+                                            {<h2 class="bg-danger">@ResSummary.TXT_NatHazard @hazard.Name </h2>}
+                                        else
+                                        { <h2>@ResSummary.TXT_NatHazard @hazard.Name </h2>}
+                                        </header>
+                                        <div class="tools">
+                                            <a class="btn btn-icon-toggle"><i class="fa fa-angle-down"></i></a>
+                                        </div>
+                                    </div>
+                                    @*CONTENT*@
+                                    <div id="processes-@i" class="collapse">
+                                        <div class="card-body">
+
+                                            <h3 class="bg-info">@ResModel.PA_PrA</h3>
+                                            @Raw(Model.Project.PrAs
+                                                                                                                                                                                                                                    .Where(p => p.NatHazard.ID == hazard.ID)
+                                                                                                                                                                                                                                    .OrderBy(p => p.IKClass.Value)
+                                                                                                                                                                                                                                    .ToHtmlTable("table table-condensed table-bordered table-hover table-responsive", "header", "rowStyle", "alternate", Model.ShowDetails))
+
+                                            @{
+                                                List<ProcessResult>
+                                                          _processes = Model.ProcessResultsSorted.Where(p => p.NatHazard.ID == hazard.ID).ToList();
+                                                List<bool>
+                                                    beforeActions = _processes.Select(p => p.BeforeAction).Distinct().OrderByDescending(a => a).ToList();
+
+                                                foreach (bool beforeMeasure in beforeActions)
+                                                {
+                                                    if (beforeMeasure)
+                                                    {
+                                                        <h3 class="bg-info">@ResSummary.TXT_beforeMeasure</h3>
+                                                    }
+                                                    else
+                                                    {
+                                                        <h3 class="bg-info">@ResSummary.TXT_afterMeasure</h3>
+                                                    }
+
+                                                    List<ProcessResult>
+                                                    _processesMeasure = _processes.Where(p => p.BeforeAction == beforeMeasure).ToList();
+
+                                                    foreach (ProcessResult process in _processesMeasure)
+                                                    {
+                                                        <h4 class="bg-success">@ResSummary.TXT_Scenarios </h4>
+                                                        @Raw(process.ScenarioResults.ToHtmlTable("table table-condensed table-bordered table-hover table-responsive", "header", "rowStyle", "alternate", Model.ShowDetails))
+                                                        <br />
+
+                                                        <div style="width:80%;min-width:800px">
+                                                            @*@Html.Partial("ProcessScenarioChart", process.ScenarioResults)*@
+
+                                                            @{
+                                                                Random rnd = new Random();
+                                                                int randomID = rnd.Next(10000, 99999);
+
+                                                                datasets = new List<string>();
+
+                                                                // "Sequía","Aluvión","Inundación","Caída","Deslizamiento rápido"
+                                                                //                                                                colorsDic = new Dictionary<int, string>() {
+                                                                //{ 1, "orange"},
+                                                                //{ 2, "purple"},
+                                                                //{ 3, "blue"},
+                                                                //{ 4, "red"},
+                                                                //{ 5, "brown"}
+                                                                //};
+                                                                //                                                                colorsDic2 = new Dictionary<int, string>() {
+                                                                //{ 11, "rgb(255, 201, 102)"},
+                                                                //{ 12, "rgb(153, 99, 0)" },
+                                                                //{ 13, "rgb(255, 165, 0)"},
+                                                                //{ 21, "rgb(230, 0, 230)"},
+                                                                //{ 22, "rgb(56, 0, 56)"},
+                                                                //{ 23, "rgb(128, 0, 128)"},
+                                                                //{ 31, "rgb(102, 102, 255)"},
+                                                                //{ 32, "rgb(0, 0, 153)"},
+                                                                //{ 33, "rgb(0, 0, 255)"},
+                                                                //{ 41, "rgb(255, 102, 102)"},
+                                                                //{ 42, "rgb(153, 0, 0)"},
+                                                                //{ 43, "rgb(255, 0, 0)"},
+                                                                //{ 51, "rgb(214, 95, 95)"},
+                                                                //{ 52, "rgb(84, 21, 21)"},
+                                                                //{ 53, "rgb(186, 21, 21)"},
+                                                                //};
+
+
+
+                                                                string processTitle = "";
+
+                                                                if (process.ScenarioResults == null || process.ScenarioResults.Any() == false)
+                                                                {
+
+                                                                }
+                                                                else
+                                                                {
+                                                                    processTitle = process.ScenarioResults.FirstOrDefault().NatHazard.Name + " " + process.ScenarioResults.FirstOrDefault().BeforeActionString;
+
+                                                                    foreach (ScenarioResult item in process.ScenarioResults)
+                                                                    {
+                                                                        randomID += item.getID();
+
+                                                                        int colorID = item.NatHazard.ID * 10 + item.IkClass.ID;
+                                                                        string color;
+
+                                                                        if (!colorsDic2.TryGetValue(colorID, out color))
+                                                                        {
+                                                                            switch (item.IkClass.ID)
+                                                                            {
+                                                                                case 1:
+                                                                                    color = "lightgray";
+                                                                                    break;
+                                                                                case 2:
+                                                                                    color = "gray";
+                                                                                    break;
+                                                                                case 3:
+                                                                                    color = "darkgray";
+                                                                                    break;
+                                                                                default:
+                                                                                    color = "gray";
+                                                                                    break;
+                                                                            }
+
+                                                                        }
+
+                                                                        string dataset = String.Format("{{ " +
+                                                                            "label: \"{0} {1}\", " +
+                                                                            "data: [{2:F0},{3:F0},{4:F0}], " +
+                                                                            "backgroundColor: [\"{5}\",\"{5}\",\"{5}\"]" +
+                                                                            "}} ", item.NatHazard.Name, item.IkClass.Description, item.DamageExtentPerson, item.DamageExtentProperty, item.DamageExtentIndirect,
+                                                                            color)
+                                                                            ;
+
+                                                                        datasets.Add(dataset);
+                                                                    }
+                                                                }
+                                                            }
+
+
+                                                            <div>
+
+                                                                <div style="width:100%">
+                                                                    <canvas id="myChart_@randomID"></canvas>
+                                                                </div>
+                                                                <script>
+        var ctx = document.getElementById("myChart_@randomID");
+                                                                            var myChart = new Chart(ctx, {
+
+                type: 'bar',
+                data: {
+
+                                                                            labels: ['@Raw(ResResult.PR_DamageExtentPerson)', '@Raw(ResResult.PR_DamageExtentProperty)', '@Raw(ResResult.PR_DamageExtentIndirect)'],
+                    datasets: [@Raw(String.Join(",", datasets.ToArray()))]
+            },
+            options: {
+                                                                            scales: {
+                                                                                responsive: true,
+                    title: {
+                                                                                    display: true,
+                        text: '@Raw(processTitle)'
+                    },
+                    tooltips: {
+
+                                                                                    },
+                    xAxes: [{
+                                                                                    display: true,
+                        scaleLabel: {
+                                                                                        display: true,
+                        },
+                        ticks: {
+                                                                                        autoSkip: false,
+                        },
+                    }],
+                    yAxes: [{
+                                                                                    display: true,
+                        scaleLabel: {
+                                                                                        display: true,
+                            labelString: '@Raw(ResResult.PR_DamageExtent)'
+                        },
+                        ticks: {
+                                                                                        beginAtZeto: true,
+                            callback: function (value, index, values) {
+                                                                                                return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+                                                                                            }
+                                                                                        },
+                    }]
+                },
+                line: {
+                                                                                borderWidth: 3
+                },
+                legend: {
+                                                                                position: 'right'
+                },
+                tooltips: {
+                                                                                callbacks: {
+                                                                                    label: function (tooltipItem, data) {
+                                                                                            var label = data.datasets[tooltipItem.datasetIndex].label || '';
+
+                                                                                            if (label) {
+                                                                                                label += ': ';
+                                                                                            }
+                                                                                            label += tooltipItem.yLabel.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+                                                                                            return label;
+                                                                                        }
+                                                                                    }
+                                                                                }
+                                                                            }
+                                                                        });
+                                                                </script>
+                                                            </div>
+                                                        </div>
+
+                                                        <h4 class="bg-success">@ResSummary.TXT_Process @ResSummary.TXT_Summary </h4>
+                                                        @Raw(process.ObjectToHtmlTable("table table-condensed table-bordered table-hover table-responsive", "header", "rowStyle", "alternate", Model.ShowDetails))
+                                                        <br />
+
+                                                        <div style="width:80%;min-width:800px">
+                                                            @*@Html.Partial("ProcessResultChart", process)*@
+
+                                                            @{
+                                                                rnd = new Random();
+                                                                randomID = rnd.Next(10000, 99999);
+
+                                                                datasets = new List<string>();
+
+                                                                // "Sequía","Aluvión","Inundación","Caída","Deslizamiento rápido"
+                                                                //                                                                colorsDic = new Dictionary<int, string>() {
+                                                                //{ 1, "orange"},{ 2, "purple"},{ 3, "blue"},{ 4, "red"},{ 5, "brown"}};
+
+
+                                                                processTitle = "";
+
+                                                                if (process == null)
+                                                                {
+
+                                                                }
+                                                                else
+                                                                {
+                                                                    string color;// = colorsDic[item.NatHazard.ID];
+                                                                    if (!colorsDic.TryGetValue(process.NatHazard.ID, out color))
+                                                                    {
+                                                                        color = "black";
+                                                                    }
+
+                                                                    processTitle = process.NatHazard.Name + " " + process.BeforeActionString;
+
+                                                                    randomID += process.NatHazard.ID * 10 + Convert.ToInt32(process.BeforeAction) * 1;
+
+                                                                    string dataset = String.Format("{{ " +
+                                                                                "label: \"{0}\", " +
+                                                                                "data: [{1:F0},{2:F0},{3:F0}], " +
+                                                                                "backgroundColor: [\"{4}\",\"{4}\",\"{4}\"]" +
+                                                                                "}} ", process.NatHazard.Name, process.CollectiveRiskPerson.Item1, process.CollectiveRiskProperty.Item1, process.CollectiveRiskIndirect.Item1,
+                                                                                color
+                                                                                );
+
+                                                                    datasets.Add(dataset);
+                                                                }
+                                                            }
+
+
+                                                            <div>
+
+                                                                <div style="width:100%">
+                                                                    <canvas id="ProcessScenarioChart_@randomID"></canvas>
+                                                                </div>
+                                                                <script>
+        var ctx = document.getElementById("ProcessScenarioChart_@randomID");
+                                                                            var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                                                                            labels: ['@Raw(ResResult.PR_PersonRisk)', '@Raw(ResResult.PR_PropertyRisk)','@Raw(ResResult.PR_IndirectRisk)'],
+                datasets: [@Raw(String.Join(",", datasets.ToArray()))]
+            },
+            options: {
+                                                                            scales: {
+                                                                                responsive: true,
+                    title: {
+                                                                                    display: true,
+                        text: '@Raw(processTitle)'
+                    },
+                    tooltips: {
+
+                                                                                    },
+                    xAxes: [{
+                                                                                    display: true,
+                        scaleLabel: {
+                                                                                        display: true,
+                        },
+                        ticks: {
+                                                                                        autoSkip: false,
+                        },
+                    }],
+                    yAxes: [{
+                                                                                    display: true,
+                        scaleLabel: {
+                                                                                        display: true,
+                            labelString: '@Raw(ResResult.PR_Risk)'
+                        },
+                        ticks: {
+                                                                                        beginAtZeto: true,
+                            callback: function (value, index, values) {
+                                                                                                return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + '@Raw(ResFormat.DF_PerYear)';
+                                                                                            }
+                                                                                        },
+                    }]
+                },
+                line: {
+                                                                                borderWidth: 3
+                },
+                legend: {
+                                                                                position: 'right',
+                    //onClick: (e) => e.stopPropagation()
+                },
+                tooltips: {
+                                                                                callbacks: {
+                                                                                    label: function (tooltipItem, data) {
+                                                                                            var label = data.datasets[tooltipItem.datasetIndex].label || '';
+
+                                                                                            if (label) {
+                                                                                                label += ': ';
+                                                                                            }
+                                                                                            label += tooltipItem.yLabel.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + '@Raw(ResFormat.DF_PerYear)';
+                                                                                            return label;
+                                                                                        }
+                                                                                    }
+                                                                                }
+                                                                            }
+                                                                        });
+                                                                </script>
+                                                            </div>
+
+                                                        </div>
+
+                                                        //Logs
+                                                        if (Model.ShowDetails)
+                                                        {
+                                                            <table class="table table-condensed table-bordered table-hover table-responsive">
+                                                                <tr>
+                                                                    <th></th>
+                                                                    <th>@ResSummary.TXT_CollectiveRisk @ResSummary.TXT_Total</th>
+                                                                    <th>@ResSummary.TXT_CollectiveRisk @ResSummary.TXT_Person</th>
+                                                                    <th>@ResSummary.TXT_CollectiveRisk @ResSummary.TXT_Property</th>
+                                                                    <th>@ResSummary.TXT_CollectiveRisk @ResSummary.TXT_Indirect</th>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>
+                                                                        <b>@ResSummary.TXT_Log</b>
+                                                                    </td>
+                                                                    <td>
+                                                                        @process.CollectiveRiskTotal.Item2
+                                                                    </td>
+                                                                    <td>
+                                                                        @process.CollectiveRiskPerson.Item2
+                                                                    </td>
+                                                                    <td>
+                                                                        @process.CollectiveRiskProperty.Item2
+                                                                    </td>
+                                                                    <td>
+                                                                        @process.CollectiveRiskIndirect.Item2
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        }
+
+                                                        if (Model.ShowDetails)
+                                                        {
+                                                            int sId = 0;
+                                                            sId += Convert.ToInt32(beforeMeasure) * 1;
+                                                            sId += hazard != null ? hazard.ID * 10 : 0;
+                                                            <div class="panel-group" id="scenarios-@sId">
+
+                                                                @foreach (ScenarioResult scenario in process.ScenarioResults)
+                                                                {
+                                                                    int j = scenario.getID();
+
+                                                                    //SCENARIO CARD
+                                                                    <div class="card panel">
+                                                                        @*HEADER*@
+                                                                        <div class="card-head collapsed style-default" data-toggle="collapse" data-parent="#scenarios-@sId" data-target="#scenario-@j">
+                                                                            <header>
+                                                                                <h4>@ResSummary.TXT_Scenario: @scenario.NatHazard.Name - @scenario.BeforeActionString - @scenario.IkClass.Description</h4>
+                                                                            </header>
+                                                                            <div class="tools">
+                                                                                <a class="btn btn-icon-toggle"><i class="fa fa-angle-down"></i></a>
+                                                                            </div>
+                                                                        </div>
+                                                                        @*CONTENT*@
+                                                                        <div id="scenario-@j" class="collapse">
+                                                                            <div class="card-body">
+
+                                                                                <p># @ResSummary.TXT_DamageExtent: @scenario.DamageExtents.Count</p>
+
+                                                                                @if (@scenario.DamageExtents.Any())
+                                                                                {
+                                                                                    @Raw(scenario.DamageExtents.ToHtmlTable("table table-condensed table-bordered table-hover table-responsive", "header", "rowStyle", "alternate", Model.ShowDetails))
+                                                                                }
+
+                                                                            </div>
+                                                                        </div> @*END OF CONTENT*@
+                                                                    </div>
+                                                                } @*END OF FOREACH*@
+
+                                                            </div> @*END OF PANEL GROUP*@
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        </div> @*END OF CARD BODY*@
+
+                                    </div> @*END OF CONTENT*@
+                                </div> @*END OF PROCESS CARD*@
+
+                            }
+                        </div> @*END OF PROCESSES PANEL GROUP*@
+
+                    </div> @*END OF CONTENT*@
+                </div> @*END OF CARD*@
+            }
+            @*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*@
+            @* WARNINGS *@
+            @*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*@
+            <hr />
+
+            <div class="card card-bordered style-warning">
+                @*HEADER*@
+                <div class="card-head">
+                    <header>
+                        @if (ViewBag.attachCss ?? false)
+                        {<h1 class="bg-warning">@ResSummary.TXT_ErrorsWarning</h1>}
+                    else
+                    {<h1>@ResSummary.TXT_ErrorsWarning</h1>}
+                    </header>
+                    <div class="tools">
+                        @*<a class="btn btn-icon-toggle btn-collapse"><i class="fa fa-angle-down"></i></a>*@
+                    </div>
+                </div>
+                @*CONTENT*@
+                <div class="card-body style-default-bright" style="display: block;">
+                    @{
+                        int count = 0;
+                        if (Model.DamageExtentErrors != null)
+                        {
+                            count = Model.DamageExtentErrors.Count; ;
+                        }
+                    }
+                    <p>
+                        @ResSummary.TXT_NumberOf @ResSummary.TXT_ErrorsWarning.ToLower(): @count
+                    </p>
+                    @*@if (count > 0 && !(ViewBag.print ?? false))
+                        {
+                            string request = $"/proxy/restb/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=restb:ErrorView&cql_filter=Project_Id={Model.Project.Id}&outputFormat=application/json";
+                            //GeoWebGIS.showWFSLayer('/proxy/restb/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=restb:ErrorView&cql_filter=Project_Id=32&outputFormat=application/json');
+                            <div>
+                                <button class="btn ink-reaction btn-raised btn-primary" type="button" onclick="showCalcErrors()" ic-target="#ImmoContent" ic-indicator="#loading-spinner" ic-push-url="true" ic-on-beforesend="makeIntercooler()" ic-on-complete="makeIntercoolerSuccess()">@Raw(ResSummary.TXT_ShowWarningsOnMap)</button>
+                                <script type="text/javascript">
+                                           function showCalcErrors() {
+                                               GeoWebGIS.showWFSLayer('@Raw(request)');
+                                           }
+                                </script>
+                            </div>
+                            <br>
+                        }*@
+
+                    @if (count > 0 )//&& Model.ShowDetails)
+                    {
+                        @Raw(Model.DamageExtentErrors.ToHtmlTable("table table-condensed table-bordered table-hover table-responsive", "header", "rowStyle", "alternate", Model.ShowDetails))
+                    }
+                    else
+                    {
+                        <br />
+                    }
+                </div>
+            </div>
+
+
+
+
+            @*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*@
+            @* FOOTER *@
+            @*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*@
+            @*<p>
+                    <hr />
+                    Kernel Version @typeof(ResTB_API.Controllers.ResultController).Assembly.GetName().Version
+                    <br />
+                    Built @System.IO.File.GetLastWriteTime(System.Reflection.Assembly.GetExecutingAssembly().Location).ToString()
+                </p>*@
+        </div>
+    </div>
+    @*<script type="text/javascript">
+            window.export.onclick = function () {
+                var html, link, blob, url, css;
+                css = (
+                    '<style>' +
+                    /**/
+                    '@@page WordSection1{size: portrait;}' +
+                    /**/
+                    'div.WordSection1 {page: WordSection1;}' +
+                    'table { border-collapse: collapse; } ' +
+                    'td {border: 1px gray solid; padding: 4px; } ' +
+                    '</style>'
+                );
+
+                html = window.docx.innerHTML;
+                blob = new Blob(['\ufeff', css + html], {
+                    type: 'application/msword'
+                });
+                url = URL.createObjectURL(blob);
+                link = document.createElement('A');
+                link.href = url;
+                link.download = 'Document';
+                document.body.appendChild(link);
+                if (navigator.msSaveOrOpenBlob) navigator.msSaveOrOpenBlob(blob, 'Document.doc'); // IE10-11
+                else link.click();  // other browsers
+                document.body.removeChild(link);
+            };
+        </script>*@
+</body>
+</html>

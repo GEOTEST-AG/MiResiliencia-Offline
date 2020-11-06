@@ -1,0 +1,7 @@
+{42163859-095F-469B-A0B0-7748500570D1}
+
+14.27.29112
+
+VC_redist.x86.exe
+
+HKEY_CLASSES_ROOT\Installer\Dependencies\Microsoft.VS.VC_RuntimeMinimumVSU_x86,v14

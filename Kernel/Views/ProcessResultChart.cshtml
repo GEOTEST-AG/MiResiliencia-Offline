@@ -1,0 +1,114 @@
+﻿@model ResTB_API.Models.ProcessResult
+@using ResTB_API.Models
+@using ResTB_API.Resources
+
+@{
+    Random rnd = new Random();
+    int randomID = rnd.Next(10000, 99999);
+
+    List<string> datasets = new List<string>();
+
+    // "Sequía","Aluvión","Inundación","Caída","Deslizamiento rápido"
+    Dictionary<int, string> colorsDic = new Dictionary<int, string>() {
+{ 1, "orange"},{ 2, "purple"},{ 3, "blue"},{ 4, "red"},{ 5, "brown"}};
+
+
+    string processTitle = "";
+
+    if (Model == null)
+    {
+
+    }
+    else
+    {
+        string color;// = colorsDic[item.NatHazard.ID];
+        if (!colorsDic.TryGetValue(Model.NatHazard.ID, out color))
+        {
+            color = "black";
+        }
+
+        processTitle = Model.NatHazard.Name + " " + Model.BeforeActionString;
+
+        randomID += Model.NatHazard.ID * 10 + Convert.ToInt32(Model.BeforeAction) * 1;
+
+        string dataset = $"{{ " +
+                    $"label: \"{Model.NatHazard.Name}\", " +
+                    $"data: [{Model.CollectiveRiskPerson.Item1:F0},{Model.CollectiveRiskProperty.Item1:F0},{Model.CollectiveRiskIndirect.Item1:F0}], " +
+                    $"backgroundColor: [\"{color}\",\"{color}\",\"{color}\"]" +
+                    $"}} ";
+
+        datasets.Add(dataset);
+    }
+}
+
+
+<div>
+
+    <div style="width:100%">
+        <canvas id="ProcessScenarioChart_@randomID"></canvas>
+    </div>
+    <script>
+        var ctx = document.getElementById("ProcessScenarioChart_@randomID");
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['@Raw(ResResult.PR_PersonRisk)', '@Raw(ResResult.PR_PropertyRisk)','@Raw(ResResult.PR_IndirectRisk)'],
+                datasets: [@Raw(String.Join(",", datasets.ToArray()))]
+            },
+            options: {
+                scales: {
+                    responsive: true,
+                    title: {
+                        display: true,
+                        text: '@Raw(processTitle)'
+                    },
+                    tooltips: {
+
+                    },
+                    xAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                        },
+                        ticks: {
+                            autoSkip: false,
+                        },
+                    }],
+                    yAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: '@Raw(ResResult.PR_Risk)'
+                        },
+                        ticks: {
+                            beginAtZeto: true,
+                            callback: function (value, index, values) {
+                                return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + '@Raw(ResFormat.DF_PerYear)';
+                            }
+                        },
+                    }]
+                },
+                line: {
+                    borderWidth: 3
+                },
+                legend: {
+                    position: 'right',
+                    onClick: (e) => e.stopPropagation()
+                },
+                tooltips: {
+                    callbacks: {
+                        label: function (tooltipItem, data) {
+                            var label = data.datasets[tooltipItem.datasetIndex].label || '';
+
+                            if (label) {
+                                label += ': ';
+                            }
+                            label += tooltipItem.yLabel.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + '@Raw(ResFormat.DF_PerYear)';
+                            return label;
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</div>
