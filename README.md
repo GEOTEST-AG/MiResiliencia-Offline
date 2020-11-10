@@ -1,8 +1,11 @@
 # MiResiliencia-Offline
 
+## Description
 
+*todo*
 
-**Nuget packages used in solution**
+## Licenses
+### Nuget packages used in solution
 
 `PM> Get-Package | Select-Object Id,LicenseUrl`
 
