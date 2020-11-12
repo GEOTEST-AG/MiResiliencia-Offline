@@ -483,38 +483,38 @@ namespace ResTB.GUI.ViewModel
         }
 
         /// <summary>
-        /// not needed anymore
+        /// not needed anymore?
         /// issue due to using GalaSoft.MvvmLight.Command instead of using GalaSoft.MvvmLight.CommandWpf
+        /// --> 12.11.2020: issue is not entirely solved by using CommandWpf lib
         /// </summary>
         private void UpdateCommandsCanExecute()
         {
+            Type myType = this.GetType();
+            IList<PropertyInfo> props = new List<PropertyInfo>(myType.GetProperties());
 
-            //            Type myType = this.GetType();
-            //            IList<PropertyInfo> props = new List<PropertyInfo>(myType.GetProperties());
+            foreach (PropertyInfo prop in props)
+            {
+                if (prop.PropertyType.ToString().StartsWith(typeof(RelayCommand).ToString()))
+                {
 
-            //            foreach (PropertyInfo prop in props)
-            //            {
-            //                if (prop.PropertyType.ToString().StartsWith(typeof(RelayCommand).ToString()))
-            //                {
+                    try
+                    {
+                        dynamic dynamicProp = prop.GetValue(this, null);
+                        dynamicProp.RaiseCanExecuteChanged();
 
-            //                    try
-            //                    {
-            //                        dynamic dynamicProp = prop.GetValue(this, null);
-            //                        dynamicProp.RaiseCanExecuteChanged();
+                        //var cmd = (RelayCommand)prop.GetValue(this, null);
+                        //cmd.RaiseCanExecuteChanged();
+                    }
+                    catch (Exception ex)
+                    {
+                        //do nothing                        
+#if DEBUG
+                        throw ex;
+#endif
+                    }
 
-            //                        //var cmd = (RelayCommand)prop.GetValue(this, null);
-            //                        //cmd.RaiseCanExecuteChanged();
-            //                    }
-            //                    catch (Exception ex)
-            //                    {
-            //                        //do nothing                        
-            //#if DEBUG
-            //                        throw ex;
-            //#endif
-            //                    }
-
-            //                }
-            //            }
+                }
+            }
         }
 
         // COMMANDS
