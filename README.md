@@ -1,10 +1,39 @@
 # MiResiliencia-Offline
+OFFLINE COST-EFFECTIVENESS ANALYSIS OF DISASTER RISK REDUCTION MEASURES
 
 ## Description
 
-*todo*
+### Improving resilience against natural hazards
+The frequency of geological and meteorological disasters
+has increased in recent years worldwide due to the
+effects of climate change and increasing population
+density in vulnerable areas. Appropriate measures can
+prevent or reduce the impacts of hazardous events and
+have the potential to avert disaster.
+To allocate resources where they are most needed,
+risk-based planning is of utmost importance. Furthermore,
+cost-benefit analysis of measures supports coherent and
+systematic decision-making.
+
+### Offline cost-effectiveness analysis of disaster risk reduction measures
+
+The MiResiliencia Offline enables the assessment of risks
+for disasters caused by various natural hazards and
+evaluates the cost-effectiveness of disaster risk
+reduction measures in a quantitative and standardized
+manner.
+Using a Windows based offline GIS with a user-friendly interface, MiResiliencia Offline integrates hazard information (intensity and recurrence),
+as well as vulnerability and resilience criteria.
+It considers structural as well as non-structural measures
+and calculates risk for the direct and indirect impacts
+of disasters, including risk of damage to infrastructure,
+disaster mortality or economic losses.
 
 ## Licenses
+
+The project was financed by the SDC Honduras and accompanied by Swiss Red Cross. All parts of the code are available under the Apache Software Licence 2.0. 
+The conception and development of the project is done by GEOTEST AG, Switzerland
+
 ### Nuget packages used in solution
 
 `PM> Get-Package | Select-Object Id,LicenseUrl`
