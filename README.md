@@ -1,5 +1,6 @@
 # MiResiliencia-Offline
 OFFLINE COST-EFFECTIVENESS ANALYSIS OF DISASTER RISK REDUCTION MEASURES
+![MiResiliencia Offline](https://github.com/GEOTEST-AG/MiResiliencia-Offline/blob/master/MiResiliencia%20Honduras_%20Sample.png?raw=true)
 
 ## Description
 
@@ -14,6 +15,7 @@ To allocate resources where they are most needed,
 risk-based planning is of utmost importance. Furthermore,
 cost-benefit analysis of measures supports coherent and
 systematic decision-making.
+![Resilience Toolbox](https://github.com/GEOTEST-AG/MiResiliencia-Offline/blob/master/ResilienceToolbox.png?raw=true)
 
 ### Offline cost-effectiveness analysis of disaster risk reduction measures
 
