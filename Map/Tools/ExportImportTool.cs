@@ -268,7 +268,7 @@ namespace ResTB.Map.Tools
                 bc.BusyState = Events.BusyState.Idle;
                 bc.KeyOfSender = "ExportProjectThread";
                 bc.Percent = 100;
-                bc.Message = Resources.MapControl_Exporting_ExportetTo + filename;
+                bc.Message = Resources.MapControl_Exporting_ExportetTo + " " + filename;
                 MapControlTools.On_BusyStateChange(bc);
 
                 DeleteDirectory(localDirectory + "\\ExportMap");

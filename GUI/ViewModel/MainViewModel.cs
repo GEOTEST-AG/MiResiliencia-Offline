@@ -237,11 +237,38 @@ namespace ResTB.GUI.ViewModel
                     List<LayersModel> allSubLayers = MapLayers.FirstOrDefault()?.getAllChildren(MapLayers.FirstOrDefault()?.Children.ToList());
 
                     LayersModel layerModel = allSubLayers?
-                        .FirstOrDefault(m => m.Layer != null && m.Layer.LayerType == LayerType.ProjectLayer && ((ResTBPostGISLayer)m.Layer).ResTBPostGISType == ResTBPostGISType.HazardMapBefore);
+                        .FirstOrDefault(m => m.Layer != null && 
+                                             m.Layer.ShapeCount > 0 &&
+                                             m.Layer.LayerType == LayerType.ProjectLayer && 
+                                             ((ResTBPostGISLayer)m.Layer).ResTBPostGISType == ResTBPostGISType.HazardMapBefore);
 
-                    if (layerModel != null && layerModel.Layer != null)
+                    if (layerModel != null)
                     {
-                        return layerModel.Layer.ShapeCount > 0;
+                        return true;
+                    }
+                    else return false;
+                }
+                else return false;
+            }
+        }
+
+        public bool HasHazardMapAfterShape
+        {
+            get
+            {
+                if ((MapLayers.Count > 0) && (MapLayers.First().Children != null))
+                {
+                    List<LayersModel> allSubLayers = MapLayers.FirstOrDefault()?.getAllChildren(MapLayers.FirstOrDefault()?.Children.ToList());
+
+                    LayersModel layerModel = allSubLayers?
+                        .FirstOrDefault(m => m.Layer != null &&
+                                             m.Layer.ShapeCount > 0 &&
+                                             m.Layer.LayerType == LayerType.ProjectLayer &&
+                                             ((ResTBPostGISLayer)m.Layer).ResTBPostGISType == ResTBPostGISType.HazardMapAfter);
+
+                    if (layerModel != null)
+                    {
+                        return true;
                     }
                     else return false;
                 }
@@ -1550,26 +1577,14 @@ namespace ResTB.GUI.ViewModel
                     },
                     beforeMeasure =>
                     {
-                        List<LayersModel> allSubLayers = MapLayers.FirstOrDefault()?.getAllChildren(MapLayers.FirstOrDefault()?.Children.ToList());
-
-                        LayersModel layerModel;
                         if (beforeMeasure)
                         {
-                            layerModel = allSubLayers?
-                                .FirstOrDefault(m => m.Layer != null && m.Layer.LayerType == LayerType.ProjectLayer && ((ResTBPostGISLayer)m.Layer).ResTBPostGISType == ResTBPostGISType.HazardMapBefore);
+                            return HasHazardMapBeforeShape;
                         }
                         else
                         {
-                            layerModel = allSubLayers?
-                               .FirstOrDefault(m => m.Layer != null && m.Layer.LayerType == LayerType.ProjectLayer && ((ResTBPostGISLayer)m.Layer).ResTBPostGISType == ResTBPostGISType.HazardMapAfter);
+                            return HasHazardMapAfterShape;
                         }
-
-                        if (layerModel != null && layerModel.Layer != null)
-                        {
-                            return layerModel.Layer.ShapeCount > 0;
-                        }
-                        else return false;
-
                     }));
             }
         }
