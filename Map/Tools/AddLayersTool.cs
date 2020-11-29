@@ -593,7 +593,8 @@ namespace ResTB.Map.Tools
         public MapControlTools MapControlTools { get; set; }
         public void Run(string filename, string fileLocation, RasterLayer r)
         {
-            var output = "temp\\" + filename;
+            string localData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+            var output = localData + "\\ResTBDesktop\\temp\\" + filename;
             var options = new[]
             {
                             "-t_srs", "EPSG:3857",
