@@ -171,6 +171,7 @@ namespace ResTB.Map.Tools
 
                 RasterLayer r = new RasterLayer() { FileName = fileLocation, Handle = layerHandle, LayerType = LayerType.CustomLayerRaster, Name = layerName };
                 MapControlTools.Layers.Add(r);
+                MapControlTools.LayerHandlingTool.SetLayerPosition(r.Name, LayerMoveType.BOTTOM);
                 Events.MapControl_LayerChange layerchange = new Events.MapControl_LayerChange() { LayerChangeReason = Events.LayerChangeReason.AddLayer, Layer = r };
                 On_LayerChange(layerchange);
                 return true;
