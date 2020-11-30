@@ -281,19 +281,32 @@ namespace ResTB.Map.Tools
             if (e.layerHandle==-1)
             {
                 SelectionList sl = AxMap.IdentifiedShapes;
-                for (int i=0; i<sl.Count; i++)
+
+                // check for raste layers (remove them, we dont need it)
+                for (int i = 0; i < sl.Count; i++)
                 {
                     Shapefile sf = AxMap.get_Shapefile(sl.LayerHandle[i]);
-                    if (sf.ShapefileType == ShpfileType.SHP_POINT)
+                    if (sf==null) sl.RemoveByLayerHandle(sl.LayerHandle[i]);
+                }
+                if (sl.Count > 1)
+                {
+                    for (int i = 0; i < sl.Count; i++)
                     {
-                        selectedLayerHandle = sl.LayerHandle[i];
-                        selectedShapeIndex = sl.ShapeIndex[i];
-                    }
-                    else
-                    {
-                        sl.RemoveByLayerHandle(sl.LayerHandle[i]);
+                        Shapefile sf = AxMap.get_Shapefile(sl.LayerHandle[i]);
+
+                        if (sf.ShapefileType == ShpfileType.SHP_POINT)
+                        {
+                            selectedLayerHandle = sl.LayerHandle[i];
+                            selectedShapeIndex = sl.ShapeIndex[i];
+                        }
+                        else
+                        {
+                            sl.RemoveByLayerHandle(sl.LayerHandle[i]);
+                        }
                     }
                 }
+
+
                 // if there was no point, just take the first one
                 if (selectedLayerHandle==-1) {
                     selectedLayerHandle = sl.LayerHandle[0];
