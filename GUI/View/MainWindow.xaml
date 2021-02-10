@@ -48,14 +48,8 @@
         <c:StringVisibiltyInvertedConverter    x:Key="StringVisibiltyInvertedConverter"/>
         <c:ResilienceWeightConverter    x:Key="ResilienceWeightConverter"/>
 
-        <Style x:Key="TreeViewItemStyle" TargetType="TreeViewItem">
-            <Setter Property="IsExpanded" Value="True" />
-            <Setter Property="IsSelected" Value="{Binding IsInitiallySelected, Mode=OneTime}" />
-            <Setter Property="KeyboardNavigation.AcceptsReturn" Value="True" />
-            <Setter Property="layerhelper:VirtualToggleButton.IsVirtualToggleButton" Value="True" />
-            <Setter Property="layerhelper:VirtualToggleButton.IsChecked" Value="{Binding IsManuallyChecked}" />
-        </Style>
 
+        <!--provides all tile providers to control-->
         <ObjectDataProvider x:Key="TileProviderValues"
                             MethodName="GetValues" 
                             ObjectType="{x:Type System:Enum}">
@@ -64,6 +58,14 @@
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
 
+        <!--tree view item styling-->
+        <Style x:Key="TreeViewItemStyle" TargetType="TreeViewItem">
+            <Setter Property="IsExpanded" Value="True" />
+            <Setter Property="IsSelected" Value="{Binding IsInitiallySelected, Mode=OneTime}" />
+            <Setter Property="KeyboardNavigation.AcceptsReturn" Value="True" />
+            <Setter Property="layerhelper:VirtualToggleButton.IsVirtualToggleButton" Value="True" />
+            <Setter Property="layerhelper:VirtualToggleButton.IsChecked" Value="{Binding IsManuallyChecked}" />
+        </Style>
         <HierarchicalDataTemplate x:Key="CheckBoxItemTemplate"
                                   ItemsSource="{Binding Children, Mode=TwoWay}"
                                   >
@@ -80,14 +82,7 @@
                                   />
             </StackPanel>
         </HierarchicalDataTemplate>
-        <!--Style x:Key="selectRibbonProject"  TargetType="TabItem">
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding ElementName=TabProjectT, Path=IsSelected}" Value="True">
-                    <Setter Property="IsSelected" Value="True"/>
-                </DataTrigger>
-            </Style.Triggers>
-        </Style>
-        -->
+
     </Window.Resources>
 
     <Grid>
@@ -112,7 +107,7 @@
                            MinWidth="300"
                                    />
                 <Border BorderThickness="0" DockPanel.Dock="Top" BorderBrush="White" Margin="0,10,0,40"/>
-                <!--MiResiliencia Honduras Desktop-->
+
                 <StackPanel Orientation="Vertical" DockPanel.Dock="Top" Margin="5"
                             Visibility="{Binding HasDBConnection, Converter={StaticResource BoolVisibiltyConverter}}">
                     <Button Content="{x:Static resx:Resources.Project_New}" Margin="5"  HorizontalContentAlignment="Left" Background="White"
@@ -124,24 +119,7 @@
                     <Button Content="{x:Static resx:Resources.Project_Import}" Margin="5"  HorizontalContentAlignment="Left" Background="White"
                             Command="{Binding ImportProjectCommand}" ContentTemplate="{StaticResource extBtnDatabaseImportContent}" />
 
-                    <!--<Label Margin="10,0" Foreground="White" FontSize="20" Content="{x:Static resx:Resources.Project_New}"/>-->
                 </StackPanel>
-
-                <!--<StackPanel Orientation="Horizontal" Grid.IsSharedSizeScope="True" DockPanel.Dock="Top" Margin="5" 
-                            Visibility="{Binding HasDBConnection, Converter={StaticResource BoolVisibiltyConverter}}">
-                    <Button Width="50" Height="50" Content="{x:Static resx:Resources.Project_Open}"
-                            Command="{Binding OpenProjectWinCommand}" ContentTemplate="{StaticResource extBtnProjectOpen}" />
-                    -->
-                <!--<Label Margin="10,0" Foreground="White" FontSize="20" Content="{x:Static resx:Resources.Project_Open}"/>-->
-                <!--
-                </StackPanel>
-
-                <StackPanel Orientation="Horizontal" Grid.IsSharedSizeScope="True" DockPanel.Dock="Top" Margin="5" 
-                            Visibility="{Binding HasDBConnection, Converter={StaticResource BoolVisibiltyConverter}}">
-                    <Button Width="50" Height="50" Content="{x:Static resx:Resources.Project_Import}"
-                            Command="{Binding ImportProjectCommand}" ContentTemplate="{StaticResource extBtnDatabaseImport}" />
-                    <Label Margin="10,0" Foreground="White" FontSize="20" Content="{x:Static resx:Resources.Project_Import}"/>
-                </StackPanel>-->
 
                 <Border BorderBrush="White" DockPanel.Dock="Top" BorderThickness="1"
                         Visibility="{Binding HasDBConnection, Converter={StaticResource BoolVisibiltyInvertedConverter}}">
@@ -890,7 +868,7 @@
                                                 <ContentControl ContentTemplate="{StaticResource extBtnCopy}"/>
                                             </Fluent:Button.LargeIcon>
                                         </Fluent:Button>
-                                        
+
                                         <Fluent:Button Header="{x:Static resx:Resources.Resilience_CopyAll}" Command="{Binding CopyAllResilienceCommand}"
                                                        CommandParameter="{StaticResource False}"
                                                        Visibility="{Binding SelectedMappedObject, Converter={StaticResource NullVisibiltyCollapsedConverter}}">
@@ -898,9 +876,9 @@
                                                 <ContentControl ContentTemplate="{StaticResource extBtnCopyAll}"/>
                                             </Fluent:Button.LargeIcon>
                                         </Fluent:Button>
-                                        
+
                                         <Separator Visibility="{Binding SelectedMappedObject, Converter={StaticResource NullVisibiltyCollapsedConverter}}"/>
-                                        
+
                                         <Fluent:Button Header="{x:Static resx:Resources.Map_Selection}" 
                                                        Command="{Binding SelectResilienceCommand}"
                                                        CommandParameter="{StaticResource True}"
@@ -1019,7 +997,7 @@
                                                 <ContentControl ContentTemplate="{StaticResource extBtnCopy}"/>
                                             </Fluent:Button.LargeIcon>
                                         </Fluent:Button>-->
-                                        
+
                                         <Fluent:Button Header="{x:Static resx:Resources.Save}" 
                                                    Command="{Binding SaveResilienceCommand}" CommandParameter="{StaticResource True}">
                                             <Fluent:Button.LargeIcon>
@@ -1275,7 +1253,7 @@
                                         </Fluent:Button>
 
                                         <Separator Visibility="{Binding SelectedMappedObject, Converter={StaticResource NullVisibiltyCollapsedConverter}}"/>
-                                        
+
                                         <Fluent:Button Header="{x:Static resx:Resources.Map_Selection}" 
                                                        Command="{Binding SelectResilienceCommand}"
                                                        CommandParameter="{StaticResource False}"
@@ -1642,9 +1620,9 @@
                         <xctk:DoubleUpDown Width="60" DockPanel.Dock="Left" ShowButtonSpinner="False"
                                            Value="{Binding GoToCoordinates.latitude}" ToolTip="{x:Static resx:Resources.Coord_Lat_WGS}" ></xctk:DoubleUpDown>
                         <Button Content="{x:Static resx:Resources.Coord_Go}" DockPanel.Dock="Left" Command="{Binding GoToCoordinates2Command}" Margin="5,0,0,0" Padding="5,0"/>
-                    </DockPanel> 
+                    </DockPanel>
                 </Expander>
-                
+
                 <Separator DockPanel.Dock="Top"/>
                 <Expander DockPanel.Dock="Top" Header="{x:Static resx:Resources.GeoNames_DB}" IsExpanded="False"
                           Style="{StaticResource BoldExpanderStyle}">

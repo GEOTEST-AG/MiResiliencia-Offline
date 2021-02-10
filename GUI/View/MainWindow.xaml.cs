@@ -37,8 +37,9 @@ namespace ResTB.GUI.View
             //myWebBrowser.Visibility = Visibility.Visible;
             //myWebBrowser.Navigate(htmlPath);
 
-            Closing += (s, e) => ViewModelLocator.Cleanup(); //not implemented yet
+            Closing += (s, e) => ViewModelLocator.Cleanup();    
 
+            // register MapMessage to change AxMap properties
             Messenger.Default.Register<MapMessage>(
                 this,
                 message =>
@@ -52,14 +53,14 @@ namespace ResTB.GUI.View
                             throw new NotImplementedException();
                             break;
                         case MapMessageType.KnownExtent:
-                            Karte.Tools.AxMap.KnownExtents = message.KnownExtent;
+                            Karte.Tools.AxMap.KnownExtents = message.KnownExtent;           //Set map extent
                             break;
                         case MapMessageType.TileProvider:
                             //Karte.Tools.AxMap.TileProvider = message.TileProvider;
-                            Karte.Tools.AxMap.Tiles.ProviderId = message.TileProviderId;
+                            Karte.Tools.AxMap.Tiles.ProviderId = message.TileProviderId;    //Set tile provider
                             Karte.Tools.Redraw(false);
                             break;
-                        case MapMessageType.CursorMode:
+                        case MapMessageType.CursorMode:                                     //Set cursor mode
                             Karte.Tools.AxMap.CursorMode = message.CursorMode;
                             break;
                         default:
@@ -68,6 +69,7 @@ namespace ResTB.GUI.View
                 }
                 );
 
+            // register MessageBoxMessage for showing modal / non-modal message boxes
             Messenger.Default.Register<MessageBoxMessage>(
                 this,
                 message =>
@@ -96,6 +98,7 @@ namespace ResTB.GUI.View
                 }
             );
 
+            // register DialogMessage for showing dialog boxes in MainWindow
             Messenger.Default.Register<DialogMessage>(
               this, WindowType.MainWindow,
               message =>
@@ -119,35 +122,12 @@ namespace ResTB.GUI.View
                       message.Callback(result); // execute callback: send result to MainViewModel
                   }
               });
-
-            //Messenger.Default.Register<HtmlMessage>(
-            //  this,
-            //  message =>
-            //  {
-            //      if (message == null)
-            //      {
-            //          return;
-            //      }
-
-            //      if (string.IsNullOrWhiteSpace(message.Url))
-            //      {
-            //          //myWebBrowser.Visibility = Visibility.Collapsed;
-            //          wfhSample.Visibility = Visibility.Collapsed;
-            //      }
-            //      else
-            //      {
-            //          //myWebBrowser.Visibility = Visibility.Visible;
-            //          //myWebBrowser.NavigateToString(message.HtmlString);
-
-            //          wfhSample.Visibility = Visibility.Visible;
-            //          (wfhSample.Child as System.Windows.Forms.WebBrowser).Navigate(message.Url);
-            //      }
-
-
-            //  });
+        
         }
 
-        ///Avoid clicking around while busy
+        /// <summary>
+        /// Avoid clicking around while busy
+        /// </summary>
         private void MainWindow_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
             if (((MainViewModel)(this.DataContext)).Cursor == Cursors.Wait)

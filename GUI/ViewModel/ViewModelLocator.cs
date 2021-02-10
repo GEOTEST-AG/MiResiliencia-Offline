@@ -25,7 +25,7 @@ namespace ResTB.GUI.ViewModel
         }
 
         /// <summary>
-        /// Gets the Main property.
+        /// Gets the Main property for MainWindow.xaml
         /// </summary>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
             "CA1822:MarkMembersAsStatic",
@@ -38,6 +38,9 @@ namespace ResTB.GUI.ViewModel
             }
         }
 
+        /// <summary>
+        /// not implemented yet
+        /// </summary>
         public static void Cleanup()
         {
         }

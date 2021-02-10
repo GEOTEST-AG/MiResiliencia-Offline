@@ -17,13 +17,17 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <!-- Attach default Theme -->
+                <!-- Attach default theme -->
                 <ResourceDictionary Source="pack://application:,,,/Fluent;Component/Themes/Generic.xaml" />
+                <!-- Attach crimson red theme -->
                 <ResourceDictionary Source="pack://application:,,,/Fluent;component/Themes/Themes/Light.Crimson.xaml" />
+                <!--Attach xaml icons-->
                 <ResourceDictionary Source="Design/Icons.xaml" />
+                <!--Attach styles-->
                 <ResourceDictionary Source="Design/Styles.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
+            <!--ViewModelLocator used in Views-->
             <vm:ViewModelLocator                        
                         x:Key="Locator"
                         d:IsDataSource="True" />

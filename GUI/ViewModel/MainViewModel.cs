@@ -31,7 +31,6 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reflection;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -86,21 +85,6 @@ namespace ResTB.GUI.ViewModel
         public string WindowTitle => $"{Resources.App_Name}{(Project != null ? $": {Project?.Name}" : "")}";
 
         public myTkTileProvider CurrentTileProvider { get; set; } = myTkTileProvider.GoogleSatellite;
-        //public IEnumerable<myTkTileProvider> TileProviderValues
-        //{
-        //    get
-        //    {
-        //        return Enum.GetValues(typeof(myTkTileProvider))
-        //            .Cast<myTkTileProvider>()
-        //            //.Where(t => !t.ToString().ToLower().Contains("here"))
-        //            //.Where(t => !t.ToString().ToLower().Contains("opencycle"))
-        //            //.Where(t => !t.ToString().ToLower().Contains("opentransport"))
-        //            //.Where(t => !t.ToString().ToLower().Contains("rosreestr"))
-        //            //.Where(t => !t.ToString().ToLower().Contains("mapquest"))
-        //            .Where(t => !t.ToString().ToLower().Contains("custom"))
-        //            ;
-        //    }
-        //}
 
         public tkKnownExtents CurrentExtend { get; set; } = tkKnownExtents.keHonduras;
         public IEnumerable<tkKnownExtents> ExtendValues
@@ -317,6 +301,7 @@ namespace ResTB.GUI.ViewModel
 
         public MainViewModel()
         {
+            //check db setting on startup
             if (ConfigurationManager.AppSettings["UseOfflineDB"] == "true")
             {
                 DB.DBUtils.Instance.StartLocalDB();
@@ -327,15 +312,11 @@ namespace ResTB.GUI.ViewModel
                 UseOnlineDB = true;
             }
 
-
             UpdateDBConnection();
             UpdateInternetConnection();
 
-
             // Layer sample
             this.MapLayers = new ObservableCollection<LayersModel>();
-            //this.Layers = LayersModel.CreateFoos();
-
 
             if (HasDBConnection)
             {
@@ -343,16 +324,18 @@ namespace ResTB.GUI.ViewModel
                 LoadObjectParameters();
             }
 
+            // get geonames places for offline search of POIs
             GeoCoder = new Geocoder("HN");  //HN oder CH
             if (GeoCoder.Places != null)
                 Places = new ObservableCollection<Place>(GeoCoder.Places);
 
+            //Register MapMessage 
             Messenger.Default.Register<MapMessage>(
                     this,
                     message =>
                     {
                         //MessageBoxMessage.Send("MapMessage Received", $"{message.MessageType}", true);
-                        string status = $"MAP {message.MessageType}: ";
+                        string status = $"MAP {message.MessageType}: "; //for debug
                         switch (message.MessageType)
                         {
                             case MapMessageType.Default:
@@ -394,6 +377,9 @@ namespace ResTB.GUI.ViewModel
 
         }
 
+        /// <summary>
+        /// Update HasDBConnection
+        /// </summary>
         private void UpdateDBConnection()
         {
             bool dbExists = false;
@@ -406,6 +392,9 @@ namespace ResTB.GUI.ViewModel
             HasDBConnection = dbExists;
         }
 
+        /// <summary>
+        /// Update HasInternetConnection
+        /// </summary>
         private void UpdateInternetConnection()
         {
             try
@@ -420,6 +409,9 @@ namespace ResTB.GUI.ViewModel
             }
         }
 
+        /// <summary>
+        /// Get list of natural hazards from db
+        /// </summary>
         private async void LoadNatHazards()
         {
             List<NatHazard> hazards = new List<NatHazard>();
@@ -435,6 +427,9 @@ namespace ResTB.GUI.ViewModel
             SelectedHazardIndex = HazardIndexes.FirstOrDefault();
         }
 
+        /// <summary>
+        /// Get object parameters and object classes from db
+        /// </summary>
         private async void LoadObjectParameters()
         {
             List<Objectparameter> objectParameters = new List<Objectparameter>();
