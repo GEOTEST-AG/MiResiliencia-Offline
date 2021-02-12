@@ -39,6 +39,9 @@ using Xceed.Wpf.Toolkit.PropertyGrid;
 
 namespace ResTB.GUI.ViewModel
 {
+    /// <summary>
+    /// Tile provider enum with nice descriptions for gui
+    /// </summary>
     [TypeConverter(typeof(EnumDescriptionTypeConverter))]
     public enum myTkTileProvider
     {
@@ -70,6 +73,7 @@ namespace ResTB.GUI.ViewModel
         {
             get
             {
+                //show wait cursor thile busy
                 if (IsBusy)
                     return System.Windows.Input.Cursors.Wait;
                 else
@@ -77,6 +81,9 @@ namespace ResTB.GUI.ViewModel
             }
         }
 
+        /// <summary>
+        /// keep track of selected tab
+        /// </summary>
         public ResTBPostGISType SelectedTabType { get; private set; }
 
         public bool UseOnlineDB { get; set; }
@@ -631,6 +638,9 @@ namespace ResTB.GUI.ViewModel
         }
 
         private RelayCommand<ResTBPostGISType> _tabSwitchCommand;
+        /// <summary>
+        /// happens on every tab change
+        /// </summary>
         public RelayCommand<ResTBPostGISType> TabSwitchCommand
         {
             get
@@ -644,10 +654,12 @@ namespace ResTB.GUI.ViewModel
                         StopSelectionMapCommand.Execute(null);
                         SelectedShapeIndex = -1;
 
+                        //handling switching to hazard map tabs
                         if (layerType == ResTBPostGISType.HazardMapAfter || layerType == ResTBPostGISType.HazardMapBefore)
                         {
                             SelectedHazardMap = null;
                         }
+                        //handling switching to resilience tabs
                         else if (layerType == ResTBPostGISType.ResilienceAfter || layerType == ResTBPostGISType.ResilienceBefore)
                         {
                             if (SelectedMappedObject != null && SelectedMergedObjectParameter != null)
@@ -661,14 +673,14 @@ namespace ResTB.GUI.ViewModel
                             }
                         }
 
-                        //MessageBoxMessage.Send("INFO", $"clicked on {layertype}");
-
+                        //update the layer tree
                         SelectLayerByActiveTab();
 
-                        //Default: layer selection activated
+                        //By default: layer selection activated for most of the tabs
                         switch (layerType)
                         {
                             case ResTBPostGISType.Perimeter:
+                                // no selection activated
                                 break;
                             case ResTBPostGISType.HazardMapBefore:
                                 SelectHazardMapCommand.Execute(true);
@@ -688,6 +700,7 @@ namespace ResTB.GUI.ViewModel
                                 SelectResilienceCommand.Execute(false);
                                 break;
                             case ResTBPostGISType.RiskMap:
+                                // no selection activated
                                 break;
                             default:
                                 break;
@@ -697,6 +710,9 @@ namespace ResTB.GUI.ViewModel
             }
         }
 
+        /// <summary>
+        /// Select layers in layer tree, depending on selected tab
+        /// </summary>
         private void SelectLayerByActiveTab()
         {
             if (MapLayers.Any())
@@ -2334,6 +2350,9 @@ namespace ResTB.GUI.ViewModel
         #region ToolColumnCommands
 
         private RelayCommand _hideToolColumnCommand;
+        /// <summary>
+        /// Toggles ShowToolColumn
+        /// </summary>
         public RelayCommand HideToolColumnCommand
         {
             get
