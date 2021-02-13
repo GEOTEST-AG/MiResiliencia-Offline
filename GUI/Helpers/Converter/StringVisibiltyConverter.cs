@@ -5,6 +5,9 @@ using System.Windows.Data;
 namespace ResTB.GUI.Helpers.Converter
 {
     /// <summary>
+    /// string != null | White: "Visible"
+    /// <para/>
+    /// string == null | White: "Collapsed"
     /// </summary>
     class StringVisibiltyConverter : IValueConverter
     {
@@ -19,6 +22,11 @@ namespace ResTB.GUI.Helpers.Converter
         }
     }
 
+    /// <summary>
+    /// string != null | White: "Collapsed"
+    /// <para/>
+    /// string == null | White: "Visible"
+    /// </summary>
     class StringVisibiltyInvertedConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

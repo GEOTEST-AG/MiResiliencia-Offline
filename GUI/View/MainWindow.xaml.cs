@@ -12,7 +12,9 @@ using System.Windows.Input;
 
 namespace ResTB.GUI.View
 {
-
+    /// <summary>
+    /// Types of different views to set the recipient of a message
+    /// </summary>
     public enum WindowType
     {
         MainWindow,
@@ -23,19 +25,10 @@ namespace ResTB.GUI.View
     {
         public MainWindow()
         {
-            //InitializeMap();
             InitializeComponent();
 
+            //handle mouse clicks
             this.PreviewMouseDown += new MouseButtonEventHandler(MainWindow_PreviewMouseDown);
-
-
-            //TESTING Webbrowser
-            //string localData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-            //if (!System.IO.Directory.Exists(localData + "\\ResTBDesktop"))
-            //    System.IO.Directory.CreateDirectory(localData + "\\ResTBDesktop");
-            //string htmlPath = localData + "\\ResTBDesktop\\result.html";
-            //myWebBrowser.Visibility = Visibility.Visible;
-            //myWebBrowser.Navigate(htmlPath);
 
             Closing += (s, e) => ViewModelLocator.Cleanup();    
 
@@ -80,6 +73,7 @@ namespace ResTB.GUI.View
 
                     if (message.IsModal)
                     {
+                        //message.Title sets the message box image
                         if (message.Title.ToLower().Contains("ERROR".ToLower()))
                             MessageBox.Show(message.Message, message.Title, MessageBoxButton.OK, MessageBoxImage.Error);
                         else if (message.Title.ToLower().Contains("warning".ToLower()))
@@ -136,48 +130,48 @@ namespace ResTB.GUI.View
             }
         }
 
+        /// <summary>
+        /// set the map control in the view model
+        /// </summary>
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             try
             {
-                //TODO: is there a nicer way to send the Control to the ViewModel?
-                ((MainViewModel)(this.DataContext)).MapControl = Karte;
+                //TODO: is there a nicer way to send the Control to the ViewModel? --> Could be done via map message
+                ((MainViewModel)(this.DataContext)).MapControl = Karte;                                             //set map control
 
-                var message = new MapMessage() { MessageType = MapMessageType.Initialized, Boolean = true };
+                var message = new MapMessage() { MessageType = MapMessageType.Initialized, Boolean = true };        //let everyone know that the map control is ready
                 Messenger.Default.Send(message);
 
             }
             catch (Exception)
             {
-
                 throw;
             }
-
-            //var StartWindow = new StartWindow();
-            //StartWindow.ShowDialog();
         }
 
         /// <summary>
         /// Avoid opening the context menu on ribbons
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void RibbonMain_ContextMenuOpening(object sender, System.Windows.Controls.ContextMenuEventArgs e)
         {
             e.Handled = true;
         }
 
+        /// <summary>
+        /// Handling the resilience slider changes
+        /// </summary>
         private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             if (sender is Slider)
             {
                 var slider = (Slider)sender;
 
-                if (slider.IsFocused || slider.IsKeyboardFocused || slider.IsMouseOver)
+                if (slider.IsFocused || slider.IsKeyboardFocused || slider.IsMouseOver) //only direct mouse or keyboard hits evaluated
                 {
                     var weight = ((ResilienceValues)(slider).DataContext).OverwrittenWeight;
 
-                    if (e.NewValue > 0 && weight == 0) //activate resilience value by setting the weight = 1
+                    if (e.NewValue > 0 && weight == 0)  //activate resilience value by setting the weight = 1
                     {
                         ((ResilienceValues)(slider).DataContext).OverwrittenWeight = 1;
                     }

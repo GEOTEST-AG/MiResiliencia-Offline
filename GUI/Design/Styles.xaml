@@ -1,23 +1,11 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="clr-namespace:ResTB.GUI.Design"
-                    xmlns:Fluent="urn:fluent-ribbon"
-                    xmlns:pt="http://propertytools.org/wpf"
-                    >
-    <SolidColorBrush x:Key="MainBlueBrush" Color="#0078D7" />
-    <!--<SolidColorBrush x:Key="MainRedBrush" Color="#AE0F0A" />-->
-    <!--<SolidColorBrush x:Key="MainRedBrush" Color="Crimson" />-->
-    
-    <!--Crimson-->
-    <!--<SolidColorBrush x:Key="MainRedBrush" Color="#A20025" />-->
+                    xmlns:Fluent="urn:fluent-ribbon">
 
     <!--SRK DARK RED-->
     <SolidColorBrush x:Key="MainRedBrush" Color="#AE0F0A" />
     <SolidColorBrush x:Key="MainRedBrush2" Color="#11A20025" />
     
-    <!--SRK RED-->
-    <!--<SolidColorBrush x:Key="MainRedBrush" Color="#E2001A" />-->
-
     <Style TargetType="{x:Type Button}" >
         <Style.Triggers>
             <Trigger Property="IsEnabled" Value="False">

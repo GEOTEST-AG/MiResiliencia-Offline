@@ -6,7 +6,13 @@ namespace ResTB.GUI.Model
     public class HazardIndex
     {
         public int Index { get; set; }
+        /// <summary>
+        /// not in use
+        /// </summary>
         public Color IntensityColor { get; private set; }
+        /// <summary>
+        /// not in use
+        /// </summary>
         public Color IndexColor { get; private set; }
 
         public HazardIndex(int index)

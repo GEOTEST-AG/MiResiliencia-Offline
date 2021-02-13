@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace ResTB.GUI.Helpers.Converter
 {
     //SOURCE: 
-    //  https://brianlagunas.com/a-better-way-to-data-bind-enums-in-wpf/
+    // https://brianlagunas.com/a-better-way-to-data-bind-enums-in-wpf/
 
     public class EnumDescriptionTypeConverter : EnumConverter
     {

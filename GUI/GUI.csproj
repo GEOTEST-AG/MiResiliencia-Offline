@@ -173,7 +173,6 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Helpers\Converter\EnumDescriptionTypeConverter.cs" />
-    <Compile Include="Helpers\Converter\ResilienceWeightConverter.cs" />
     <Compile Include="Helpers\Converter\StringVisibiltyConverter.cs" />
     <Compile Include="Helpers\Converter\BoolVisibiltyConverter.cs" />
     <Compile Include="Helpers\Converter\NullVisibiltyConverter.cs" />
@@ -183,7 +182,6 @@
     <Compile Include="Helpers\Layers\VirtualToggleButton.cs" />
     <Compile Include="Helpers\MappedObjectManager.cs" />
     <Compile Include="Helpers\Messages\DialogMessage.cs" />
-    <Compile Include="Helpers\Messages\HtmlMessage.cs" />
     <Compile Include="Helpers\SerializationHelper.cs" />
     <Compile Include="Model\Layers\LayersModel.cs" />
     <Compile Include="Services\ISampleService.cs" />
@@ -215,7 +213,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Helpers\Converter\Index2BoolConverter.cs" />
     <Compile Include="Helpers\Messages\MapMessage.cs" />
     <Compile Include="Helpers\Messages\MessageBoxMessage.cs" />
     <Page Include="View\MainWindow.xaml">
@@ -246,6 +243,9 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <None Include="de\MiResiliencia Desktop.chm">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="en\MiResiliencia Desktop.chm">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="es\MiResiliencia Desktop.chm">

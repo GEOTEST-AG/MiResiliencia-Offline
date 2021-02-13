@@ -92,18 +92,7 @@ namespace ResTB.GUI.ViewModel
         public string WindowTitle => $"{Resources.App_Name}{(Project != null ? $": {Project?.Name}" : "")}";
 
         public myTkTileProvider CurrentTileProvider { get; set; } = myTkTileProvider.GoogleSatellite;
-
         public tkKnownExtents CurrentExtend { get; set; } = tkKnownExtents.keHonduras;
-        public IEnumerable<tkKnownExtents> ExtendValues
-        {
-            get
-            {
-                var enums = Enum.GetValues(typeof(tkKnownExtents))
-                    .Cast<tkKnownExtents>()
-                    ;
-                return enums;
-            }
-        }
 
         public bool ShowToolColumn { get; set; } = true;
 
@@ -228,9 +217,9 @@ namespace ResTB.GUI.ViewModel
                     List<LayersModel> allSubLayers = MapLayers.FirstOrDefault()?.getAllChildren(MapLayers.FirstOrDefault()?.Children.ToList());
 
                     LayersModel layerModel = allSubLayers?
-                        .FirstOrDefault(m => m.Layer != null && 
+                        .FirstOrDefault(m => m.Layer != null &&
                                              m.Layer.ShapeCount > 0 &&
-                                             m.Layer.LayerType == LayerType.ProjectLayer && 
+                                             m.Layer.LayerType == LayerType.ProjectLayer &&
                                              ((ResTBPostGISLayer)m.Layer).ResTBPostGISType == ResTBPostGISType.HazardMapBefore);
 
                     if (layerModel != null)
@@ -332,11 +321,11 @@ namespace ResTB.GUI.ViewModel
             }
 
             // get geonames places for offline search of POIs
-            GeoCoder = new Geocoder("HN");  //HN oder CH
+            GeoCoder = new Geocoder("HN");                      //HN or CH, hard coded so far
             if (GeoCoder.Places != null)
                 Places = new ObservableCollection<Place>(GeoCoder.Places);
 
-            //Register MapMessage 
+            //Register MapMessage, mainly to register events on init
             Messenger.Default.Register<MapMessage>(
                     this,
                     message =>
@@ -361,6 +350,8 @@ namespace ResTB.GUI.ViewModel
                                 break;
                             case MapMessageType.Initialized:
                                 status += message.Boolean;
+
+                                //register the events on the new map control
                                 MapControl.Tools.MapControl_Error += MapControl_Error;
                                 MapControl.Tools.MapControl_LayerChange += MapControl_LayerChange;
                                 MapControl.Tools.MapControl_EditingStateChange += MapControl_EditingStateChange;
@@ -369,6 +360,7 @@ namespace ResTB.GUI.ViewModel
                                 MapControl.Tools.MapControl_SelectingStateChange += MapControl_SelectingStateChange;
 
                                 this.SetupMap();
+
                                 break;
                             default:
                                 break;
@@ -377,7 +369,7 @@ namespace ResTB.GUI.ViewModel
                         if (Project != null)
                         {
 #if DEBUG
-                            StatusBarMainString = status;
+                            StatusBarMainString = status;   //output to status bar on debug
 #endif
                         }
                     });
@@ -459,6 +451,9 @@ namespace ResTB.GUI.ViewModel
             SelectedObjectParameter = ObjectParameters.Where(o => o.ObjectClass == SelectedObjectClass).FirstOrDefault();
         }
 
+        /// <summary>
+        /// Initial setup of the map control
+        /// </summary>
         private void SetupMap()
         {
             MapControl.Tools.RemoveAllLayers();
@@ -472,18 +467,20 @@ namespace ResTB.GUI.ViewModel
 
             MapControl.Tools.AxMap.Projection = tkMapProjection.PROJECTION_GOOGLE_MERCATOR;
 
-            //Google Satellite Tile Provide
+            //-------------------------
+            //setup Google Satellite Tile Provider
             TileProviders providers = MapControl.Tools.AxMap.Tiles.Providers;
             int providerId = (int)myTkTileProvider.GoogleSatellite;
             providers.Add(providerId, "Google",
             "http://mt.google.com/vt/lyrs=s&x={x}&y={y}&z={zoom}",
             tkTileProjection.SphericalMercator, 0, 20, "Google");
-            //MapControl.Tools.AxMap.Tiles.ProviderId = providerId;
 
-            MapControl.Tools.AxMap.Tiles.ProviderId = (int)CurrentTileProvider;
-            MapControl.Tools.AxMap.KnownExtents = CurrentExtend;
+            //-------------------------
+            MapControl.Tools.AxMap.Tiles.ProviderId = (int)CurrentTileProvider; //set tile provider
+            MapControl.Tools.AxMap.KnownExtents = CurrentExtend;                //set map extend
 
-            //Caching
+            //-------------------------
+            //Caching map tiles
             MapControl.Tools.AxMap.Tiles.set_DoCaching(tkCacheType.RAM, true);  // is on by default
             MapControl.Tools.AxMap.Tiles.set_DoCaching(tkCacheType.Disk, true); // if off by default
 
@@ -491,9 +488,7 @@ namespace ResTB.GUI.ViewModel
             if (!System.IO.Directory.Exists(localData + "\\ResTBDesktop")) System.IO.Directory.CreateDirectory(localData + "\\ResTBDesktop");
             MapControl.Tools.AxMap.Tiles.DiskCacheFilename = localData + "\\ResTBDesktop\\tiles_cache.db3";
 
-
-
-
+            //-------------------------
         }
 
         private void UpdateMapLayers()
@@ -758,7 +753,6 @@ namespace ResTB.GUI.ViewModel
 
                         IsCalculating = true;
                         UpdateCommandsCanExecute();
-                        //Messenger.Default.Send(new HtmlMessage() { HtmlString = String.Empty });
 
                         IsBackgroundBusy = true;
                         StatusBarMainString = string.Empty;
@@ -796,11 +790,7 @@ namespace ResTB.GUI.ViewModel
                                 System.IO.Directory.CreateDirectory(localData + "\\ResTBDesktop");
                             string htmlPath = localData + "\\ResTBDesktop\\result.html";
 
-
                             System.Diagnostics.Process.Start(htmlPath);         //<<<<<<< Start in default browser
-
-                            //Messenger.Default.Send(new HtmlMessage() { HtmlString = File.ReadAllText(htmlPath) });
-                            //Messenger.Default.Send(new HtmlMessage() { Url = htmlPath });
 
                             /////////////////////////////////////////
 
@@ -2058,7 +2048,7 @@ namespace ResTB.GUI.ViewModel
                         else
                         {
 #if DEBUG
-                                        throw new ArgumentNullException(nameof(resWeight));
+                            throw new ArgumentNullException(nameof(resWeight));
 #endif
                         }
 
@@ -2085,7 +2075,7 @@ namespace ResTB.GUI.ViewModel
                             else
                             {
 #if DEBUG
-                                            throw new ArgumentNullException(nameof(resWeightAfter));
+                                throw new ArgumentNullException(nameof(resWeightAfter));
 #endif
                             }
                         }
@@ -2543,9 +2533,9 @@ namespace ResTB.GUI.ViewModel
                     if (selectedObject.ID != SelectedMappedObject.ID)
                     {
                         IsBusy = true;
-//#if DEBUG
-//                        MessageBoxMessage.Send($"Copy Resilience to {selectedObject.ID}", $"Resilience Values to copy: {SelectedMergedObjectParameter.ResilienceValuesMerged.Count}", true);
-//#endif
+                        //#if DEBUG
+                        //                        MessageBoxMessage.Send($"Copy Resilience to {selectedObject.ID}", $"Resilience Values to copy: {SelectedMergedObjectParameter.ResilienceValuesMerged.Count}", true);
+                        //#endif
                         await MappedObjectManager.CopyResilience(SelectedMappedObject.ID, selectedObject.ID);
                         MapControl.Tools.Redraw(true);
 

@@ -5,6 +5,9 @@ using System.Windows.Data;
 namespace ResTB.GUI.Helpers.Converter
 {
     /// <summary>
+    /// true -> "Visible"
+    /// <para/>
+    /// false -> "Collapsed"
     /// </summary>
     class BoolVisibiltyConverter : IValueConverter
     {
@@ -19,6 +22,11 @@ namespace ResTB.GUI.Helpers.Converter
         }
     }
 
+    /// <summary>
+    /// true -> "Collapsed"
+    /// <para/>
+    /// false -> "Visible"
+    /// </summary>
     class BoolVisibiltyInvertedConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

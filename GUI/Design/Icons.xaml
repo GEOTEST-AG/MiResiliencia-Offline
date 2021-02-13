@@ -1,8 +1,10 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    >
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <!--https://materialdesignicons.com/-->
+
+    <!--XAML Icons-->
+
     <DataTemplate x:Key="extBtnOK">
         <Viewbox>
             <Canvas Width="24" Height="24">
@@ -17,22 +19,22 @@
             </Canvas>
         </Viewbox>
     </DataTemplate>
-    
+
     <DataTemplate x:Key="extBtnUndo">
         <Viewbox>
             <Canvas Width="24" Height="24">
                 <Path Fill="Black" Data="M12.5,8C9.85,8 7.45,9 5.6,10.6L2,7V16H11L7.38,12.38C8.77,11.22 10.54,10.5 12.5,10.5C16.04,10.5 19.05,12.81 20.1,16L22.47,15.22C21.08,11.03 17.15,8 12.5,8Z" />
             </Canvas>
         </Viewbox>
-    </DataTemplate>    
-    
+    </DataTemplate>
+
     <DataTemplate x:Key="extBtnCopy">
         <Viewbox>
             <Canvas Width="24" Height="24">
                 <Path Fill="Black" Data="M11,17H4A2,2 0 0,1 2,15V3A2,2 0 0,1 4,1H16V3H4V15H11V13L15,16L11,19V17M19,21V7H8V13H6V7A2,2 0 0,1 8,5H19A2,2 0 0,1 21,7V21A2,2 0 0,1 19,23H8A2,2 0 0,1 6,21V19H8V21H19Z" />
             </Canvas>
         </Viewbox>
-    </DataTemplate>    
+    </DataTemplate>
     <DataTemplate x:Key="extBtnCopyAll">
         <Viewbox>
             <Canvas Width="24" Height="24">
@@ -65,7 +67,7 @@
             <TextBlock Grid.Column="1" VerticalAlignment="Center" Text="{Binding}" Margin="10,0" FontSize="20"/>
         </Grid>
     </DataTemplate>
-    
+
     <DataTemplate x:Key="extBtnProjectOpen">
         <Viewbox>
             <Canvas Width="24" Height="24">
@@ -89,7 +91,7 @@
             <TextBlock Grid.Column="1" VerticalAlignment="Center" Text="{Binding}" Margin="10,0" FontSize="20"/>
         </Grid>
     </DataTemplate>
-    
+
     <DataTemplate x:Key="extBtnSave">
         <Viewbox>
             <Canvas Width="24" Height="24">
@@ -313,7 +315,7 @@
             <TextBlock Grid.Column="1" VerticalAlignment="Center" Text="{Binding}" Margin="10,0" FontSize="20"/>
         </Grid>
     </DataTemplate>
-    
+
     <DataTemplate x:Key="extBtnDatabaseExport">
         <Viewbox>
             <Canvas Width="24" Height="24">
@@ -396,14 +398,13 @@
     </DataTemplate>
 
 
-
-
+    <!--XAML Images-->
 
     <DrawingImage x:Key="imgConnect">
         <DrawingImage.Drawing>
             <GeometryDrawing Brush="White" Geometry="M4,1C2.89,1 2,1.89 2,3V7C2,8.11 2.89,9 4,9H1V11H13V9H10C11.11,9 12,8.11 12,7V3C12,1.89 11.11,1 10,1H4M4,3H10V7H4V3M3,13V18L3,20H10V18H5V13H3M14,13C12.89,13 12,13.89 12,15V19C12,20.11 12.89,21 14,21H11V23H23V21H20C21.11,21 22,20.11 22,19V15C22,13.89 21.11,13 20,13H14M14,15H20V19H14V15Z" />
         </DrawingImage.Drawing>
-    </DrawingImage>    
+    </DrawingImage>
     <DrawingImage x:Key="imgDisconnect">
         <DrawingImage.Drawing>
             <GeometryDrawing Brush="White" Geometry="M4,1C2.89,1 2,1.89 2,3V7C2,8.11 2.89,9 4,9H1V11H13V9H10C11.11,9 12,8.11 12,7V3C12,1.89 11.11,1 10,1H4M4,3H10V7H4V3M14,13C12.89,13 12,13.89 12,15V19C12,20.11 12.89,21 14,21H11V23H23V21H20C21.11,21 22,20.11 22,19V15C22,13.89 21.11,13 20,13H14M3.88,13.46L2.46,14.88L4.59,17L2.46,19.12L3.88,20.54L6,18.41L8.12,20.54L9.54,19.12L7.41,17L9.54,14.88L8.12,13.46L6,15.59L3.88,13.46M14,15H20V19H14V15Z" />
