@@ -1235,6 +1235,9 @@ namespace ResTB.GUI.ViewModel
                         saveFileDialog.Filter = $"{Resources.App_Files} (.zip)|*.zip";
                         saveFileDialog.Title = $"{Resources.Project_Export}";
                         saveFileDialog.FileName = SerializationHelper.makeValidFileName(Project.Name);
+
+                        if ((SelectedProject == null) && (Project != null)) SelectedProject = Project;
+
                         if (saveFileDialog.ShowDialog() == DialogResult.OK)
                             MapControl.Tools.ExportProject(SelectedProject.Id, saveFileDialog.FileName);
                     },
