@@ -39,7 +39,7 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 [Files]
 Source: "..\GUI\bin\Release\*"; DestDir: "{app}"; Flags: ignoreversion  recursesubdirs createallsubdirs
 Source: "..\GUI\bin\Release\ResTBDesktop.exe.config"; DestDir: "{app}"; Flags: ignoreversion  recursesubdirs createallsubdirs; AfterInstall: ChangeAppSettings();
-Source: "..\PostgreSQLPortable_10.4.1\*"; DestDir: "{code:GetAppData}\ResTBDesktop\PostgreSQLPortable"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "..\PostgreSQLPortable_10.4.1\*"; DestDir: "{code:GetAppData}\ResTBDesktop\PostgreSQLPortable"; Flags: ignoreversion recursesubdirs createallsubdirs onlyifdoesntexist
 Source: "C:\dev\MapWinGIS\*"; DestDir: "{app}\MapWinGIS"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "C:\dev\MapWinGIS\MapWinGIS.ocx"; DestDir: "{app}\MapWinGIS"; Flags: restartreplace sharedfile regserver
 Source: "..\PrintTemplates\*.pdf"; DestDir: "{code:GetAppData}\ResTBDesktop\PrintTemplates\";  Flags: recursesubdirs createallsubdirs   
