@@ -1,13 +1,10 @@
 ﻿<Application
     x:Class="ResTB.GUI.App"
-    xmlns:Fluent="urn:fluent-ribbon"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="clr-namespace:ResTB.GUI"
-    xmlns:vm="clr-namespace:ResTB.GUI.ViewModel"
-    xmlns:v="clr-namespace:ResTB.GUI.View"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="clr-namespace:ResTB.GUI.ViewModel"
     xmlns:s="clr-namespace:System;assembly=mscorlib"
     mc:Ignorable="d"
     StartupUri ="View\MainWindow.xaml"
@@ -17,13 +14,17 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <!-- Attach default Theme -->
+                <!-- Attach default theme -->
                 <ResourceDictionary Source="pack://application:,,,/Fluent;Component/Themes/Generic.xaml" />
+                <!-- Attach crimson red theme -->
                 <ResourceDictionary Source="pack://application:,,,/Fluent;component/Themes/Themes/Light.Crimson.xaml" />
+                <!--Attach xaml icons-->
                 <ResourceDictionary Source="Design/Icons.xaml" />
+                <!--Attach styles-->
                 <ResourceDictionary Source="Design/Styles.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
+            <!--ViewModelLocator used in Views-->
             <vm:ViewModelLocator                        
                         x:Key="Locator"
                         d:IsDataSource="True" />

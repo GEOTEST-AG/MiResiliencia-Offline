@@ -38,7 +38,11 @@ namespace ResTB.GUI.Helpers.Converter
             throw new NotImplementedException();
         }
     }
-
+    /// <summary>
+    /// object != null: "Collapsed"
+    /// <para/>
+    /// object == null: "Visible"
+    /// </summary>
     class NullVisibiltyInvertedConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

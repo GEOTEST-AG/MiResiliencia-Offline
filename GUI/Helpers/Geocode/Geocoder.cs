@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ResTB.GUI.Helpers.Geocode
 {
@@ -52,12 +49,17 @@ namespace ResTB.GUI.Helpers.Geocode
         }
     }
 
+    // Handler for geonames dumps
     public class Geocoder
     {
         //http://download.geonames.org/export/dump/
 
         public List<Place> Places { get; set; }
 
+        /// <summary>
+        /// Import the geonames txt file in Helpers\Geocode\ folder
+        /// </summary>
+        /// <param name="countryCode">CH or HN so far</param>
         public Geocoder(string countryCode)
         {
             string filename = $@"Helpers\Geocode\{countryCode}.txt";

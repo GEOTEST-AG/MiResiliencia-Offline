@@ -19,7 +19,7 @@ namespace ResTB.GUI.Helpers.Messages
         public string Title { get; private set; }
 
         /// <summary>
-        /// not modal MessageBox will be started in separate task
+        /// not modal MessageBox will be started in separate task; modal boxes block the rest
         /// </summary>
         public bool IsModal { get; private set; }
 
@@ -34,11 +34,12 @@ namespace ResTB.GUI.Helpers.Messages
         }
 
         /// <summary>
-        /// 
+        /// static helper to send message box messages
         /// </summary>
-        /// <param name="title"></param>
-        /// <param name="message"></param>
+        /// <param name="title">MessageBoxTitle</param>
+        /// <param name="message">Message to show</param>
         /// <param name="isModal">not modal MessageBox will be started in separate task; modal boxes block the rest</param>
+        /// <param name="token">Determine intended recipients</param>      
         public static void Send(string title, string message, bool isModal = false, object token = null)
         {
             var dateTimeNow = DateTime.Now;

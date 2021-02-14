@@ -1,13 +1,13 @@
 ﻿<Window 
     x:Name="OpenProjectWin"
     x:Class="ResTB.GUI.View.OpenProjectWindow"
-    xmlns:resx="clr-namespace:ResTB.Translation.Properties;assembly=ResTBTranslation"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-    xmlns:local="clr-namespace:ResTB.GUI.View"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:help="clr-namespace:ResTB.GUI.Helpers.HelpSystem"
+    xmlns:resx="clr-namespace:ResTB.Translation.Properties;assembly=ResTBTranslation"
     mc:Ignorable="d"
     Title="{x:Static resx:Resources.Project_Open}" 
     WindowStartupLocation="CenterScreen"
@@ -16,6 +16,7 @@
     SnapsToDevicePixels="True"    
     WindowStyle="ToolWindow"
     Closing="OpenProjectWin_Closing"
+    help:HelpProvider.HelpTopic="IDH_OpenProject"
     >
     <Grid>
         <DockPanel LastChildFill="True" Margin="0">

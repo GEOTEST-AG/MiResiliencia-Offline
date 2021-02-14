@@ -5,8 +5,6 @@ VisualStudioVersion = 16.0.30309.148
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DB", "DB\DB.csproj", "{B09F43E2-9044-49CF-8B27-B3CF19DE0ECC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DB-Tests", "DB-Tests\DB-Tests.csproj", "{1C4EDD2B-9431-45EE-A65D-DE6784CFBDF3}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Map", "Map\Map.csproj", "{923FB052-B081-49A0-AC62-1BCEDE05A432}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GUI", "GUI\GUI.csproj", "{0C047BE3-C53E-4457-8C35-ACB959727787}"
@@ -14,8 +12,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Calculation", "Calculation\Calculation.csproj", "{1980D459-66B9-4C60-9DCF-6B841E974BBB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Translation", "Translation\Translation.csproj", "{01F3590F-D18B-4301-A694-A57B20FFFC1C}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Calculation-Tests", "Calculation-Tests\Calculation-Tests.csproj", "{6F8B3D7F-716B-4A14-8994-FEE8CEB3543B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PdfSharp", "PDFsharp-AcroForms\src\PdfSharp\PdfSharp.csproj", "{5A6055BC-BF86-4FDD-9F62-0109DB7A303B}"
 EndProject
@@ -37,14 +33,6 @@ Global
 		{B09F43E2-9044-49CF-8B27-B3CF19DE0ECC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B09F43E2-9044-49CF-8B27-B3CF19DE0ECC}.Release|x86.ActiveCfg = Release|Any CPU
 		{B09F43E2-9044-49CF-8B27-B3CF19DE0ECC}.Release|x86.Build.0 = Release|Any CPU
-		{1C4EDD2B-9431-45EE-A65D-DE6784CFBDF3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1C4EDD2B-9431-45EE-A65D-DE6784CFBDF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1C4EDD2B-9431-45EE-A65D-DE6784CFBDF3}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{1C4EDD2B-9431-45EE-A65D-DE6784CFBDF3}.Debug|x86.Build.0 = Debug|Any CPU
-		{1C4EDD2B-9431-45EE-A65D-DE6784CFBDF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1C4EDD2B-9431-45EE-A65D-DE6784CFBDF3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1C4EDD2B-9431-45EE-A65D-DE6784CFBDF3}.Release|x86.ActiveCfg = Release|Any CPU
-		{1C4EDD2B-9431-45EE-A65D-DE6784CFBDF3}.Release|x86.Build.0 = Release|Any CPU
 		{923FB052-B081-49A0-AC62-1BCEDE05A432}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{923FB052-B081-49A0-AC62-1BCEDE05A432}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{923FB052-B081-49A0-AC62-1BCEDE05A432}.Debug|x86.ActiveCfg = Debug|Any CPU
@@ -77,14 +65,6 @@ Global
 		{01F3590F-D18B-4301-A694-A57B20FFFC1C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{01F3590F-D18B-4301-A694-A57B20FFFC1C}.Release|x86.ActiveCfg = Release|Any CPU
 		{01F3590F-D18B-4301-A694-A57B20FFFC1C}.Release|x86.Build.0 = Release|Any CPU
-		{6F8B3D7F-716B-4A14-8994-FEE8CEB3543B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6F8B3D7F-716B-4A14-8994-FEE8CEB3543B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6F8B3D7F-716B-4A14-8994-FEE8CEB3543B}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{6F8B3D7F-716B-4A14-8994-FEE8CEB3543B}.Debug|x86.Build.0 = Debug|Any CPU
-		{6F8B3D7F-716B-4A14-8994-FEE8CEB3543B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6F8B3D7F-716B-4A14-8994-FEE8CEB3543B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6F8B3D7F-716B-4A14-8994-FEE8CEB3543B}.Release|x86.ActiveCfg = Release|Any CPU
-		{6F8B3D7F-716B-4A14-8994-FEE8CEB3543B}.Release|x86.Build.0 = Release|Any CPU
 		{5A6055BC-BF86-4FDD-9F62-0109DB7A303B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5A6055BC-BF86-4FDD-9F62-0109DB7A303B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5A6055BC-BF86-4FDD-9F62-0109DB7A303B}.Debug|x86.ActiveCfg = Debug|Any CPU
@@ -106,7 +86,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		RESX_PrefixTranslations = False
 		SolutionGuid = {733459E5-7DB6-4335-A876-4531E9FFE6C4}
+		RESX_PrefixTranslations = False
 	EndGlobalSection
 EndGlobal

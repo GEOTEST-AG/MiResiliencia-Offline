@@ -13,34 +13,24 @@ using System.Globalization;
 using System.Configuration;
 using System.Windows.Markup;
 
-/// <summary>
-/// Credits to https://marcominerva.wordpress.com/2020/01/07/using-the-mvvm-pattern-in-wpf-applications-running-on-net-core/
-/// </summary>
-/// 
-
 namespace ResTB.GUI
 {
     public partial class App : Application
     {
         static App()
         {
-            DispatcherHelper.Initialize();
-
+            DispatcherHelper.Initialize();  // for mvvm light dispatching
 
         }
 
         protected override void OnStartup(StartupEventArgs e)
         {
-
-            //Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("es");
-            //Thread.CurrentThread.CurrentUICulture = Thread.CurrentThread.CurrentCulture;
-
+            //Setting language on startup
             try
             {
-                CultureInfo culture = new CultureInfo(ConfigurationManager.AppSettings["DefaultCulture"]);
+                CultureInfo culture = new CultureInfo(ConfigurationManager.AppSettings["DefaultCulture"]);  //set to "es-HN" in app.config
                 Thread.CurrentThread.CurrentCulture = culture;
                 Thread.CurrentThread.CurrentUICulture = culture;
-
             }
             catch (Exception)
             {
@@ -48,13 +38,16 @@ namespace ResTB.GUI
             }
             finally
             {
+                // set WPF language
                 FrameworkElement.LanguageProperty.OverrideMetadata(typeof(FrameworkElement),
                     new FrameworkPropertyMetadata(XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.Name))
                     );
-
             }
         }
 
+        /// <summary>
+        /// Handling unhandled exceptions
+        /// </summary>
         private void Application_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
         {
             // If showing an error message, make sure to close the splash screen immediately, using SplashScreenAdapter.CloseSplashScreen(),

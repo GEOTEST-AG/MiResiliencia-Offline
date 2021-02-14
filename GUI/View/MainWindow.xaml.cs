@@ -12,7 +12,9 @@ using System.Windows.Input;
 
 namespace ResTB.GUI.View
 {
-
+    /// <summary>
+    /// Types of different views to set the recipient of a message
+    /// </summary>
     public enum WindowType
     {
         MainWindow,
@@ -23,22 +25,14 @@ namespace ResTB.GUI.View
     {
         public MainWindow()
         {
-            //InitializeMap();
             InitializeComponent();
 
+            //handle mouse clicks
             this.PreviewMouseDown += new MouseButtonEventHandler(MainWindow_PreviewMouseDown);
 
+            Closing += (s, e) => ViewModelLocator.Cleanup();    
 
-            //TESTING Webbrowser
-            //string localData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-            //if (!System.IO.Directory.Exists(localData + "\\ResTBDesktop"))
-            //    System.IO.Directory.CreateDirectory(localData + "\\ResTBDesktop");
-            //string htmlPath = localData + "\\ResTBDesktop\\result.html";
-            //myWebBrowser.Visibility = Visibility.Visible;
-            //myWebBrowser.Navigate(htmlPath);
-
-            Closing += (s, e) => ViewModelLocator.Cleanup(); //not implemented yet
-
+            // register MapMessage to change AxMap properties
             Messenger.Default.Register<MapMessage>(
                 this,
                 message =>
@@ -52,14 +46,14 @@ namespace ResTB.GUI.View
                             throw new NotImplementedException();
                             break;
                         case MapMessageType.KnownExtent:
-                            Karte.Tools.AxMap.KnownExtents = message.KnownExtent;
+                            Karte.Tools.AxMap.KnownExtents = message.KnownExtent;           //Set map extent
                             break;
                         case MapMessageType.TileProvider:
                             //Karte.Tools.AxMap.TileProvider = message.TileProvider;
-                            Karte.Tools.AxMap.Tiles.ProviderId = message.TileProviderId;
+                            Karte.Tools.AxMap.Tiles.ProviderId = message.TileProviderId;    //Set tile provider
                             Karte.Tools.Redraw(false);
                             break;
-                        case MapMessageType.CursorMode:
+                        case MapMessageType.CursorMode:                                     //Set cursor mode
                             Karte.Tools.AxMap.CursorMode = message.CursorMode;
                             break;
                         default:
@@ -68,6 +62,7 @@ namespace ResTB.GUI.View
                 }
                 );
 
+            // register MessageBoxMessage for showing modal / non-modal message boxes
             Messenger.Default.Register<MessageBoxMessage>(
                 this,
                 message =>
@@ -78,6 +73,7 @@ namespace ResTB.GUI.View
 
                     if (message.IsModal)
                     {
+                        //message.Title sets the message box image
                         if (message.Title.ToLower().Contains("ERROR".ToLower()))
                             MessageBox.Show(message.Message, message.Title, MessageBoxButton.OK, MessageBoxImage.Error);
                         else if (message.Title.ToLower().Contains("warning".ToLower()))
@@ -96,6 +92,7 @@ namespace ResTB.GUI.View
                 }
             );
 
+            // register DialogMessage for showing dialog boxes in MainWindow
             Messenger.Default.Register<DialogMessage>(
               this, WindowType.MainWindow,
               message =>
@@ -119,35 +116,12 @@ namespace ResTB.GUI.View
                       message.Callback(result); // execute callback: send result to MainViewModel
                   }
               });
-
-            //Messenger.Default.Register<HtmlMessage>(
-            //  this,
-            //  message =>
-            //  {
-            //      if (message == null)
-            //      {
-            //          return;
-            //      }
-
-            //      if (string.IsNullOrWhiteSpace(message.Url))
-            //      {
-            //          //myWebBrowser.Visibility = Visibility.Collapsed;
-            //          wfhSample.Visibility = Visibility.Collapsed;
-            //      }
-            //      else
-            //      {
-            //          //myWebBrowser.Visibility = Visibility.Visible;
-            //          //myWebBrowser.NavigateToString(message.HtmlString);
-
-            //          wfhSample.Visibility = Visibility.Visible;
-            //          (wfhSample.Child as System.Windows.Forms.WebBrowser).Navigate(message.Url);
-            //      }
-
-
-            //  });
+        
         }
 
-        ///Avoid clicking around while busy
+        /// <summary>
+        /// Avoid clicking around while busy
+        /// </summary>
         private void MainWindow_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
             if (((MainViewModel)(this.DataContext)).Cursor == Cursors.Wait)
@@ -156,48 +130,48 @@ namespace ResTB.GUI.View
             }
         }
 
+        /// <summary>
+        /// set the map control in the view model
+        /// </summary>
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             try
             {
-                //TODO: is there a nicer way to send the Control to the ViewModel?
-                ((MainViewModel)(this.DataContext)).MapControl = Karte;
+                //TODO: is there a nicer way to send the Control to the ViewModel? --> Could be done via map message
+                ((MainViewModel)(this.DataContext)).MapControl = Karte;                                             //set map control
 
-                var message = new MapMessage() { MessageType = MapMessageType.Initialized, Boolean = true };
+                var message = new MapMessage() { MessageType = MapMessageType.Initialized, Boolean = true };        //let everyone know that the map control is ready
                 Messenger.Default.Send(message);
 
             }
             catch (Exception)
             {
-
                 throw;
             }
-
-            //var StartWindow = new StartWindow();
-            //StartWindow.ShowDialog();
         }
 
         /// <summary>
         /// Avoid opening the context menu on ribbons
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void RibbonMain_ContextMenuOpening(object sender, System.Windows.Controls.ContextMenuEventArgs e)
         {
             e.Handled = true;
         }
 
+        /// <summary>
+        /// Handling the resilience slider changes
+        /// </summary>
         private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             if (sender is Slider)
             {
                 var slider = (Slider)sender;
 
-                if (slider.IsFocused || slider.IsKeyboardFocused || slider.IsMouseOver)
+                if (slider.IsFocused || slider.IsKeyboardFocused || slider.IsMouseOver) //only direct mouse or keyboard hits evaluated
                 {
                     var weight = ((ResilienceValues)(slider).DataContext).OverwrittenWeight;
 
-                    if (e.NewValue > 0 && weight == 0) //activate resilience value by setting the weight = 1
+                    if (e.NewValue > 0 && weight == 0)  //activate resilience value by setting the weight = 1
                     {
                         ((ResilienceValues)(slider).DataContext).OverwrittenWeight = 1;
                     }

@@ -31,7 +31,6 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reflection;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -40,6 +39,9 @@ using Xceed.Wpf.Toolkit.PropertyGrid;
 
 namespace ResTB.GUI.ViewModel
 {
+    /// <summary>
+    /// Tile provider enum with nice descriptions for gui
+    /// </summary>
     [TypeConverter(typeof(EnumDescriptionTypeConverter))]
     public enum myTkTileProvider
     {
@@ -71,6 +73,7 @@ namespace ResTB.GUI.ViewModel
         {
             get
             {
+                //show wait cursor thile busy
                 if (IsBusy)
                     return System.Windows.Input.Cursors.Wait;
                 else
@@ -78,6 +81,9 @@ namespace ResTB.GUI.ViewModel
             }
         }
 
+        /// <summary>
+        /// keep track of selected tab
+        /// </summary>
         public ResTBPostGISType SelectedTabType { get; private set; }
 
         public bool UseOnlineDB { get; set; }
@@ -86,33 +92,7 @@ namespace ResTB.GUI.ViewModel
         public string WindowTitle => $"{Resources.App_Name}{(Project != null ? $": {Project?.Name}" : "")}";
 
         public myTkTileProvider CurrentTileProvider { get; set; } = myTkTileProvider.GoogleSatellite;
-        //public IEnumerable<myTkTileProvider> TileProviderValues
-        //{
-        //    get
-        //    {
-        //        return Enum.GetValues(typeof(myTkTileProvider))
-        //            .Cast<myTkTileProvider>()
-        //            //.Where(t => !t.ToString().ToLower().Contains("here"))
-        //            //.Where(t => !t.ToString().ToLower().Contains("opencycle"))
-        //            //.Where(t => !t.ToString().ToLower().Contains("opentransport"))
-        //            //.Where(t => !t.ToString().ToLower().Contains("rosreestr"))
-        //            //.Where(t => !t.ToString().ToLower().Contains("mapquest"))
-        //            .Where(t => !t.ToString().ToLower().Contains("custom"))
-        //            ;
-        //    }
-        //}
-
         public tkKnownExtents CurrentExtend { get; set; } = tkKnownExtents.keHonduras;
-        public IEnumerable<tkKnownExtents> ExtendValues
-        {
-            get
-            {
-                var enums = Enum.GetValues(typeof(tkKnownExtents))
-                    .Cast<tkKnownExtents>()
-                    ;
-                return enums;
-            }
-        }
 
         public bool ShowToolColumn { get; set; } = true;
 
@@ -237,9 +217,9 @@ namespace ResTB.GUI.ViewModel
                     List<LayersModel> allSubLayers = MapLayers.FirstOrDefault()?.getAllChildren(MapLayers.FirstOrDefault()?.Children.ToList());
 
                     LayersModel layerModel = allSubLayers?
-                        .FirstOrDefault(m => m.Layer != null && 
+                        .FirstOrDefault(m => m.Layer != null &&
                                              m.Layer.ShapeCount > 0 &&
-                                             m.Layer.LayerType == LayerType.ProjectLayer && 
+                                             m.Layer.LayerType == LayerType.ProjectLayer &&
                                              ((ResTBPostGISLayer)m.Layer).ResTBPostGISType == ResTBPostGISType.HazardMapBefore);
 
                     if (layerModel != null)
@@ -317,6 +297,7 @@ namespace ResTB.GUI.ViewModel
 
         public MainViewModel()
         {
+            //check db setting on startup
             if (ConfigurationManager.AppSettings["UseOfflineDB"] == "true")
             {
                 DB.DBUtils.Instance.StartLocalDB();
@@ -327,15 +308,11 @@ namespace ResTB.GUI.ViewModel
                 UseOnlineDB = true;
             }
 
-
             UpdateDBConnection();
             UpdateInternetConnection();
 
-
             // Layer sample
             this.MapLayers = new ObservableCollection<LayersModel>();
-            //this.Layers = LayersModel.CreateFoos();
-
 
             if (HasDBConnection)
             {
@@ -343,16 +320,18 @@ namespace ResTB.GUI.ViewModel
                 LoadObjectParameters();
             }
 
-            GeoCoder = new Geocoder("HN");  //HN oder CH
+            // get geonames places for offline search of POIs
+            GeoCoder = new Geocoder("HN");                      //HN or CH, hard coded so far
             if (GeoCoder.Places != null)
                 Places = new ObservableCollection<Place>(GeoCoder.Places);
 
+            //Register MapMessage, mainly to register events on init
             Messenger.Default.Register<MapMessage>(
                     this,
                     message =>
                     {
                         //MessageBoxMessage.Send("MapMessage Received", $"{message.MessageType}", true);
-                        string status = $"MAP {message.MessageType}: ";
+                        string status = $"MAP {message.MessageType}: "; //for debug
                         switch (message.MessageType)
                         {
                             case MapMessageType.Default:
@@ -371,6 +350,8 @@ namespace ResTB.GUI.ViewModel
                                 break;
                             case MapMessageType.Initialized:
                                 status += message.Boolean;
+
+                                //register the events on the new map control
                                 MapControl.Tools.MapControl_Error += MapControl_Error;
                                 MapControl.Tools.MapControl_LayerChange += MapControl_LayerChange;
                                 MapControl.Tools.MapControl_EditingStateChange += MapControl_EditingStateChange;
@@ -379,6 +360,7 @@ namespace ResTB.GUI.ViewModel
                                 MapControl.Tools.MapControl_SelectingStateChange += MapControl_SelectingStateChange;
 
                                 this.SetupMap();
+
                                 break;
                             default:
                                 break;
@@ -387,13 +369,16 @@ namespace ResTB.GUI.ViewModel
                         if (Project != null)
                         {
 #if DEBUG
-                            StatusBarMainString = status;
+                            StatusBarMainString = status;   //output to status bar on debug
 #endif
                         }
                     });
 
         }
 
+        /// <summary>
+        /// Update HasDBConnection
+        /// </summary>
         private void UpdateDBConnection()
         {
             bool dbExists = false;
@@ -406,6 +391,9 @@ namespace ResTB.GUI.ViewModel
             HasDBConnection = dbExists;
         }
 
+        /// <summary>
+        /// Update HasInternetConnection
+        /// </summary>
         private void UpdateInternetConnection()
         {
             try
@@ -420,6 +408,9 @@ namespace ResTB.GUI.ViewModel
             }
         }
 
+        /// <summary>
+        /// Get list of natural hazards from db
+        /// </summary>
         private async void LoadNatHazards()
         {
             List<NatHazard> hazards = new List<NatHazard>();
@@ -435,6 +426,9 @@ namespace ResTB.GUI.ViewModel
             SelectedHazardIndex = HazardIndexes.FirstOrDefault();
         }
 
+        /// <summary>
+        /// Get object parameters and object classes from db
+        /// </summary>
         private async void LoadObjectParameters()
         {
             List<Objectparameter> objectParameters = new List<Objectparameter>();
@@ -457,6 +451,9 @@ namespace ResTB.GUI.ViewModel
             SelectedObjectParameter = ObjectParameters.Where(o => o.ObjectClass == SelectedObjectClass).FirstOrDefault();
         }
 
+        /// <summary>
+        /// Initial setup of the map control
+        /// </summary>
         private void SetupMap()
         {
             MapControl.Tools.RemoveAllLayers();
@@ -470,18 +467,20 @@ namespace ResTB.GUI.ViewModel
 
             MapControl.Tools.AxMap.Projection = tkMapProjection.PROJECTION_GOOGLE_MERCATOR;
 
-            //Google Satellite Tile Provide
+            //-------------------------
+            //setup Google Satellite Tile Provider
             TileProviders providers = MapControl.Tools.AxMap.Tiles.Providers;
             int providerId = (int)myTkTileProvider.GoogleSatellite;
             providers.Add(providerId, "Google",
             "http://mt.google.com/vt/lyrs=s&x={x}&y={y}&z={zoom}",
             tkTileProjection.SphericalMercator, 0, 20, "Google");
-            //MapControl.Tools.AxMap.Tiles.ProviderId = providerId;
 
-            MapControl.Tools.AxMap.Tiles.ProviderId = (int)CurrentTileProvider;
-            MapControl.Tools.AxMap.KnownExtents = CurrentExtend;
+            //-------------------------
+            MapControl.Tools.AxMap.Tiles.ProviderId = (int)CurrentTileProvider; //set tile provider
+            MapControl.Tools.AxMap.KnownExtents = CurrentExtend;                //set map extend
 
-            //Caching
+            //-------------------------
+            //Caching map tiles
             MapControl.Tools.AxMap.Tiles.set_DoCaching(tkCacheType.RAM, true);  // is on by default
             MapControl.Tools.AxMap.Tiles.set_DoCaching(tkCacheType.Disk, true); // if off by default
 
@@ -489,9 +488,7 @@ namespace ResTB.GUI.ViewModel
             if (!System.IO.Directory.Exists(localData + "\\ResTBDesktop")) System.IO.Directory.CreateDirectory(localData + "\\ResTBDesktop");
             MapControl.Tools.AxMap.Tiles.DiskCacheFilename = localData + "\\ResTBDesktop\\tiles_cache.db3";
 
-
-
-
+            //-------------------------
         }
 
         private void UpdateMapLayers()
@@ -636,6 +633,9 @@ namespace ResTB.GUI.ViewModel
         }
 
         private RelayCommand<ResTBPostGISType> _tabSwitchCommand;
+        /// <summary>
+        /// happens on every tab change
+        /// </summary>
         public RelayCommand<ResTBPostGISType> TabSwitchCommand
         {
             get
@@ -649,10 +649,12 @@ namespace ResTB.GUI.ViewModel
                         StopSelectionMapCommand.Execute(null);
                         SelectedShapeIndex = -1;
 
+                        //handling switching to hazard map tabs
                         if (layerType == ResTBPostGISType.HazardMapAfter || layerType == ResTBPostGISType.HazardMapBefore)
                         {
                             SelectedHazardMap = null;
                         }
+                        //handling switching to resilience tabs
                         else if (layerType == ResTBPostGISType.ResilienceAfter || layerType == ResTBPostGISType.ResilienceBefore)
                         {
                             if (SelectedMappedObject != null && SelectedMergedObjectParameter != null)
@@ -666,14 +668,14 @@ namespace ResTB.GUI.ViewModel
                             }
                         }
 
-                        //MessageBoxMessage.Send("INFO", $"clicked on {layertype}");
-
+                        //update the layer tree
                         SelectLayerByActiveTab();
 
-                        //Default: layer selection activated
+                        //By default: layer selection activated for most of the tabs
                         switch (layerType)
                         {
                             case ResTBPostGISType.Perimeter:
+                                // no selection activated
                                 break;
                             case ResTBPostGISType.HazardMapBefore:
                                 SelectHazardMapCommand.Execute(true);
@@ -693,6 +695,7 @@ namespace ResTB.GUI.ViewModel
                                 SelectResilienceCommand.Execute(false);
                                 break;
                             case ResTBPostGISType.RiskMap:
+                                // no selection activated
                                 break;
                             default:
                                 break;
@@ -702,6 +705,9 @@ namespace ResTB.GUI.ViewModel
             }
         }
 
+        /// <summary>
+        /// Select layers in layer tree, depending on selected tab
+        /// </summary>
         private void SelectLayerByActiveTab()
         {
             if (MapLayers.Any())
@@ -747,7 +753,6 @@ namespace ResTB.GUI.ViewModel
 
                         IsCalculating = true;
                         UpdateCommandsCanExecute();
-                        //Messenger.Default.Send(new HtmlMessage() { HtmlString = String.Empty });
 
                         IsBackgroundBusy = true;
                         StatusBarMainString = string.Empty;
@@ -785,11 +790,7 @@ namespace ResTB.GUI.ViewModel
                                 System.IO.Directory.CreateDirectory(localData + "\\ResTBDesktop");
                             string htmlPath = localData + "\\ResTBDesktop\\result.html";
 
-
                             System.Diagnostics.Process.Start(htmlPath);         //<<<<<<< Start in default browser
-
-                            //Messenger.Default.Send(new HtmlMessage() { HtmlString = File.ReadAllText(htmlPath) });
-                            //Messenger.Default.Send(new HtmlMessage() { Url = htmlPath });
 
                             /////////////////////////////////////////
 
@@ -2050,7 +2051,7 @@ namespace ResTB.GUI.ViewModel
                         else
                         {
 #if DEBUG
-                                        throw new ArgumentNullException(nameof(resWeight));
+                            throw new ArgumentNullException(nameof(resWeight));
 #endif
                         }
 
@@ -2077,7 +2078,7 @@ namespace ResTB.GUI.ViewModel
                             else
                             {
 #if DEBUG
-                                            throw new ArgumentNullException(nameof(resWeightAfter));
+                                throw new ArgumentNullException(nameof(resWeightAfter));
 #endif
                             }
                         }
@@ -2342,6 +2343,9 @@ namespace ResTB.GUI.ViewModel
         #region ToolColumnCommands
 
         private RelayCommand _hideToolColumnCommand;
+        /// <summary>
+        /// Toggles ShowToolColumn
+        /// </summary>
         public RelayCommand HideToolColumnCommand
         {
             get
@@ -2532,9 +2536,9 @@ namespace ResTB.GUI.ViewModel
                     if (selectedObject.ID != SelectedMappedObject.ID)
                     {
                         IsBusy = true;
-//#if DEBUG
-//                        MessageBoxMessage.Send($"Copy Resilience to {selectedObject.ID}", $"Resilience Values to copy: {SelectedMergedObjectParameter.ResilienceValuesMerged.Count}", true);
-//#endif
+                        //#if DEBUG
+                        //                        MessageBoxMessage.Send($"Copy Resilience to {selectedObject.ID}", $"Resilience Values to copy: {SelectedMergedObjectParameter.ResilienceValuesMerged.Count}", true);
+                        //#endif
                         await MappedObjectManager.CopyResilience(SelectedMappedObject.ID, selectedObject.ID);
                         MapControl.Tools.Redraw(true);
 

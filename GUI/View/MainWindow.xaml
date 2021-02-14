@@ -1,23 +1,22 @@
 ﻿<Fluent:RibbonWindow
     x:Name="MainWin"
-    xmlns:map="clr-namespace:ResTB.Map;assembly=ResTBMap"
-    xmlns:maptool ="clr-namespace:ResTB.Map.Tools;assembly=ResTBMap"
-    xmlns:maplayer ="clr-namespace:ResTB.Map.Layer;assembly=ResTBMap"
-    xmlns:Fluent="urn:fluent-ribbon"
-    xmlns:resx="clr-namespace:ResTB.Translation.Properties;assembly=ResTBTranslation"
-    xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
     x:Class="ResTB.GUI.View.MainWindow"
-    xmlns:vm="clr-namespace:ResTB.GUI.ViewModel"
-    xmlns:System="clr-namespace:System;assembly=mscorlib"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:cez="clr-namespace:ControlzEx;assembly=ControlzEx"
-    xmlns:c="clr-namespace:ResTB.GUI.Helpers.Converter"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+    xmlns:cez="clr-namespace:ControlzEx;assembly=ControlzEx"
     xmlns:mapwingis="clr-namespace:MapWinGIS;assembly=Interop.MapWinGIS"
+    xmlns:c="clr-namespace:ResTB.GUI.Helpers.Converter"
+    xmlns:help="clr-namespace:ResTB.GUI.Helpers.HelpSystem"
     xmlns:layerhelper="clr-namespace:ResTB.GUI.Helpers.Layers"
+    xmlns:vm="clr-namespace:ResTB.GUI.ViewModel"
+    xmlns:map="clr-namespace:ResTB.Map;assembly=ResTBMap"
+    xmlns:resx="clr-namespace:ResTB.Translation.Properties;assembly=ResTBTranslation"
+    xmlns:System="clr-namespace:System;assembly=mscorlib"
+    xmlns:Fluent="urn:fluent-ribbon"
     mc:Ignorable="d"
     MinWidth="600"
     MinHeight="400"
@@ -29,6 +28,7 @@
     DataContext="{Binding Main, Source={StaticResource Locator}}"
     SnapsToDevicePixels="True"   
     Cursor="{Binding Cursor}"   
+    help:HelpProvider.HelpTopic="IDH_Overview"
     >
 
     <i:Interaction.Triggers>
@@ -46,16 +46,8 @@
         <c:NullVisibiltyInvertedConverter    x:Key="NullVisibiltyInvertedConverter"/>
         <c:StringVisibiltyConverter    x:Key="StringVisibiltyConverter"/>
         <c:StringVisibiltyInvertedConverter    x:Key="StringVisibiltyInvertedConverter"/>
-        <c:ResilienceWeightConverter    x:Key="ResilienceWeightConverter"/>
 
-        <Style x:Key="TreeViewItemStyle" TargetType="TreeViewItem">
-            <Setter Property="IsExpanded" Value="True" />
-            <Setter Property="IsSelected" Value="{Binding IsInitiallySelected, Mode=OneTime}" />
-            <Setter Property="KeyboardNavigation.AcceptsReturn" Value="True" />
-            <Setter Property="layerhelper:VirtualToggleButton.IsVirtualToggleButton" Value="True" />
-            <Setter Property="layerhelper:VirtualToggleButton.IsChecked" Value="{Binding IsManuallyChecked}" />
-        </Style>
-
+        <!--provides all tile providers to control-->
         <ObjectDataProvider x:Key="TileProviderValues"
                             MethodName="GetValues" 
                             ObjectType="{x:Type System:Enum}">
@@ -64,6 +56,14 @@
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
 
+        <!--tree view item styling-->
+        <Style x:Key="TreeViewItemStyle" TargetType="TreeViewItem">
+            <Setter Property="IsExpanded" Value="True" />
+            <Setter Property="IsSelected" Value="{Binding IsInitiallySelected, Mode=OneTime}" />
+            <Setter Property="KeyboardNavigation.AcceptsReturn" Value="True" />
+            <Setter Property="layerhelper:VirtualToggleButton.IsVirtualToggleButton" Value="True" />
+            <Setter Property="layerhelper:VirtualToggleButton.IsChecked" Value="{Binding IsManuallyChecked}" />
+        </Style>
         <HierarchicalDataTemplate x:Key="CheckBoxItemTemplate"
                                   ItemsSource="{Binding Children, Mode=TwoWay}"
                                   >
@@ -80,14 +80,7 @@
                                   />
             </StackPanel>
         </HierarchicalDataTemplate>
-        <!--Style x:Key="selectRibbonProject"  TargetType="TabItem">
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding ElementName=TabProjectT, Path=IsSelected}" Value="True">
-                    <Setter Property="IsSelected" Value="True"/>
-                </DataTrigger>
-            </Style.Triggers>
-        </Style>
-        -->
+
     </Window.Resources>
 
     <Grid>
@@ -98,7 +91,7 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <!--Welcome Window-->
+        <!--Welcome Window with New_Project, Open_Project, and Import_Project -->
         <Grid x:Name="ProjectNullOverlay" Grid.Row="0" Grid.RowSpan="3"  Panel.ZIndex="999" 
               IsHitTestVisible="True"
               Visibility="{Binding Project, Converter={StaticResource NullVisibiltyInvertedConverter}}" 
@@ -112,7 +105,7 @@
                            MinWidth="300"
                                    />
                 <Border BorderThickness="0" DockPanel.Dock="Top" BorderBrush="White" Margin="0,10,0,40"/>
-                <!--MiResiliencia Honduras Desktop-->
+
                 <StackPanel Orientation="Vertical" DockPanel.Dock="Top" Margin="5"
                             Visibility="{Binding HasDBConnection, Converter={StaticResource BoolVisibiltyConverter}}">
                     <Button Content="{x:Static resx:Resources.Project_New}" Margin="5"  HorizontalContentAlignment="Left" Background="White"
@@ -124,24 +117,7 @@
                     <Button Content="{x:Static resx:Resources.Project_Import}" Margin="5"  HorizontalContentAlignment="Left" Background="White"
                             Command="{Binding ImportProjectCommand}" ContentTemplate="{StaticResource extBtnDatabaseImportContent}" />
 
-                    <!--<Label Margin="10,0" Foreground="White" FontSize="20" Content="{x:Static resx:Resources.Project_New}"/>-->
                 </StackPanel>
-
-                <!--<StackPanel Orientation="Horizontal" Grid.IsSharedSizeScope="True" DockPanel.Dock="Top" Margin="5" 
-                            Visibility="{Binding HasDBConnection, Converter={StaticResource BoolVisibiltyConverter}}">
-                    <Button Width="50" Height="50" Content="{x:Static resx:Resources.Project_Open}"
-                            Command="{Binding OpenProjectWinCommand}" ContentTemplate="{StaticResource extBtnProjectOpen}" />
-                    -->
-                <!--<Label Margin="10,0" Foreground="White" FontSize="20" Content="{x:Static resx:Resources.Project_Open}"/>-->
-                <!--
-                </StackPanel>
-
-                <StackPanel Orientation="Horizontal" Grid.IsSharedSizeScope="True" DockPanel.Dock="Top" Margin="5" 
-                            Visibility="{Binding HasDBConnection, Converter={StaticResource BoolVisibiltyConverter}}">
-                    <Button Width="50" Height="50" Content="{x:Static resx:Resources.Project_Import}"
-                            Command="{Binding ImportProjectCommand}" ContentTemplate="{StaticResource extBtnDatabaseImport}" />
-                    <Label Margin="10,0" Foreground="White" FontSize="20" Content="{x:Static resx:Resources.Project_Import}"/>
-                </StackPanel>-->
 
                 <Border BorderBrush="White" DockPanel.Dock="Top" BorderThickness="1"
                         Visibility="{Binding HasDBConnection, Converter={StaticResource BoolVisibiltyInvertedConverter}}">
@@ -153,17 +129,7 @@
             </DockPanel>
         </Grid>
 
-        <!--<Grid x:Name="BlockUIOverlayOnEditing" Grid.RowSpan="3" Panel.ZIndex="10" 
-              Background="White" Opacity="0.8" 
-              Visibility="{Binding IsEditingMap, Converter={StaticResource BoolVisibiltyConverter}}" 
-              IsHitTestVisible="True">
-        </Grid>
-        <Grid x:Name="BlockUIOverlayOnAdding" Grid.RowSpan="3" Panel.ZIndex="10" 
-              Background="White" Opacity="0.8" 
-              Visibility="{Binding IsAddingShape, Converter={StaticResource BoolVisibiltyConverter}}" 
-              IsHitTestVisible="True">
-        </Grid>-->
-
+        <!--Overlay while editing map-->
         <Grid x:Name="UIOnEditing" Grid.Row="0" Panel.ZIndex="11" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                     Visibility="{Binding IsEditingMap, Converter={StaticResource BoolVisibiltyConverter}}" Background="WhiteSmoke">
             <Grid.ColumnDefinitions>
@@ -177,8 +143,6 @@
                     Background="LightCoral" Opacity="1" 
                     Command="{Binding DeleteShapeCommand}"
                     ContentTemplate="{StaticResource extBtnDeleteBin}" BorderThickness="0"/>
-                <!--<Label Content="{x:Static resx:Resources.Info_Edit_Delete}" 
-                       HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Background="White"/>-->
                 <TextBlock Text="{x:Static resx:Resources.Info_Edit_Delete}"  TextWrapping="Wrap" Padding ="5" Background="White"
                        HorizontalAlignment="Stretch" TextAlignment="Center"/>
             </StackPanel>
@@ -188,8 +152,6 @@
                     Background="PaleGreen" Opacity="1" 
                     Command="{Binding StopEditingMapCommand}"
                     ContentTemplate="{StaticResource extBtnCheckOutline}" BorderThickness="0"/>
-                <!--<Label Content="{x:Static resx:Resources.Info_Edit_End}" 
-                       HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Background="White"/>-->
                 <TextBlock Text="{x:Static resx:Resources.Info_Edit_End}"  TextWrapping="Wrap" Padding ="5" Background="White"
                        HorizontalAlignment="Stretch" TextAlignment="Center"/>
             </StackPanel>
@@ -199,13 +161,12 @@
                     Background="PaleVioletRed" Opacity="1" 
                     Command="{Binding UndoEditingCommand}" 
                     ContentTemplate="{StaticResource extBtnUndo}" BorderThickness="0"/>
-                <!--<Label Content="{x:Static resx:Resources.Info_Edit_Undo}" 
-                       HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Background="White"/>-->
                 <TextBlock Text="{x:Static resx:Resources.Info_Edit_Undo}"  TextWrapping="Wrap" Padding ="5" Background="White"
                        HorizontalAlignment="Stretch" TextAlignment="Center"/>
             </StackPanel>
         </Grid>
 
+        <!--Overlay while adding shape to map-->
         <Grid x:Name="UIOnAdding"  Grid.Row="0" Panel.ZIndex="11" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                     Visibility="{Binding IsAddingShape, Converter={StaticResource BoolVisibiltyConverter}}" Background="WhiteSmoke">
             <Grid.ColumnDefinitions>
@@ -219,8 +180,6 @@
                     IsHitTestVisible="False" Content="{x:Static resx:Resources.Info_Edit_Polygone}"
                     ContentTemplate="{StaticResource extBtnQuestion}" BorderThickness="0">
                 </Button>
-                <!--<Label Content="{x:Static resx:Resources.Info_Edit_Polygone}" 
-                       HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Background="White"/>-->
                 <TextBlock Text="{x:Static resx:Resources.Info_Edit_Polygone}"  TextWrapping="Wrap" Padding ="5" Background="White"
                        HorizontalAlignment="Stretch" TextAlignment="Center"/>
             </StackPanel>
@@ -230,8 +189,6 @@
                     Background="PaleGreen" Opacity="1" 
                     Command="{Binding StopEditingMapCommand}" Content="{x:Static resx:Resources.Info_Edit_End}"
                     ContentTemplate="{StaticResource extBtnCheckOutline}" BorderThickness="0"/>
-                <!--<Label Content="{x:Static resx:Resources.Info_Edit_End}" 
-                       HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Background="White"/>-->
                 <TextBlock Text="{x:Static resx:Resources.Info_Edit_End}"  TextWrapping="Wrap" Padding ="5" Background="White"
                        HorizontalAlignment="Stretch" TextAlignment="Center"/>
             </StackPanel>
@@ -241,13 +198,12 @@
                     Background="PaleVioletRed" Opacity="1" 
                     Command="{Binding UndoEditingCommand}" 
                     ContentTemplate="{StaticResource extBtnUndo}" BorderThickness="0"/>
-                <!--<Label Content="{x:Static resx:Resources.Info_Edit_Undo}" 
-                       HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Background="White"/>-->
                 <TextBlock Text="{x:Static resx:Resources.Info_Edit_Undo}"  TextWrapping="Wrap" Padding ="5" Background="White"
                        HorizontalAlignment="Stretch" TextAlignment="Center"/>
             </StackPanel>
         </Grid>
 
+        <!--Overlay while copying resilience on map-->
         <Grid x:Name="UIOnCopying" Grid.Row="0" Panel.ZIndex="11" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                     Visibility="{Binding IsCopyingResilience, Converter={StaticResource BoolVisibiltyConverter}}" Background="WhiteSmoke">
             <Grid.ColumnDefinitions>
@@ -262,8 +218,6 @@
                     IsHitTestVisible="False" Content="{x:Static resx:Resources.Info_Edit_Polygone}"
                     ContentTemplate="{StaticResource extBtnQuestion}" BorderThickness="0">
                 </Button>
-                <!--<Label Content="{x:Static resx:Resources.Info_Edit_Polygone}" 
-                       HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Background="White"/>-->
                 <TextBlock Text="{x:Static resx:Resources.Info_Copy_Resilience}"  TextWrapping="Wrap" Padding ="5" Background="White"
                        HorizontalAlignment="Stretch" TextAlignment="Center"/>
             </StackPanel>
@@ -287,6 +241,7 @@
             </StackPanel>
         </Grid>
 
+        <!--Main menu bar using Ribbons-->
         <Fluent:Ribbon Grid.Row="0" x:Name="RibbonMain" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
                        IsMinimized="False" CanMinimize="False"
                        BorderBrush="WhiteSmoke"  AreTabHeadersVisible="False" BorderThickness="0,5"
@@ -296,8 +251,6 @@
                        CanCustomizeQuickAccessToolBarItems="False"
                        CanCustomizeRibbon="False"
                            >
-            <!--Height="90"-->
-            <!--MaxHeight="100" ContentHeight="100"-->
             <Fluent:RibbonTabItem Header="{x:Static resx:Resources.Project}" Margin="0,0,0,0"
                                   Background="{StaticResource MainRedBrush}"
                                   Foreground="White" MinWidth="100" 
@@ -355,7 +308,7 @@
                 </Fluent:RibbonGroupBox>
                 <Fluent:RibbonGroupBox >
                     <Fluent:Button Header="{x:Static resx:Resources.GUI_Help}" Size="Large" Command="{Binding HelpCommand}" 
-                                   CommandParameter="">
+                                   CommandParameter="IDH_Overview">
                         <Fluent:Button.LargeIcon>
                             <ContentControl ContentTemplate="{StaticResource extBtnQuestion}"/>
                         </Fluent:Button.LargeIcon>
@@ -365,6 +318,7 @@
             </Fluent:RibbonTabItem>
         </Fluent:Ribbon>
 
+        <!--the red line to cross-->
         <Grid Grid.Row="1" Background="{StaticResource MainRedBrush}"
               Visibility="{Binding Project, Converter={StaticResource NullVisibiltyConverter}}"/>
 
@@ -374,7 +328,6 @@
             <Grid.Resources>
                 <Style x:Key="showCol" TargetType="{x:Type ColumnDefinition}">
                     <Style.Setters>
-                        <!--<Setter Property="Width" Value="2*"/>-->
                         <Setter Property="Width" Value="300"/>
                     </Style.Setters>
                     <Style.Triggers>
@@ -386,7 +339,6 @@
                         </DataTrigger>
                         <DataTrigger Binding="{Binding ShowToolColumn}" Value="True">
                             <DataTrigger.Setters>
-                                <!--<Setter Property="Width" Value="2*"/>-->
                                 <Setter Property="Width" Value="300"/>
                             </DataTrigger.Setters>
                         </DataTrigger>
@@ -401,9 +353,8 @@
                 <ColumnDefinition Width="5" />
                 <ColumnDefinition Style="{StaticResource showCol}" />
             </Grid.ColumnDefinitions>
-            <!--<ColumnDefinition Width="auto" />-->
 
-            <!--//Block the left column while editing / adding-->
+            <!-- Block the left column while editing / adding with overlay-->
             <Grid x:Name="BlockUIOverlayOnEditing" Grid.ColumnSpan="3" Panel.ZIndex="10" 
                   Background="White" Opacity="0.8" 
                   Visibility="{Binding IsEditingMap, Converter={StaticResource BoolVisibiltyConverter}}" 
@@ -420,36 +371,11 @@
                   IsHitTestVisible="True">
             </Grid>
 
+            <!--TabControl on the left side-->
             <DockPanel Grid.Column="0" LastChildFill="True">
                 <TabControl TabStripPlacement="Top" Margin="0,0,0,0"
                             x:Name="TabControl1" DockPanel.Dock="Bottom" SelectedIndex="{Binding TabControlSelectedIndex}" SelectedItem="{Binding TabControlSelectedItem}">
 
-                    <!--<i:Interaction.Triggers>
-                        <i:EventTrigger EventName="MouseDown" SourceName="TabProjectHeader">
-                            <i:InvokeCommandAction Command="{Binding TabSwitchCommand}" CommandParameter="{x:Static maplayer:ResTBPostGISType.Perimeter}"/>
-                        </i:EventTrigger>
-                        <i:EventTrigger EventName="MouseDown" SourceName="TabGKHeader">
-                            <i:InvokeCommandAction Command="{Binding TabSwitchCommand}" CommandParameter="{x:Static maplayer:ResTBPostGISType.HazardMapBefore}"/>
-                        </i:EventTrigger>
-                        <i:EventTrigger EventName="MouseDown" SourceName="TabDPHeader">
-                            <i:InvokeCommandAction Command="{Binding TabSwitchCommand}" CommandParameter="{x:Static maplayer:ResTBPostGISType.DamagePotential}"/>
-                        </i:EventTrigger>
-                        <i:EventTrigger EventName="MouseDown" SourceName="TabResilienceHeader">
-                            <i:InvokeCommandAction Command="{Binding TabSwitchCommand}" CommandParameter="{x:Static maplayer:ResTBPostGISType.ResilienceBefore}"/>
-                        </i:EventTrigger>
-                        <i:EventTrigger EventName="MouseDown" SourceName="TabPMHeader">
-                            <i:InvokeCommandAction Command="{Binding TabSwitchCommand}" CommandParameter="{x:Static maplayer:ResTBPostGISType.MitigationMeasure}"/>
-                        </i:EventTrigger>
-                        <i:EventTrigger EventName="MouseDown" SourceName="TabGK2Header">
-                            <i:InvokeCommandAction Command="{Binding TabSwitchCommand}" CommandParameter="{x:Static maplayer:ResTBPostGISType.HazardMapAfter}"/>
-                        </i:EventTrigger>
-                        <i:EventTrigger EventName="MouseDown" SourceName="TabResilience2Header">
-                            <i:InvokeCommandAction Command="{Binding TabSwitchCommand}" CommandParameter="{x:Static maplayer:ResTBPostGISType.ResilienceAfter}"/>
-                        </i:EventTrigger>
-                        <i:EventTrigger EventName="MouseDown" SourceName="TabResultHeader">
-                            <i:InvokeCommandAction Command="{Binding TabSwitchCommand}" CommandParameter="{x:Static maplayer:ResTBPostGISType.RiskMap}"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>-->
                     <TabControl.Resources>
                         <Style TargetType="ToolTip">
                             <Setter Property="ToolTipService.ShowDuration" Value="10000"/>
@@ -890,7 +816,7 @@
                                                 <ContentControl ContentTemplate="{StaticResource extBtnCopy}"/>
                                             </Fluent:Button.LargeIcon>
                                         </Fluent:Button>
-                                        
+
                                         <Fluent:Button Header="{x:Static resx:Resources.Resilience_CopyAll}" Command="{Binding CopyAllResilienceCommand}"
                                                        CommandParameter="{StaticResource False}"
                                                        Visibility="{Binding SelectedMappedObject, Converter={StaticResource NullVisibiltyCollapsedConverter}}">
@@ -898,9 +824,9 @@
                                                 <ContentControl ContentTemplate="{StaticResource extBtnCopyAll}"/>
                                             </Fluent:Button.LargeIcon>
                                         </Fluent:Button>
-                                        
+
                                         <Separator Visibility="{Binding SelectedMappedObject, Converter={StaticResource NullVisibiltyCollapsedConverter}}"/>
-                                        
+
                                         <Fluent:Button Header="{x:Static resx:Resources.Map_Selection}" 
                                                        Command="{Binding SelectResilienceCommand}"
                                                        CommandParameter="{StaticResource True}"
@@ -1019,7 +945,7 @@
                                                 <ContentControl ContentTemplate="{StaticResource extBtnCopy}"/>
                                             </Fluent:Button.LargeIcon>
                                         </Fluent:Button>-->
-                                        
+
                                         <Fluent:Button Header="{x:Static resx:Resources.Save}" 
                                                    Command="{Binding SaveResilienceCommand}" CommandParameter="{StaticResource True}">
                                             <Fluent:Button.LargeIcon>
@@ -1275,7 +1201,7 @@
                                         </Fluent:Button>
 
                                         <Separator Visibility="{Binding SelectedMappedObject, Converter={StaticResource NullVisibiltyCollapsedConverter}}"/>
-                                        
+
                                         <Fluent:Button Header="{x:Static resx:Resources.Map_Selection}" 
                                                        Command="{Binding SelectResilienceCommand}"
                                                        CommandParameter="{StaticResource False}"
@@ -1515,11 +1441,14 @@
                 </TabControl>
             </DockPanel>
 
+            <!-- grid splitter to the left of the map -->
             <Rectangle Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Fill="LightGray"/>
             <GridSplitter Grid.Column="1" ShowsPreview="False"/>
 
+            <!--THE MAP CONTROL in the middle-->
             <map:MapControl Grid.Column="2"  Name="Karte" />
 
+            <!-- grid splitter to the right of the map -->
             <Rectangle Grid.Column="3" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Fill="LightGray"/>
             <GridSplitter Grid.Column="3" x:Name="GridSplitterMinimizer">
                 <i:Interaction.Triggers>
@@ -1531,18 +1460,19 @@
                     <ToolTip cez:ToolTipAssist.AutoMove="True" 
                              Content="{x:Static resx:Resources.Info_DoubleClick_Minimize}" 
                              />
-                    <!--ContentTemplate="{StaticResource ToolTipTemplate}"-->
                 </GridSplitter.ToolTip>
             </GridSplitter>
 
             <!--TOOL COLUMN ON THE RIGHT-->
             <DockPanel Grid.Column="4" LastChildFill="False" Margin="0,0,0,0" >
+                <!--Layer management-->
                 <Expander DockPanel.Dock="Top" 
                           IsExpanded="True"
                           Style="{StaticResource BoldExpanderStyle}"
                           Header="{x:Static resx:Resources.Layer_Management}"
                           >
                     <DockPanel >
+                        <!--Tile provider menu line-->
                         <Grid DockPanel.Dock="Top">
                             <Grid.RowDefinitions>
                                 <RowDefinition/>
@@ -1579,29 +1509,8 @@
 
                         </Grid>
 
-                        <!--<Separator DockPanel.Dock="Top"/>-->
-
+                        <!--layer handling menu line-->
                         <ToolBar DockPanel.Dock="Top" >
-                            <!--<Button ContentTemplate="{StaticResource extBtnArrowTop}" ToolTip="{x:Static resx:Resources.Layer_Move_Top}"
-                                Command="{Binding MoveLayerCommand}" CommandParameter="{x:Static maptool:LayerMoveType.TOP}">
-                            </Button>
-                            <Button ContentTemplate="{StaticResource extBtnArrowUp}" ToolTip="{x:Static resx:Resources.Layer_Move_Up}"
-                                Command="{Binding MoveLayerCommand}" CommandParameter="{x:Static maptool:LayerMoveType.UP}">
-                            </Button>
-                            <Button ContentTemplate="{StaticResource extBtnArrowDown}"  ToolTip="{x:Static resx:Resources.Layer_Move_Down}"
-                                Command="{Binding MoveLayerCommand}" CommandParameter="{x:Static maptool:LayerMoveType.DOWN}">
-                            </Button>
-                            <Button ContentTemplate="{StaticResource extBtnArrowBottom}" ToolTip="{x:Static resx:Resources.Layer_Move_Bottom}"
-                                Command="{Binding MoveLayerCommand}" CommandParameter="{x:Static maptool:LayerMoveType.BOTTOM}">
-                            </Button>
-                            <Separator/>
-                            <Button ContentTemplate="{StaticResource extBtnEye}" ToolTip="{x:Static resx:Resources.Layer_Show}"
-                                Command="{Binding SetLayerVisibleCommand}" CommandParameter="{StaticResource True}">
-                            </Button>
-                            <Button ContentTemplate="{StaticResource extBtnEyeOff}"  ToolTip="{x:Static resx:Resources.Layer_Hide}"
-                                Command="{Binding SetLayerVisibleCommand}" CommandParameter="{StaticResource False}">
-                            </Button>
-                            -->
                             <Button ContentTemplate="{StaticResource extBtnCenter}" ToolTip="{x:Static resx:Resources.Layer_Fit}"
                                     Command="{Binding CenterLayerCommand}" Style="{StaticResource {x:Type Button}}"
                                     >
@@ -1618,6 +1527,7 @@
                                     Style="{StaticResource {x:Type Button}}"/>
                         </ToolBar>
 
+                        <!--the layer tree-->
                         <TreeView x:Name="tree"
                                   ItemContainerStyle="{StaticResource TreeViewItemStyle}"
                                   ItemsSource="{Binding MapLayers, Mode=TwoWay}"
@@ -1630,8 +1540,9 @@
 
                     </DockPanel>
                 </Expander>
-
                 <Separator DockPanel.Dock="Top"/>
+                
+                <!--go to coordinates-->
                 <Expander DockPanel.Dock="Top" Header="{x:Static resx:Resources.Coord_Goto}" IsExpanded="False"
                           Style="{StaticResource BoldExpanderStyle}">
                     <DockPanel LastChildFill="False" Margin="0,5">
@@ -1642,13 +1553,15 @@
                         <xctk:DoubleUpDown Width="60" DockPanel.Dock="Left" ShowButtonSpinner="False"
                                            Value="{Binding GoToCoordinates.latitude}" ToolTip="{x:Static resx:Resources.Coord_Lat_WGS}" ></xctk:DoubleUpDown>
                         <Button Content="{x:Static resx:Resources.Coord_Go}" DockPanel.Dock="Left" Command="{Binding GoToCoordinates2Command}" Margin="5,0,0,0" Padding="5,0"/>
-                    </DockPanel> 
+                    </DockPanel>
                 </Expander>
-                
                 <Separator DockPanel.Dock="Top"/>
+                
+                <!--geoNames offline database-->
                 <Expander DockPanel.Dock="Top" Header="{x:Static resx:Resources.GeoNames_DB}" IsExpanded="False"
                           Style="{StaticResource BoldExpanderStyle}">
                     <DockPanel LastChildFill="True">
+                        <!--search field-->
                         <Grid DockPanel.Dock="Top" Margin="0,5">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto"/>
@@ -1660,6 +1573,7 @@
 
                             <Button Grid.Column="2" Content="X" FontWeight="Bold" Command="{Binding PlaceFilterStringResetCommand}"/>
                         </Grid>
+                        <!--result count at the bottom-->
                         <Grid DockPanel.Dock="Bottom" Margin="0,5" HorizontalAlignment="Right"
                               Visibility="{Binding PlaceFilterString, Converter={StaticResource StringVisibiltyConverter}}"
                               >
@@ -1670,6 +1584,7 @@
                             <TextBlock Grid.Column="0" Text="{x:Static resx:Resources.Search_Hits}" Margin="0,0,5,0"/>
                             <TextBlock Grid.Column="1" Text="{Binding FilteredPlaces.Count}" />
                         </Grid>
+                        <!--list with search result-->
                         <ListView Margin="0,5" ItemsSource="{Binding FilteredPlaces}" SelectedItem="{Binding SelectedPlace}" DockPanel.Dock="Top"
                                   Visibility="{Binding PlaceFilterString, Converter={StaticResource StringVisibiltyConverter}}"
                                   >
@@ -1696,37 +1611,7 @@
 
                     </DockPanel>
                 </Expander>
-
-                <!--<Label DockPanel.Dock="Top" FontWeight="Bold">Project Layers</Label>
-                <ListView ItemsSource="{Binding ProjectLayers}" DockPanel.Dock="Top" MinHeight="30">
-                    <ListView.View>
-                        <GridView>
-                            <GridViewColumn Header="Name" Width="120" DisplayMemberBinding="{Binding Name}" />
-                            <GridViewColumn Header="Type" Width="150" DisplayMemberBinding="{Binding LayerType}" />
-                            <GridViewColumn Header="Handle" Width="50" DisplayMemberBinding="{Binding Handle}" />
-                        </GridView>
-                    </ListView.View>
-                </ListView>
-                <Label DockPanel.Dock="Top" FontWeight="Bold">Custom Layers</Label>
-                <ListView ItemsSource="{Binding CustomLayers}" DockPanel.Dock="Top" MinHeight="30">
-                    <ListView.View>
-                        <GridView>
-                            <GridViewColumn Header="Name" Width="120" DisplayMemberBinding="{Binding Name}" />
-                            <GridViewColumn Header="Type" Width="150" DisplayMemberBinding="{Binding LayerType}" />
-                            <GridViewColumn Header="Handle" Width="50" DisplayMemberBinding="{Binding Handle}" />
-                        </GridView>
-                    </ListView.View>
-                </ListView>
-                <Label DockPanel.Dock="Top" FontWeight="Bold">Base Layers</Label>
-                <ListView ItemsSource="{Binding BaseLayers}" DockPanel.Dock="Top" MinHeight="30">
-                    <ListView.View>
-                        <GridView>
-                            <GridViewColumn Header="Name" Width="120" DisplayMemberBinding="{Binding Name}" />
-                            <GridViewColumn Header="Type" Width="150" DisplayMemberBinding="{Binding LayerType}" />
-                            <GridViewColumn Header="Handle" Width="50" DisplayMemberBinding="{Binding Handle}" />
-                        </GridView>
-                    </ListView.View>
-                </ListView>-->
+                
             </DockPanel>
 
         </Grid>
@@ -1747,6 +1632,7 @@
                 </StackPanel>
             </Fluent:StatusBarItem>
 
+            <!--Connection status-->
             <Fluent:StatusBarItem Title="Connection Status" Visibility="Visible"
                                   HorizontalAlignment="Right"
                                   Margin="0,0,0,0" VerticalAlignment="Center"                                  
