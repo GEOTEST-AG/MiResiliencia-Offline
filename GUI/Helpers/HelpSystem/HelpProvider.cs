@@ -15,6 +15,9 @@ namespace ResTB.GUI.Helpers.HelpSystem
     //Source:
     //https://stackoverflow.com/questions/5116465/integrating-help-in-a-wpf-application
 
+    /// <summary>
+    /// Access to chm help file from WPF
+    /// </summary>
     public class HelpProvider
     {
         #region Fields

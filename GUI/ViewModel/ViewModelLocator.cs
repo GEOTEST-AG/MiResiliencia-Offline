@@ -6,6 +6,9 @@ using GalaSoft.MvvmLight.Messaging;
 
 namespace ResTB.GUI.ViewModel
 {
+    /// <summary>
+    /// Points the way to the view models
+    /// </summary>
     public class ViewModelLocator
     {
         static ViewModelLocator()

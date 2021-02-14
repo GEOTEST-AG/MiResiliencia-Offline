@@ -11,6 +11,9 @@ namespace ResTB.Translation
     //SOURCE:
     // https://brianlagunas.com/localize-property-names-descriptions-and-categories-for-the-xampropertygrid/
 
+    /// <summary>
+    /// Localization for DisplayNameyAttributes
+    /// </summary>
     public class LocalizedDisplayNameAttribute : DisplayNameAttribute
     {
         readonly ResourceManager _resourceManager;
