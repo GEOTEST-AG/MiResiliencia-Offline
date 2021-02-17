@@ -10,6 +10,9 @@ using System.Web;
 
 namespace ResTB.DB.Models
 {
+    /// <summary>
+    /// a.k.a. Mitigation Measure. Geometries are stored separately in ProtectionMeasureGeometry table.
+    /// </summary>
     public class ProtectionMeasure : ICloneable
     {
         [Key]

@@ -6,6 +6,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ResTB.DB.Models
 {
+    /// <summary>
+    /// hazard map for a certain NatHazard and of a certain hazard index
+    /// </summary>
     public class HazardMap
     {
         //[ReadOnly(true)]
@@ -18,13 +21,22 @@ namespace ResTB.DB.Models
         [ReadOnly(true)]
         [Display(Order = 1)]
         public NatHazard NatHazard { get; set; }
+        /// <summary>
+        /// hazard index, range 1..9
+        /// </summary>
         [LocalizedDisplayName(nameof(Resources.HazardIndex), typeof(Resources))]
         [Range(1, 9)]
         [Display(Order = 3)]
         public int Index { get; set; }
+        /// <summary>
+        /// before mitigation measure?
+        /// </summary>
         [Browsable(false)]
         [ReadOnly(true)]
         public bool BeforeAction { get; set; }
+        /// <summary>
+        /// not in use: DamageExtents are linked to intensities, not to hazard maps
+        /// </summary>
         [Browsable(false)]
         public virtual List<DamageExtent> DamageExtents { get; set; }
 

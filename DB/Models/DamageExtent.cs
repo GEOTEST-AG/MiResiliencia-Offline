@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace ResTB.DB.Models
 {
+    /// <summary>
+    /// damage extent of a mapped object for a specific intensity
+    /// </summary>
     public class DamageExtent
     {
         [Key, Column(Order = 0)]
@@ -36,10 +39,10 @@ namespace ResTB.DB.Models
         public double DeathProbability { get; set; }
         public string LogDeathProbability { get; set; }
 
-        public double IndirectDamage { get; set; }       // before resilience
+        public double IndirectDamage { get; set; }          // before resilience
         public string LogIndirectDamage { get; set; }       // before resilience
 
-        public double ResilienceFactor { get; set; }     // 0, if no resilience
+        public double ResilienceFactor { get; set; }        // 0, if no resilience
         public string LogResilienceFactor { get; set; }     // 0, if no resilience
 
         public string Log { get; set; }

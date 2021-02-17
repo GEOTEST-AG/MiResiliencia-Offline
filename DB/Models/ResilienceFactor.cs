@@ -5,6 +5,9 @@ using System.Web;
 
 namespace ResTB.DB.Models
 {
+    /// <summary>
+    /// Resilience factor for mapped objects, depending on object parameters. language dependent!
+    /// </summary>
     public class ResilienceFactor
     {
         public string ID { get; set; }

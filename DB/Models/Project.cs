@@ -16,6 +16,9 @@ namespace ResTB.DB.Models
         WGS84 = 4326
     }
 
+    /// <summary>
+    /// Project
+    /// </summary>
     [LocalizedDisplayName(nameof(Resources.Project), typeof(Resources))]
     public class Project : IComparable
     {

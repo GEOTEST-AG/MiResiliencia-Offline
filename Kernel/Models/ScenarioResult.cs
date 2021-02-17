@@ -10,6 +10,7 @@ using System.Web;
 
 namespace ResTB_API.Models
 {
+
     public class ScenarioResult
     {
         //[DisplayName("Natural Hazard")]

@@ -8,6 +8,9 @@ using System.Web;
 
 namespace ResTB.DB.Models
 {
+    /// <summary>
+    /// process dependent calculation parameters
+    /// </summary>
     public class ObjectparameterPerProcess
     {
         public int ID { get; set; }

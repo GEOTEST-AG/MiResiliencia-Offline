@@ -7,6 +7,9 @@ using System.Web;
 
 namespace ResTB.DB.Models
 {
+    /// <summary>
+    /// spatial probability of occurrence for a combination of natHazard and return period
+    /// </summary>
     public class Standard_PrA
     {
         [Key, Column(Order = 0)]

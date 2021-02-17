@@ -165,46 +165,17 @@ namespace ResTB.Calculation
         }
 
         /// <summary>
-        /// STEP 1
+        /// STEP 1: Create intensity maps 
         /// </summary>
         public void CreateIntensityMaps()
         {
             this.DeleteDamageExtentsFromDB(); //Cleanup
 
             this.GenerateAllIntensityMaps();  //Intensity Maps Generator
-
-
         }
 
-        //STEP 2
-        //public string RunCalculation(bool onlySummary = false)
-        //{
-        //    string returnvalue = string.Empty;
-        //    //string fileName = @"C:\VS2019\ResTBDesktop\Kernel\bin\Debug\Kernel.exe";
-        //    string fileName = @"Kernel\ResTBKernel.exe";
-        //    string args = $" -d true -p {CurrentProject.Id} ";
-        //    if (onlySummary)
-        //        args += " -s true";
-        //    args += $" -c {Thread.CurrentThread.CurrentCulture}";
-
-        //    ProcessStartInfo info = new ProcessStartInfo(fileName);
-        //    info.UseShellExecute = false;          //
-        //    info.Arguments = args;
-        //    info.RedirectStandardInput = true;     //
-        //    info.RedirectStandardOutput = true;    //
-        //    info.CreateNoWindow = true;            //
-
-        //    using (Process process = Process.Start(info))
-        //    {
-        //        StreamReader sr = process.StandardOutput;
-        //        returnvalue = sr.ReadToEnd();
-        //    }
-
-        //    return returnvalue;
-        //}
-
         /// <summary>
-        /// 
+        /// STEP 2: Start the kernel
         /// </summary>
         /// <param name="onlySummary">true: only summary is computed; false: everything is recalculated </param>
         /// <param name="details">detailed result with calculation formulas</param>

@@ -11,9 +11,6 @@ namespace ResTB.DB
 
     public class WndSearcher
     {
-
-
-
         public static IntPtr SearchForWindow(string wndclass, string title)
         {
             SearchData sd = new SearchData { Wndclass = wndclass, Title = title };

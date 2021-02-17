@@ -13,8 +13,6 @@ namespace ResTB.DB
     {
         public ResTBContext() : base(ConnectionString())
         {
-            
-
         }
 
         private static string ConnectionString()
@@ -22,12 +20,16 @@ namespace ResTB.DB
             string conn = "";
             if (ConfigurationManager.AppSettings["UseOfflineDB"] == "true")
                 conn = ConfigurationManager.ConnectionStrings["ResTBLocalDB"].ConnectionString;
-            else conn = ConfigurationManager.ConnectionStrings["ResTBOnlineDB"].ConnectionString;
+            else
+                conn = ConfigurationManager.ConnectionStrings["ResTBOnlineDB"].ConnectionString;
             return conn;
         }
 
         public DbSet<ResTB.DB.Models.Project> Projects { get; set; }
         public DbSet<ResTB.DB.Models.Objectparameter> Objektparameter { get; set; }
+        /// <summary>
+        /// not in use
+        /// </summary>
         public DbSet<ResTB.DB.Models.PostGISHatObjektparameter> PostGISHatObjektparameter { get; set; }
         public DbSet<ResTB.DB.Models.NatHazard> NatHazards { get; set; }
         public DbSet<ResTB.DB.Models.ObjectparameterPerProcess> ObjektparameterProProzess { get; set; }
@@ -61,16 +63,12 @@ namespace ResTB.DB
                     cs.ToTable("ObjectparameterHasResilienceFactors");
                 });
 
-            //modelBuilder.Entity<ResilienceFactor>()
-            //    .HasMany<ResilienceWeight>(r => r.ResilienceWeights);
-            
             modelBuilder.Entity<DamageExtent>()
                 .HasRequired(mo => mo.Intensity)
                 .WithMany(de => de.DamageExtents).WillCascadeOnDelete(false);
             modelBuilder.Entity<DamageExtent>()
                 .HasRequired(mo => mo.MappedObject)
                 .WithMany(de => de.DamageExtents).WillCascadeOnDelete(false);
-
 
             modelBuilder.Entity<PrA>()
                 .HasRequired(mo => mo.IKClasses)
@@ -79,12 +77,13 @@ namespace ResTB.DB
             modelBuilder.Entity<PrA>()
                 .HasRequired(mo => mo.NatHazard)
                 .WithMany(de => de.PrAs).WillCascadeOnDelete(false);
-            modelBuilder.Entity<Project>().HasOptional<ProtectionMeasure>(s => s.ProtectionMeasure).WithRequired(c => c.Project).Map(cs => { cs.MapKey("ProjectID"); cs.ToTable("ProtectionMeasure"); });
-            
+
+            modelBuilder.Entity<Project>()
+                .HasOptional<ProtectionMeasure>(s => s.ProtectionMeasure)
+                .WithRequired(c => c.Project)
+                .Map(cs => { cs.MapKey("ProjectID"); cs.ToTable("ProtectionMeasure"); });
+
             base.OnModelCreating(modelBuilder);
-
-
-
         }
     }
 }

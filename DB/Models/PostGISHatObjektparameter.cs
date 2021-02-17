@@ -5,6 +5,9 @@ using System.Web;
 
 namespace ResTB.DB.Models
 {
+    /// <summary>
+    /// not in use
+    /// </summary>
     public class PostGISHatObjektparameter
     {
         public int ID { get; set; }
