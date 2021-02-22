@@ -538,6 +538,10 @@ namespace ResTB.Map.Tools
                                     int objClassID = context.Database.SqlQuery<int>("select objectclass_id from objectparameterimport where id = "+o.ID).First();
                                     ObjectClass oc = context.ObjektKlassen.Find(objClassID);
                                     oCopy.ObjectClass = oc;
+                                    // get the motherobject
+                                    int motherObjID = context.Database.SqlQuery<int>("select motherotbjectparameter_id from objectparameterimport where id = " + o.ID).First();
+                                    Objectparameter motherObj = context.Objektparameter.Find(motherObjID);
+                                    oCopy.MotherOtbjectparameter = motherObj;
 
                                     context.Objektparameter.Add(oCopy);
                                     mo.Objectparameter = oCopy;
