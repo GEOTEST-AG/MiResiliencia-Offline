@@ -9,6 +9,9 @@ using System.Web;
 
 namespace ResTB.DB.Models
 {
+    /// <summary>
+    /// Resilience values for a mapped object
+    /// </summary>
     public class ResilienceValues : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;

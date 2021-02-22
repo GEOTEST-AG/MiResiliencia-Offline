@@ -7,6 +7,11 @@ using System.Web;
 
 namespace ResTB.DB.Models
 {
+    /// <summary>
+    /// spatial probability of occurrence (räumliche Auftretenswahrscheinlichkeit), project dependent
+    /// <para/>
+    /// so far, only project related copies of Standard_PrA
+    /// </summary>
     public class PrA
     {
         [Key, Column(Order = 0)]

@@ -111,7 +111,6 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\DamageExtent.cs" />
     <Compile Include="Models\IKClasses.cs" />
-    <Compile Include="Models\IndirectDamage.cs" />
     <Compile Include="Models\HazardMap.cs" />
     <Compile Include="Models\Intensity.cs" />
     <Compile Include="Models\MappedObject.cs" />
@@ -120,7 +119,6 @@
     <Compile Include="Models\Objectparameter.cs" />
     <Compile Include="Models\ObjectparameterHasProperties.cs" />
     <Compile Include="Models\ObjectparameterPerProcess.cs" />
-    <Compile Include="Models\ObjectparameterViewModel.cs" />
     <Compile Include="Models\PostGISHatObjektparameter.cs" />
     <Compile Include="Models\PrA.cs" />
     <Compile Include="Models\Project.cs" />

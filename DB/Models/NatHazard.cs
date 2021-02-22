@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace ResTB.DB.Models
 {
+    //Natural hazard, language and object parameter dependent!
     public class NatHazard : IComparable
     {
         public int ID { get; set; }

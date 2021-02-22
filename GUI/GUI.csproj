@@ -184,8 +184,6 @@
     <Compile Include="Helpers\Messages\DialogMessage.cs" />
     <Compile Include="Helpers\SerializationHelper.cs" />
     <Compile Include="Model\Layers\LayersModel.cs" />
-    <Compile Include="Services\ISampleService.cs" />
-    <Compile Include="Services\SampleService.cs" />
     <Compile Include="Model\HazardIndex.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />

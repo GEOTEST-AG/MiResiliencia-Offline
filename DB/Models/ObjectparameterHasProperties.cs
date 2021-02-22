@@ -2,6 +2,9 @@
 
 namespace ResTB.DB.Models
 {
+    /// <summary>
+    /// Editable object parameter properties for GUI
+    /// </summary>
     public class ObjectparameterHasProperties
     {
         [ReadOnly(true)]

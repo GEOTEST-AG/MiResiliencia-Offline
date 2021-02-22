@@ -11,6 +11,9 @@ namespace ResTB.Calculation
 {
     //Source https://gist.github.com/AlexMAS/276eed492bc989e13dcce7c78b9e179d 
 
+    /// <summary>
+    /// Running external process in .NET (async)
+    /// </summary>
     public static class ProcessAsyncHelper
     {
         public static async Task<ProcessResult> ExecuteShellCommand(string command, string arguments, int timeout)

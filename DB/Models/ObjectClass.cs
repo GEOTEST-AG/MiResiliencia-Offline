@@ -4,6 +4,9 @@ using System.ComponentModel;
 
 namespace ResTB.DB.Models
 {
+    /// <summary>
+    /// geometry feature type
+    /// </summary>
     public enum FeatureType
     {
         [LocalizedDescription(nameof(Resources.Point), typeof(Resources))]
@@ -15,6 +18,9 @@ namespace ResTB.DB.Models
         Any = 3
     }
 
+    /// <summary>
+    /// object class, language dependent!
+    /// </summary>
     public class ObjectClass
     {
         [ReadOnly(true)]
@@ -26,6 +32,5 @@ namespace ResTB.DB.Models
         {
             return $"{Name}";
         }
-
     }
 }

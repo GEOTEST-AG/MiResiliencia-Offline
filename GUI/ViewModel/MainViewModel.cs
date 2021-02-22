@@ -507,8 +507,10 @@ namespace ResTB.GUI.ViewModel
         }
 
         /// <summary>
-        /// not needed anymore?
+        /// Trigger all relayCommands RaiseCanExecuteChanged to update canExecute
+        /// <para/>
         /// issue due to using GalaSoft.MvvmLight.Command instead of using GalaSoft.MvvmLight.CommandWpf
+        /// <para/>
         /// --> 12.11.2020: issue is not entirely solved by using CommandWpf lib
         /// </summary>
         private void UpdateCommandsCanExecute()
@@ -520,7 +522,6 @@ namespace ResTB.GUI.ViewModel
             {
                 if (prop.PropertyType.ToString().StartsWith(typeof(RelayCommand).ToString()))
                 {
-
                     try
                     {
                         dynamic dynamicProp = prop.GetValue(this, null);
@@ -536,7 +537,6 @@ namespace ResTB.GUI.ViewModel
                         throw ex;
 #endif
                     }
-
                 }
             }
         }
@@ -544,6 +544,9 @@ namespace ResTB.GUI.ViewModel
         // COMMANDS
 
         private RelayCommand<Window> _closeCommand;
+        /// <summary>
+        /// Close window
+        /// </summary>
         public RelayCommand<Window> CloseCommand
         {
             get
@@ -559,6 +562,9 @@ namespace ResTB.GUI.ViewModel
         }
 
         private RelayCommand _closingAppCommand;
+        /// <summary>
+        /// Executed on closing app: stop the local database
+        /// </summary>
         public RelayCommand ClosingAppCommand
         {
             get
@@ -575,6 +581,9 @@ namespace ResTB.GUI.ViewModel
         }
 
         private RelayCommand<string> _helpCommand;
+        /// <summary>
+        /// Show help topic
+        /// </summary>
         public RelayCommand<string> HelpCommand
         {
             get
@@ -598,7 +607,7 @@ namespace ResTB.GUI.ViewModel
             get => tabControlSelectedIndex;
             set
             {
-                tabControlSelectedIndex = value; // on set: TabSwitchCommand
+                tabControlSelectedIndex = value;    // on set: TabSwitchCommand executed
 
                 switch (tabControlSelectedIndex)    //TODO: improve: switch by SelectedItem.Name instead of magic integer
                 {

@@ -10,6 +10,9 @@ using System.Linq;
 
 namespace ResTB.DB.Models
 {
+    /// <summary>
+    /// object parameter with calculation parameters for standard mapped objects
+    /// </summary>
     public class Objectparameter : ICloneable
     {
         [Browsable(false)]
@@ -29,9 +32,15 @@ namespace ResTB.DB.Models
         [LocalizedDisplayName(nameof(Resources.Description), typeof(Resources))]
         [Display(Order = 2)]
         public string Description { get; set; } = string.Empty;
+        /// <summary>
+        /// Value per Unit
+        /// </summary>
         [LocalizedDisplayName(nameof(Resources.OP_ValuePerUnit), typeof(Resources))]
         [Display(Order = 3)]
         public int Value { get; set; }
+        /// <summary>
+        /// Unit: piece (point), m (line), m2 (polygon), ha (polygon). Depending on FeatureType
+        /// </summary>
         [LocalizedDisplayName(nameof(Resources.OP_Unity), typeof(Resources))]
         [Display(Order = 4)]
         [ReadOnly(true)]

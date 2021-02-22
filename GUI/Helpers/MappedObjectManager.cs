@@ -12,7 +12,6 @@ namespace ResTB.GUI.Helpers
     {
         private static TEntity ShallowCopyEntity<TEntity>(TEntity source) where TEntity : class, new()
         {
-
             // Get properties from EF that are read/write and not marked witht he NotMappedAttribute
             var sourceProperties = typeof(TEntity)
                                     .GetProperties()
@@ -22,19 +21,19 @@ namespace ResTB.GUI.Helpers
 
             foreach (var property in sourceProperties)
             {
-
                 // Copy value
                 property.SetValue(newObj, property.GetValue(source, null), null);
 
             }
 
             return newObj;
-
         }
 
         /// <summary>
         /// Get the merged Objectparameter for a MappedObject
         /// </summary>
+        /// <param name="mapObjID">mapped object ID</param>
+        /// <returns>merged objectparameter</returns>
         public static Objectparameter GetMergedObjectparameter(int mapObjID)
         {
             MappedObject mapObj = null;
@@ -126,8 +125,10 @@ namespace ResTB.GUI.Helpers
         /// <summary>
         /// Transfer resilience values between mapped objects
         /// </summary>
-        /// <param name="fromID"></param>
-        /// <param name="toID"></param>
+        /// <param name="fromID">from mapped object ID</param>
+        /// <param name="toID">to mapped object ID</param>
+        /// <param name="onlyAfterAction">flag</param>
+        /// <returns></returns>
         public static async Task<bool> CopyResilience(int fromID, int toID, bool onlyAfterAction = false)
         {
             using (ResTBContext db = new ResTBContext())

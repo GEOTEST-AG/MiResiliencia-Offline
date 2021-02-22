@@ -11,7 +11,9 @@ using System.Threading.Tasks;
 
 namespace ResTB.DB
 {
-
+    /// <summary>
+    /// Handling the local portable Postgres DB
+    /// </summary>
     public sealed class DBUtils
     {
         [DllImport("user32.dll")]
@@ -26,7 +28,6 @@ namespace ResTB.DB
 
         private static System.Diagnostics.Process _process { get; set; }
         private IntPtr hWnd;
-
 
         private static DBUtils instance = null;
         private static readonly object padlock = new object();
@@ -50,6 +51,9 @@ namespace ResTB.DB
             }
         }
 
+        /// <summary>
+        /// Start local portable Postgres DB
+        /// </summary>
         public void StartLocalDB()
         {
             // check if localDB is already running
@@ -81,8 +85,6 @@ namespace ResTB.DB
             _process.Start();
 
             // hide the PostgreSQL Portable-window
-            
-
 
             // Wait until ready
             bool ready = false;
@@ -98,16 +100,17 @@ namespace ResTB.DB
 
                     hWnd = WndSearcher.SearchForWindow("ConsoleWindowClass","PostgreSQL Portable");
                     ShowWindow(hWnd, 0);
-
                 }
                 catch (Exception ex)
                 {
                     // not yet startet
                 }
             }
-
         }
 
+        /// <summary>
+        /// Stop local portable Postgres DB
+        /// </summary>
         public void StopLocalDB()
         {
             if (_process == null) return;
@@ -121,8 +124,6 @@ namespace ResTB.DB
                 PostMessage(hWnd, WM_CHAR, (int)msg[i], 0);
             }
             PostMessage(hWnd, WM_KEYDOWN, (IntPtr)13, (IntPtr)wparam);
-
-
 
             _process.WaitForExit();
         }

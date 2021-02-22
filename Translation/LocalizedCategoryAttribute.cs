@@ -7,6 +7,9 @@ namespace ResTB.Translation
     //SOURCE:
     // https://brianlagunas.com/localize-property-names-descriptions-and-categories-for-the-xampropertygrid/
 
+    /// <summary>
+    /// Localization for CategoryAttributes
+    /// </summary>
     public class LocalizedCategoryAttribute : CategoryAttribute
     {
         readonly ResourceManager _resourceManager;

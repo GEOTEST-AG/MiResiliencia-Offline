@@ -12,6 +12,9 @@ using System.Threading;
 
 namespace ResTB.Calculation
 {
+    /// <summary>
+    /// Wrapper for the calculation kernel
+    /// </summary>
     public class Calc
     {
         static Dictionary<int, IntensityDegree> Ik05Map = new Dictionary<int, IntensityDegree>()    //TODO: change name from 5 to "often"
@@ -58,9 +61,9 @@ namespace ResTB.Calculation
         private Project CurrentProject { get; set; }
 
         /// <summary>
-        /// so far, only project id is needed.
+        /// create a calc instance for a given project id
         /// </summary>
-        /// <param name="projectId"></param>
+        /// <param name="projectId">project id</param>
         public Calc(int projectId)
         {
             if (projectId < 1)
@@ -77,6 +80,10 @@ namespace ResTB.Calculation
             }
         }
 
+        /// <summary>
+        /// not in use
+        /// </summary>
+        /// <param name="project"></param>
         public Calc(Project project)
         {
             if (project == null)
@@ -94,7 +101,9 @@ namespace ResTB.Calculation
         }
 
         #region MappedObjects
-
+        /// <summary>
+        /// not in use
+        /// </summary>
         public List<int> GetAllMappedObjects()
         {
             var project = CurrentProject;
@@ -128,8 +137,6 @@ namespace ResTB.Calculation
 
         #endregion //MappedObjects
 
-
-
         /// <summary>
         /// Delete all damage extents of project in the database
         /// </summary>
@@ -158,46 +165,22 @@ namespace ResTB.Calculation
         }
 
         /// <summary>
-        /// STEP 1
+        /// STEP 1: Create intensity maps 
         /// </summary>
         public void CreateIntensityMaps()
         {
             this.DeleteDamageExtentsFromDB(); //Cleanup
 
             this.GenerateAllIntensityMaps();  //Intensity Maps Generator
-
-
         }
 
         /// <summary>
-        /// STEP 2
+        /// STEP 2: Start the kernel
         /// </summary>
-        //public string RunCalculation(bool onlySummary = false)
-        //{
-        //    string returnvalue = string.Empty;
-        //    //string fileName = @"C:\VS2019\ResTBDesktop\Kernel\bin\Debug\Kernel.exe";
-        //    string fileName = @"Kernel\ResTBKernel.exe";
-        //    string args = $" -d true -p {CurrentProject.Id} ";
-        //    if (onlySummary)
-        //        args += " -s true";
-        //    args += $" -c {Thread.CurrentThread.CurrentCulture}";
-
-        //    ProcessStartInfo info = new ProcessStartInfo(fileName);
-        //    info.UseShellExecute = false;          //
-        //    info.Arguments = args;
-        //    info.RedirectStandardInput = true;     //
-        //    info.RedirectStandardOutput = true;    //
-        //    info.CreateNoWindow = true;            //
-
-        //    using (Process process = Process.Start(info))
-        //    {
-        //        StreamReader sr = process.StandardOutput;
-        //        returnvalue = sr.ReadToEnd();
-        //    }
-
-        //    return returnvalue;
-        //}
-
+        /// <param name="onlySummary">true: only summary is computed; false: everything is recalculated </param>
+        /// <param name="details">detailed result with calculation formulas</param>
+        /// <param name="isOnline">Where is the DB located?</param>
+        /// <returns></returns>
         public async Task<string> RunCalculationAsync(bool onlySummary = false, bool details = false, bool isOnline = true)
         {
             string fileName = @"Kernel\ResTBKernel.exe";
@@ -265,7 +248,7 @@ namespace ResTB.Calculation
         }
 
         /// <summary>
-        /// Generate intensity maps for current project, and beforeAction & natHazard
+        /// Generate intensity maps for current project, beforeAction & natHazard
         /// </summary>
         /// <param name="beforeAction"></param>
         /// <param name="natHazardId"></param>

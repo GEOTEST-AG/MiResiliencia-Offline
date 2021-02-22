@@ -7,7 +7,9 @@ using System.Threading.Tasks;
 
 namespace ResTB.DB.Models
 {
-
+    /// <summary>
+    /// intensity degree enum
+    /// </summary>
     public enum IntensityDegree
     {
         /// <summary>
@@ -28,6 +30,9 @@ namespace ResTB.DB.Models
         zero = 3,
     }
 
+    /// <summary>
+    /// intensity map for a certain natHazard, return period, and with/without mitigation measure
+    /// </summary>
     public class Intensity
     {
         public int ID { get; set; }
@@ -37,8 +42,6 @@ namespace ResTB.DB.Models
         public bool BeforeAction { get; set; }
         public IntensityDegree IntensityDegree { get; set; }
         public virtual List<DamageExtent> DamageExtents { get; set; }
-
-
 
     }
 }

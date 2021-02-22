@@ -1,16 +1,10 @@
-﻿using System;
-using System.Windows;
-using ResTB.GUI.Services;
-using ResTB.GUI.ViewModel;
-using Fluent;
-using ResTB.GUI.Model;
-using ResTB.GUI.View;
-using GalaSoft.MvvmLight.Threading;
-using System.Windows.Input;
+﻿using GalaSoft.MvvmLight.Threading;
 using SplashScreen;
-using System.Threading;
-using System.Globalization;
+using System;
 using System.Configuration;
+using System.Globalization;
+using System.Threading;
+using System.Windows;
 using System.Windows.Markup;
 
 namespace ResTB.GUI
