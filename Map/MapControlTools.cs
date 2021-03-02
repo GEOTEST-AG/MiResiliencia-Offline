@@ -87,7 +87,7 @@ namespace ResTB.Map
         public bool AddProjectLayer(int Project, ResTBPostGISType resTBPostGISType) { return AddLayersTool.AddProjectLayer(Project, resTBPostGISType); }
         public bool AddProjectLayer(ResTBPostGISLayer resTBPostGISLayer) { return AddLayersTool.AddProjectLayer(resTBPostGISLayer); }
         public bool AddProjectLayers(int Project) { return AddLayersTool.AddProjectLayers(Project); }
-        public bool Redraw(bool reloadLayers=false) { return AddLayersTool.Redraw(reloadLayers); }
+        public bool Redraw(bool reloadLayers = false) { return AddLayersTool.Redraw(reloadLayers); }
 
         /// Editing Tools
         public bool StartEditingLayer(ResTBHazardMapLayer hazardMapLayer, bool saveAndStopWhenFinish = false) { return EditingTool.StartEditingLayer(hazardMapLayer, saveAndStopWhenFinish); }
@@ -112,7 +112,7 @@ namespace ResTB.Map
         public bool SetLayerVisible(string name, bool visible) { return LayerHandlingTool.SetLayerVisible(name, visible); }
 
         // SelectObjectTools
-        public bool StartSelecting(string layerName) { return SelectObjectTool.StartSelecting(layerName);  }
+        public bool StartSelecting(string layerName) { return SelectObjectTool.StartSelecting(layerName); }
         public bool StartSelecting(Layer.ResTBPostGISType type) { return SelectObjectTool.StartSelecting(type); }
         public bool StartSelecting(DB.Models.NatHazard natHazard, bool beforeMeasure) { return SelectObjectTool.StartSelecting(natHazard, beforeMeasure); }
         public void StopSelecting() { SelectObjectTool.StopSelecting(); }
@@ -139,7 +139,6 @@ namespace ResTB.Map
         /// </summary>
         public virtual void On_LayerChange(Events.MapControl_LayerChange e) //protected virtual method
         {
-            //TODO: check!
             var layer = e.Layer;
             if (layer != null)
             {
@@ -160,7 +159,7 @@ namespace ResTB.Map
                 }
                 layer.ShapeCount = ShapesCount(layer.Name);
             }
-            
+
             MapControl_LayerChange?.Invoke(this, e);
         }
 
@@ -169,7 +168,6 @@ namespace ResTB.Map
         /// </summary>
         public virtual void On_EditingStateChange(Events.MapControl_EditingStateChange e) //protected virtual method
         {
-            //TODO: check!
             var layer = e.EditingLayer;
             if (layer != null)
             {
@@ -194,8 +192,6 @@ namespace ResTB.Map
         /// </summary>
         public virtual void On_SelectingStateChange(Events.MapControl_SelectingStateChange e) //protected virtual method
         {
-            
-
             MapControl_SelectingStateChange?.Invoke(this, e);
         }
 

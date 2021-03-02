@@ -32,15 +32,13 @@ namespace ResTB_API.Controllers
             ProjectResult _result = _controller.computeProjectResult(projectId, details);
 
             return _result;
-
-            //var resultController = new ResultController();
-            //var resultHtmlString = resultController.RenderRazorViewToString("Summary", _result);
-
-            //return resultHtmlString;
         }
 
     }
 
+    /// <summary>
+    /// Legacy MVC Controller from online version
+    /// </summary>
     public class ResultController
     {
         ////Source: https://stackoverflow.com/questions/483091/how-to-render-an-asp-net-mvc-view-as-a-string 

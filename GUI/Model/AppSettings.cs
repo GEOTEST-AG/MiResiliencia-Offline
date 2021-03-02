@@ -1,13 +1,16 @@
 ﻿namespace ResTB.GUI.Model
 {
-    public class AppSettings
-    {
-        public string StringSetting { get; set; }
+    /// <summary>
+    /// not in use
+    /// </summary>
+    //public class AppSettings
+    //{
+    //    public string StringSetting { get; set; }
 
-        public int IntegerSetting { get; set; }
+    //    public int IntegerSetting { get; set; }
 
-        public bool BooleanSetting { get; set; }
+    //    public bool BooleanSetting { get; set; }
 
-        public bool BooleanSetting2 { get; set; }
-    }
+    //    public bool BooleanSetting2 { get; set; }
+    //}
 }

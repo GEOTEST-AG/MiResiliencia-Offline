@@ -747,12 +747,6 @@ namespace ResTB_API.Controllers
             // loop over natural hazards
             foreach (NatHazard hazard in _hazards)
             {
-                //List<bool> beforeActions = _damageExtents.
-                //    Where(de => de.Intensity.NatHazard == hazard)
-                //    .Select(de => de.Intensity.BeforeAction)
-                //    .Distinct()
-                //    .OrderByDescending(a => a).ToList();
-
                 List<bool> beforeActions = _intensityListRaw
                     .Where(i => i.NatHazard.ID == hazard.ID)
                     .Select(i => i.BeforeAction)
@@ -761,13 +755,6 @@ namespace ResTB_API.Controllers
 
                 foreach (bool beforeMeasure in beforeActions)
                 {
-                    //List<IKClasses> ikClasses = _damageExtents
-                    //    .Where(de => de.Intensity.NatHazard == hazard)
-                    //    .Where(de => de.Intensity.BeforeAction == beforeMeasure)
-                    //    .Select(de => de.Intensity.IKClasses)
-                    //    .Distinct()
-                    //    .OrderBy(p => p.Value).ToList();
-
                     List<IKClasses> ikClasses = _intensityListRaw
                         .Where(i => i.NatHazard.ID == hazard.ID)
                         .Where(i => i.BeforeAction == beforeMeasure)

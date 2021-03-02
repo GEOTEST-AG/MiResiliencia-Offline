@@ -248,12 +248,6 @@
     <Content Include="Views\Summary.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Views\SummaryChart.cshtml" />
-    <Content Include="Views\NoResult.cshtml" />
-    <Content Include="Views\ProcessResultChart.cshtml" />
-    <Content Include="Views\ProcessScenarioChart.cshtml" />
-    <Content Include="Views\ProjectChartStacked.cshtml" />
-    <Content Include="Views\ProjectChartStacked2.cshtml" />
     <None Include="Scripts\jquery-1.9.1.min.map" />
   </ItemGroup>
   <ItemGroup>
@@ -295,15 +289,10 @@
   <PropertyGroup>
     <PostBuildEvent>xcopy "$(TargetDir)*" "$(SolutionDir)\GUI\bin\Debug\Kernel" /Y /I
 xcopy "$(TargetDir)*" "$(SolutionDir)\GUI\bin\Release\Kernel" /Y /I
-xcopy "$(TargetDir)*" "$(SolutionDir)\Calculation-Tests\bin\Debug\Kernel" /Y /I
-xcopy "$(TargetDir)*" "$(SolutionDir)\Calculation-Tests\bin\Release\Kernel" /Y /I
 xcopy "$(TargetDir)\Views\*" "$(SolutionDir)\GUI\bin\Debug\Kernel\Views" /Y /I
 xcopy "$(TargetDir)\Views\*" "$(SolutionDir)\GUI\bin\Release\Kernel\Views" /Y /I
-xcopy "$(TargetDir)\Views\*" "$(SolutionDir)\Calculation-Tests\bin\Debug\Kernel\Views" /Y /I
-xcopy "$(TargetDir)\Views\*" "$(SolutionDir)\Calculation-Tests\bin\Release\Kernel\Views" /Y /I
 xcopy "$(TargetDir)\es-HN\*" "$(SolutionDir)\GUI\bin\Debug\Kernel\es-HN" /Y /I
 xcopy "$(TargetDir)\es-HN\*" "$(SolutionDir)\GUI\bin\Release\Kernel\es-HN" /Y /I
-xcopy "$(TargetDir)\es-HN\*" "$(SolutionDir)\Calculation-Tests\bin\Debug\Kernel\es-HN" /Y /I
-xcopy "$(TargetDir)\es-HN\*" "$(SolutionDir)\Calculation-Tests\bin\Release\Kernel\es-HN" /Y /I</PostBuildEvent>
+</PostBuildEvent>
   </PropertyGroup>
 </Project>

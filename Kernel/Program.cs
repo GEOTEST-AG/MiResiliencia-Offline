@@ -1,17 +1,13 @@
 ﻿using Fclp;
+using RazorEngine;
+using RazorEngine.Templating; // Dont forget to include this.
 using ResTB_API.Controllers;
 using ResTB_API.Models;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Serialization;
-using RazorEngine.Templating; // Dont forget to include this.
-using RazorEngine;
 using System.Globalization;
+using System.IO;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace Kernel
 {
@@ -119,14 +115,10 @@ namespace Kernel
             }
 
             ProjectResult projectResult = ResultWrapper.ComputeResult(projectId, showDetails);
+
             Console.WriteLine("\n\tCompute Project Result finished.");
 
             string fullFileName = @"Kernel/Views/Summary.cshtml";        //TODO: Copy CSHTML to output dir
-
-//#if DEBUG
-//            fullFileName = @"Views/Summary.cshtml";        //TODO: Copy CSHTML to output dir
-//#endif
-            //string fullFileName = @"C:\VS2019\ResTBDesktop\Kernel\Views\Summary.cshtml";        //TODO: Copy CSHTML to output dir
 
             DynamicViewBag viewBag = new DynamicViewBag();
             viewBag.AddValue("attachCss", true);
@@ -134,41 +126,22 @@ namespace Kernel
             viewBag.AddValue("print", true);
 
             var templateSource = new LoadedTemplateSource(File.ReadAllText(fullFileName), fullFileName);
-            //string result =
-            //    Engine.Razor.RunCompile(templateSource, "templateKey", null, model: projectResult, viewBag: viewBag);   //RENDER HTML
-
             string result = "";
 
             var t = Task.Run(() =>
             {
-                //culture = new CultureInfo("de-CH");
                 Thread.CurrentThread.CurrentCulture = culture;
                 Thread.CurrentThread.CurrentUICulture = culture;
 
-                //CultureInfo.DefaultThreadCurrentUICulture = culture;
-                //CultureInfo.DefaultThreadCurrentCulture = culture;
-
                 Console.WriteLine("Task thread ID: {0}", Thread.CurrentThread.ManagedThreadId);
                 result =
-                    Engine.Razor.RunCompile(templateSource, "templateKey", null, model: projectResult, viewBag: viewBag);   //RENDER HTML
+                    Engine.Razor.RunCompile(templateSource, "templateKey", null, model: projectResult, viewBag: viewBag);   //RENDER HTML with RAZOR ENGINE
 
                 Console.WriteLine($"\tTask: culture = {culture.TwoLetterISOLanguageName} / {culture.Name}");
             });
             t.Wait();
 
             File.WriteAllText(htmlPath, result);               //TODO: Save HTML to output dir
-
-            //            string originPath = "./Kernel/Content";
-            //#if DEBUG
-            //            originPath = "./Content";
-            //#endif
-            //            foreach (var item in Directory.GetFiles(originPath))
-            //            {
-            //                File.Copy(item, scriptPath + "\\" + Path.GetFileName(item));
-            //            }
-
-            //System.Diagnostics.Process.Start(htmlPath);
-            //Console.WriteLine("\n\tOpened HTML in Browser.");
 
             Console.WriteLine("\nKernel finished.\n");
 

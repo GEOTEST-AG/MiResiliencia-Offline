@@ -2,13 +2,10 @@
 using ResTB.DB.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Data.Entity;
-using System.Text;
-using System.Threading.Tasks;
-using System.Diagnostics;
-using System.IO;
+using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace ResTB.Calculation
 {
@@ -100,43 +97,6 @@ namespace ResTB.Calculation
 
         }
 
-        #region MappedObjects
-        /// <summary>
-        /// not in use
-        /// </summary>
-        public List<int> GetAllMappedObjects()
-        {
-            var project = CurrentProject;
-            IList<int> dpListFiltered = null;
-            using (ResTBContext db = new ResTBContext())
-            {
-                string query =
-                    $"select mo.* " +
-                    $"from \"MappedObject\" mo, \"Perimeter\" p " +
-                    $"where mo.\"Project_Id\" = {project.Id} " +
-                    $"and mo.\"Project_Id\" = p.project_fk " +
-                    $"and ( " +
-                    $"ST_Intersects(p.geometry, mo.point) or " +
-                    $"ST_Intersects(p.geometry, mo.line ) or " +
-                    $"ST_Intersects(p.geometry, mo.polygon ) " +
-                    $") ";
-
-                dpListFiltered = db.MappedObjects.SqlQuery(query).Select(m => m.ID).ToList();
-
-                //dpList = db.MappedObjects
-                //        .Include(m => m.Project)
-                //        .Where(m => m.Project.Id == project.Id)
-                //        .ToList();
-
-                //all DamagePotentials having geometry in project.geometry, including crossing project perimeter
-            }
-            //var dpListFiltered = dpList;//.Where(m => m.Project.geometry.Intersects(m.geometry));
-
-            return dpListFiltered.ToList();
-        }
-
-        #endregion //MappedObjects
-
         /// <summary>
         /// Delete all damage extents of project in the database
         /// </summary>
@@ -197,9 +157,7 @@ namespace ResTB.Calculation
                 return result.Output;
             else
                 return "Error: Task not completed";
-
         }
-
 
         #region IntensityMaps
 
@@ -260,18 +218,6 @@ namespace ResTB.Calculation
 
             using (ResTBContext db = new ResTBContext())
             {
-                ////remove all intensities for that hazardmap
-                //var intensitiesToDelete = db.Intensities
-                //    .Include(i=>i.Project)
-                //    .Where(i => i.Project.Id == projectId && 
-                //                i.BeforeAction == beforeAction && 
-                //                i.NatHazard.ID == natHazardId);
-                //if (intensitiesToDelete.Any())
-                //{
-                //    db.Intensities.RemoveRange(intensitiesToDelete);
-                //    db.SaveChanges();
-                //}
-
                 //Load hazard maps
                 hazardMaps = db.HazardMaps
                     .Include(m => m.Project.Intesities)
