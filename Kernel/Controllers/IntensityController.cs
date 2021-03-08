@@ -31,19 +31,6 @@ namespace ResTB_API.Controllers
         {
             PrA pra = intensity.Project.PrAs.Where(p => p.IKClass.ID == intensity.IKClasses.ID && p.NatHazard.ID == intensity.NatHazard.ID).SingleOrDefault();
 
-            //if (pra != null)
-            //    return pra;
-
-            //// load from db (fallback)
-            //pra = ActiveSession
-            //            .QueryOver<PrA>()
-            //            .Where(p =>
-            //                   p.NatHazard.ID == intensity.NatHazard.ID &&
-            //                   p.IKClass.ID == intensity.IKClasses.ID &&
-            //                   p.Project.Id == intensity.Project.Id)
-            //            .List()
-            //            .SingleOrDefault();
-
             return pra;
         }
 
@@ -79,7 +66,7 @@ namespace ResTB_API.Controllers
         }
 
         /// <summary>
-        /// 
+        /// Get Insitiy Maps with clipped intensities (without overlaps)
         /// </summary>
         /// <param name="projectId">project id</param>
         /// <param name="hazardId">hazard id</param>
@@ -127,11 +114,6 @@ namespace ResTB_API.Controllers
 
                     }
                 }
-                //foreach (Intensity intens in intensityListRaw)
-                //{
-                //    var intensCopy = (Intensity)intens.Clone();
-                //    intensityList.Add(intensCopy);
-                //}
 
                 //clip to project and fix geometries
                 foreach (Intensity intens in intensityList)
@@ -162,27 +144,11 @@ namespace ResTB_API.Controllers
                     {
                         Intensity low = intensityList.OrderBy(i => i.IntensityDegree).Skip(2).First();
 
-                        ////DEBUG
-                        ////if (projectId == 5 && periodId == 3 && beforeAction && hazardId == 2)
-                        ////{
-                        ////    var s = "stop";
-                        ////    //continue;
-                        ////}
-                        //var cl21 = low.geometry.Difference(medium.geometry);
-                        //var cl22 = cl21.Difference(high.geometry);
-
                         var clip2 = low.geometry.Difference(medium.geometry).Difference(high.geometry);
-
-                        ////area difference due to difference
-                        //areaDifference = low.geometry.Area - clip2.Area;
-                        //Debug.WriteLine($"INTENSITY CLIPPING: Intensity {low.ID}: area diff = {areaDifference:F2}, new area = {clip2.Area:F2}");
 
                         low.geometry = GeometryTools.Polygon2Multipolygon(clip2.Buffer(0.001));
                     }
                 }
-                // Clipping
-                //IGeometry clip1 = p1.Difference(p0);
-                //IGeometry clip2 = p2.Difference(p1).Difference(p0);
 
                 return intensityList.OrderBy(i => i.IntensityDegree).ToList<Intensity>();
             }

@@ -78,26 +78,6 @@ namespace ResTB.Calculation
         }
 
         /// <summary>
-        /// not in use
-        /// </summary>
-        /// <param name="project"></param>
-        public Calc(Project project)
-        {
-            if (project == null)
-                throw new ArgumentNullException(nameof(project), "Kernel ctor");
-
-            this.CurrentProject = project;
-
-            using (ResTBContext db = new ResTBContext())
-            {
-                IkClasses = db.IntensitaetsKlassen.AsNoTracking().OrderBy(i => i.Value).ToList();
-                if (IkClasses.Count != 3)
-                    throw new InvalidOperationException($"GenerateIntensityMaps: IKClasses count = {IkClasses.Count}. Expected: 3");
-            }
-
-        }
-
-        /// <summary>
         /// Delete all damage extents of project in the database
         /// </summary>
         /// <param name="projectId"></param>

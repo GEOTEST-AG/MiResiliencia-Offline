@@ -118,7 +118,7 @@ namespace Kernel
 
             Console.WriteLine("\n\tCompute Project Result finished.");
 
-            string fullFileName = @"Kernel/Views/Summary.cshtml";        //TODO: Copy CSHTML to output dir
+            string fullFileName = @"Kernel/Views/Summary.cshtml";               //REMINDER: Copy CSHTML to output dir
 
             DynamicViewBag viewBag = new DynamicViewBag();
             viewBag.AddValue("attachCss", true);

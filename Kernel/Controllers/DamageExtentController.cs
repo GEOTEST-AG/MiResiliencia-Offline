@@ -38,7 +38,7 @@ namespace ResTB_API.Controllers
         }
 
         /// <summary>
-        /// Compuation of all Damage Extent of a Damage Potential in a given Intensity
+        /// Computation of all Damage Extent of a Damage Potential in a given Intensity
         /// </summary>
         /// <param name="mapObj">Damage Potential</param>
         /// <param name="intensity"></param>
@@ -683,7 +683,7 @@ namespace ResTB_API.Controllers
         }
 
         /// <summary>
-        /// Compute the project summary, no computation perfomed, >WebApp<
+        /// Compute the project summary, no computation perfomed
         /// </summary>
         /// <param name="projectId"></param>
         /// <returns></returns>
