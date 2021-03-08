@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "MiResiliencia Honduras"
-#define MyAppVersion "1.0.3"
+#define MyAppVersion "1.0.4"
 #define MyAppPublisher "GEOTEST AG"
 #define MyAppURL "https://www.resilience-toolbox.org"
 #define MyAppExeName "ResTBDesktop.exe"
