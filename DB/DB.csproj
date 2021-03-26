@@ -92,6 +92,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DBUtils.cs" />
+    <Compile Include="MD5Checker.cs" />
     <Compile Include="Migrations\202007170947580_InitialDBSetup.cs" />
     <Compile Include="Migrations\202007170947580_InitialDBSetup.designer.cs">
       <DependentUpon>202007170947580_InitialDBSetup.cs</DependentUpon>

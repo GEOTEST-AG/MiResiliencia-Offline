@@ -318,6 +318,10 @@ namespace ResTB.GUI.ViewModel
             {
                 LoadNatHazards();
                 LoadObjectParameters();
+
+                // checks the db for correctnes 
+                string md5dbhash = "";
+                bool isValid = MD5Checker.CheckMD5Hash("2bf4999a441e6cc18fbe2c4ac86b2469", out md5dbhash);
             }
 
             // get geonames places for offline search of POIs
