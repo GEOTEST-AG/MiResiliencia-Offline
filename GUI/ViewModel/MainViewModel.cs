@@ -315,7 +315,7 @@ namespace ResTB.GUI.ViewModel
 
         public MainViewModel()
         {
-            Version = $"{Resources.Version}: " + App.Version;
+            Version = $"{Resources.Version}: " + FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).ProductVersion;
 
             //check db setting on startup
             if (ConfigurationManager.AppSettings["UseOfflineDB"] == "true")
@@ -341,7 +341,7 @@ namespace ResTB.GUI.ViewModel
 
                 // checks the db for correctnes 
                 string md5dbhash = "";
-                bool isValid = MD5Checker.CheckMD5Hash("2bf4999a441e6cc18fbe2c4ac86b2469", out md5dbhash);
+                DatabaseDefault = MD5Checker.CheckMD5Hash("2bf4999a441e6cc18fbe2c4ac86b2469", out md5dbhash);
             }
 
             // get geonames places for offline search of POIs

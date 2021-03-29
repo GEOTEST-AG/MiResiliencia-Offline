@@ -15,10 +15,6 @@ namespace ResTB.GUI
 {
     public partial class App : Application
     {
-        public static Version AssemblyVersion => Assembly.GetExecutingAssembly().GetName().Version;
-        public static string Version => AssemblyVersion.ToString();
-        //public static string VersionMain => $"{AssemblyVersion.Major}.{AssemblyVersion.MajorRevision}";
-
         static App()
         {
             DispatcherHelper.Initialize();  // for mvvm light dispatching
