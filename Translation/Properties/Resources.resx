@@ -601,4 +601,22 @@
   <data name="MapControl_MapRefreshed" xml:space="preserve">
     <value>Map refreshed</value>
   </data>
+  <data name="Check_Signature" xml:space="preserve">
+    <value>Software is signed</value>
+  </data>
+  <data name="Check_SignatureNone" xml:space="preserve">
+    <value>Software is not signed</value>
+  </data>
+  <data name="Check_Database_Default" xml:space="preserve">
+    <value>Database contains default values</value>
+  </data>
+  <data name="Check_Database_Default_No" xml:space="preserve">
+    <value>Database contains modified default values</value>
+  </data>
+  <data name="Check_Database_Default_OK" xml:space="preserve">
+    <value>Default values OK</value>
+  </data>
+  <data name="Check_Database_Default_NOK" xml:space="preserve">
+    <value>Modified default values</value>
+  </data>
 </root>

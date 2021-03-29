@@ -313,6 +313,61 @@
                             <ContentControl ContentTemplate="{StaticResource extBtnQuestion}"/>
                         </Fluent:Button.LargeIcon>
                     </Fluent:Button>
+                    
+                    <Separator/>
+
+
+                    <!--<Fluent:Button Header="{Binding MainAssemblySigner}" IsEnabled="False" Size="Middle" IsHitTestVisible="True" 
+                                   ToolTip="{x:Static resx:Resources.Check_Signature}">
+                        <Fluent:Button.Icon>
+                            <ContentControl ContentTemplate="{StaticResource extBtnCert}"/>
+                        </Fluent:Button.Icon>
+                    </Fluent:Button>
+
+                    <Fluent:Button Header="{Binding KernelAssemblySigner}" IsEnabled="False" Size="Middle" IsHitTestVisible="True" 
+                                   ToolTip="{x:Static resx:Resources.Check_Signature}">
+                        <Fluent:Button.Icon>
+                            <ContentControl ContentTemplate="{StaticResource extBtnCert}"/>
+                        </Fluent:Button.Icon>
+                    </Fluent:Button>
+                    <Separator/>-->
+
+                    <Fluent:Button Header="{Binding KernelAssemblySigner}" IsEnabled="False" Size="Middle" IsHitTestVisible="True" 
+                                   ToolTip="{x:Static resx:Resources.Check_Signature}"
+                                   Visibility="{Binding SignatureValid, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <Fluent:Button.Icon>
+                            <ContentControl ContentTemplate="{StaticResource extBtnCert}"/>
+                        </Fluent:Button.Icon>
+                    </Fluent:Button>
+                    <Fluent:Button Header="{x:Static resx:Resources.Check_SignatureNone}" IsEnabled="False" Size="Middle" IsHitTestVisible="True" 
+                                   ToolTip="{x:Static resx:Resources.Check_SignatureNone}"
+                                   Visibility="{Binding SignatureValid, Converter={StaticResource BoolVisibiltyInvertedConverter}}">
+                        <Fluent:Button.Icon>
+                            <ContentControl ContentTemplate="{StaticResource extBtnError}"/>
+                        </Fluent:Button.Icon>
+                    </Fluent:Button>
+
+                    <Fluent:Button Header="{x:Static resx:Resources.Check_Database_Default_OK}" IsEnabled="False" Size="Middle" IsHitTestVisible="True"
+                                   ToolTip="{x:Static resx:Resources.Check_Database_Default}"
+                                   Visibility="{Binding DatabaseDefault, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <Fluent:Button.Icon>
+                            <ContentControl ContentTemplate="{StaticResource extBtnDatabaseOK}"/>
+                        </Fluent:Button.Icon>
+                    </Fluent:Button>
+                    <Fluent:Button Header="{x:Static resx:Resources.Check_Database_Default_NOK}" IsEnabled="False" Size="Middle" IsHitTestVisible="True"
+                                   ToolTip="{x:Static resx:Resources.Check_Database_Default_No}"
+                                   Visibility="{Binding DatabaseDefault, Converter={StaticResource BoolVisibiltyInvertedConverter}}">
+                        <Fluent:Button.Icon>
+                            <ContentControl ContentTemplate="{StaticResource extBtnDatabaseAlert}"/>
+                        </Fluent:Button.Icon>
+                    </Fluent:Button>
+
+                    <Fluent:Button Header="{Binding Version}" IsEnabled="False" Size="Middle" IsHitTestVisible="True" >
+                        <Fluent:Button.Icon>
+                            <ContentControl ContentTemplate="{StaticResource extBtnCompass}"/>
+                        </Fluent:Button.Icon>
+                    </Fluent:Button>
+                    
                 </Fluent:RibbonGroupBox>
 
             </Fluent:RibbonTabItem>

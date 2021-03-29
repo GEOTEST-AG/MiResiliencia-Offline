@@ -142,6 +142,60 @@ namespace ResTB.Translation.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Database contains default values.
+        /// </summary>
+        public static string Check_Database_Default {
+            get {
+                return ResourceManager.GetString("Check_Database_Default", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Database contains modified default values.
+        /// </summary>
+        public static string Check_Database_Default_No {
+            get {
+                return ResourceManager.GetString("Check_Database_Default_No", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Modified default values.
+        /// </summary>
+        public static string Check_Database_Default_NOK {
+            get {
+                return ResourceManager.GetString("Check_Database_Default_NOK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Default values OK.
+        /// </summary>
+        public static string Check_Database_Default_OK {
+            get {
+                return ResourceManager.GetString("Check_Database_Default_OK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Software is signed.
+        /// </summary>
+        public static string Check_Signature {
+            get {
+                return ResourceManager.GetString("Check_Signature", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Software is not signed.
+        /// </summary>
+        public static string Check_SignatureNone {
+            get {
+                return ResourceManager.GetString("Check_SignatureNone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Go.
         /// </summary>
         public static string Coord_Go {

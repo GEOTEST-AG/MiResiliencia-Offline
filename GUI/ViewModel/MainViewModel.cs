@@ -31,6 +31,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reflection;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -90,6 +91,21 @@ namespace ResTB.GUI.ViewModel
         public bool HasDBConnection { get; set; }
         public bool HasInternetConnection { get; set; }
         public string WindowTitle => $"{Resources.App_Name}{(Project != null ? $": {Project?.Name}" : "")}";
+
+        public X509Certificate MainAssemblySignature { get; private set; }
+        public X509Certificate KernelAssemblySignature { get; private set; }
+        public string MainAssemblySigner =>
+            MainAssemblySignature?.Subject.Split(',')
+                .Where(s => s.Trim().StartsWith("CN=")).FirstOrDefault()?
+                .Split('=').Skip(1).FirstOrDefault()?
+                .Trim();
+        public string KernelAssemblySigner =>
+            KernelAssemblySignature?.Subject.Split(',')
+                .Where(s => s.Trim().StartsWith("CN=")).FirstOrDefault()?
+                .Split('=').Skip(1).FirstOrDefault()?
+                .Trim();
+        public bool SignatureValid => MainAssemblySignature != null && KernelAssemblySignature != null;
+        public bool DatabaseDefault { get; private set; } 
 
         public myTkTileProvider CurrentTileProvider { get; set; } = myTkTileProvider.GoogleSatellite;
         public tkKnownExtents CurrentExtend { get; set; } = tkKnownExtents.keHonduras;
@@ -295,8 +311,12 @@ namespace ResTB.GUI.ViewModel
         //private readonly ISampleService sampleService;
         private int SelectedShapeIndex { get; set; } = -1;
 
+        public string Version { get; private set; }
+
         public MainViewModel()
         {
+            Version = $"{Resources.Version}: " + App.Version;
+
             //check db setting on startup
             if (ConfigurationManager.AppSettings["UseOfflineDB"] == "true")
             {
@@ -378,6 +398,29 @@ namespace ResTB.GUI.ViewModel
                         }
                     });
 
+
+            //Check Assembly Signature
+
+            var asmPath = App.AssemblyDirectory;
+            var asmFile = Path.Combine(asmPath, "ResTBDesktop.exe");
+            var asmFileKernel = Path.Combine(asmPath, "Kernel", "ResTBKernel.exe");
+            try
+            {
+                if (File.Exists(asmFile))
+                    MainAssemblySignature = X509Certificate.CreateFromSignedFile(asmFile);
+            }
+            catch (Exception ex1)
+            {   //empty 
+            }
+
+            try
+            {
+                if (File.Exists(asmFileKernel))
+                    KernelAssemblySignature = X509Certificate.CreateFromSignedFile(asmFileKernel);
+            }
+            catch (Exception ex2)
+            {   //emtpy 
+            }
         }
 
         /// <summary>
