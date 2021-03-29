@@ -276,12 +276,41 @@
                 <Path Fill="Black" Data="M3,16H12V21H3V16M2,10H8V15H2V10M9,10H15V15H9V10M16,10H22V15H16V10M13,16H21V21H13V16M3,4H11V9H3V4M12,4H21V9H12V4Z" />
             </Canvas>
         </Viewbox>
+    </DataTemplate>    
+    <DataTemplate x:Key="extBtnCert">
+        <Viewbox>
+            <Canvas Width="24" Height="24">
+                <Path Fill="Black" Data="M13 21L15 20L17 21V14H13M17 9V7L15 8L13 7V9L11 10L13 11V13L15 12L17 13V11L19 10M20 3H4A2 2 0 0 0 2 5V15A2 2 0 0 0 4 17H11V15H4V5H20V15H19V17H20A2 2 0 0 0 22 15V5A2 2 0 0 0 20 3M11 8H5V6H11M9 11H5V9H9M11 14H5V12H11Z" />
+            </Canvas>
+        </Viewbox>
+    </DataTemplate>     
+    <DataTemplate x:Key="extBtnError">
+        <Viewbox>
+            <Canvas Width="24" Height="24">
+                <Path Fill="Black" Data="M11,15H13V17H11V15M11,7H13V13H11V7M12,2C6.47,2 2,6.5 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20Z" />
+            </Canvas>
+        </Viewbox>
+    </DataTemplate>   
+    
+    <DataTemplate x:Key="extBtnCompass">
+        <Viewbox>
+            <Canvas Width="24" Height="24">
+                <Path Fill="Black" Data="M7,17L10.2,10.2L17,7L13.8,13.8L7,17M12,11.1A0.9,0.9 0 0,0 11.1,12A0.9,0.9 0 0,0 12,12.9A0.9,0.9 0 0,0 12.9,12A0.9,0.9 0 0,0 12,11.1M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4Z" />
+            </Canvas>
+        </Viewbox>
     </DataTemplate>
 
     <DataTemplate x:Key="extBtnDatabaseOK">
         <Viewbox>
             <Canvas Width="24" Height="24">
                 <Path Fill="Black" Data="M12 3C16.42 3 20 4.79 20 7S16.42 11 12 11 4 9.21 4 7 7.58 3 12 3M4 9C4 11.21 7.58 13 12 13S20 11.21 20 9V12.08L19 12C16.41 12 14.2 13.64 13.36 15.94L12 16C7.58 16 4 14.21 4 12V9M4 14C4 16.21 7.58 18 12 18H13C13 19.05 13.27 20.04 13.75 20.9L12 21C7.58 21 4 19.21 4 17V14M18 21.08L15.25 18.08L16.41 16.92L18 18.5L21.59 14.92L22.75 16.33L18 21.08" />
+            </Canvas>
+        </Viewbox>
+    </DataTemplate>
+    <DataTemplate x:Key="extBtnDatabaseAlert">
+        <Viewbox>
+            <Canvas Width="24" Height="24">
+                <Path Fill="Black" Data="M18 7C18 9.21 14.42 11 10 11S2 9.21 2 7 5.58 3 10 3 18 4.79 18 7M10 18C5.58 18 2 16.21 2 14V17C2 19.21 5.58 21 10 21S18 19.21 18 17V14C18 16.21 14.42 18 10 18M10 13C5.58 13 2 11.21 2 9V12C2 14.21 5.58 16 10 16S18 14.21 18 12V9C18 11.21 14.42 13 10 13M20 17H22V15H20V17M20 7V13H22V7H20Z" />
             </Canvas>
         </Viewbox>
     </DataTemplate>

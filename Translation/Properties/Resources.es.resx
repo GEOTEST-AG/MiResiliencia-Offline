@@ -621,4 +621,22 @@
   <data name="MapControl_MapRefreshed" xml:space="preserve">
     <value>Mapa actualizado</value>
   </data>
+  <data name="Check_Signature" xml:space="preserve">
+    <value>El software está firmado</value>
+  </data>
+  <data name="Check_SignatureNone" xml:space="preserve">
+    <value>El software no está firmado</value>
+  </data>
+  <data name="Check_Database_Default" xml:space="preserve">
+    <value>La base de datos contiene valores por defecto</value>
+  </data>
+  <data name="Check_Database_Default_No" xml:space="preserve">
+    <value>La base de datos contiene valores por defecto modificados</value>
+  </data>
+  <data name="Check_Database_Default_OK" xml:space="preserve">
+    <value>Valores por defecto OK</value>
+  </data>
+  <data name="Check_Database_Default_NOK" xml:space="preserve">
+    <value>Valores por defecto modificados</value>
+  </data>
 </root>
