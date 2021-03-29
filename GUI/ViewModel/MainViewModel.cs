@@ -106,6 +106,7 @@ namespace ResTB.GUI.ViewModel
                 .Trim();
         public bool SignatureValid => MainAssemblySignature != null && KernelAssemblySignature != null;
         public bool DatabaseDefault { get; private set; } 
+        public string DatabaseHash { get; private set; } 
 
         public myTkTileProvider CurrentTileProvider { get; set; } = myTkTileProvider.GoogleSatellite;
         public tkKnownExtents CurrentExtend { get; set; } = tkKnownExtents.keHonduras;
@@ -339,9 +340,11 @@ namespace ResTB.GUI.ViewModel
                 LoadNatHazards();
                 LoadObjectParameters();
 
-                // checks the db for correctnes 
+                // checks the db for correctness 
                 string md5dbhash = "";
                 DatabaseDefault = MD5Checker.CheckMD5Hash("2bf4999a441e6cc18fbe2c4ac86b2469", out md5dbhash);
+                DatabaseHash = md5dbhash;
+
             }
 
             // get geonames places for offline search of POIs
@@ -398,9 +401,7 @@ namespace ResTB.GUI.ViewModel
                         }
                     });
 
-
             //Check Assembly Signature
-
             var asmPath = App.AssemblyDirectory;
             var asmFile = Path.Combine(asmPath, "ResTBDesktop.exe");
             var asmFileKernel = Path.Combine(asmPath, "Kernel", "ResTBKernel.exe");

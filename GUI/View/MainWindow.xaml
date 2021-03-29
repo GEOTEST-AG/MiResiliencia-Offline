@@ -332,8 +332,8 @@
                     </Fluent:Button>
                     <Separator/>-->
 
-                    <Fluent:Button Header="{Binding KernelAssemblySigner}" IsEnabled="False" Size="Middle" IsHitTestVisible="True" 
-                                   ToolTip="{x:Static resx:Resources.Check_Signature}"
+                    <Fluent:Button Header="{x:Static resx:Resources.Check_Signature}" IsEnabled="False" Size="Middle" IsHitTestVisible="True" 
+                                   ToolTip="{Binding KernelAssemblySigner}"
                                    Visibility="{Binding SignatureValid, Converter={StaticResource BooleanToVisibilityConverter}}">
                         <Fluent:Button.Icon>
                             <ContentControl ContentTemplate="{StaticResource extBtnCert}"/>
@@ -348,14 +348,14 @@
                     </Fluent:Button>
 
                     <Fluent:Button Header="{x:Static resx:Resources.Check_Database_Default_OK}" IsEnabled="False" Size="Middle" IsHitTestVisible="True"
-                                   ToolTip="{x:Static resx:Resources.Check_Database_Default}"
+                                   ToolTip="{Binding DatabaseHash}"
                                    Visibility="{Binding DatabaseDefault, Converter={StaticResource BooleanToVisibilityConverter}}">
                         <Fluent:Button.Icon>
                             <ContentControl ContentTemplate="{StaticResource extBtnDatabaseOK}"/>
                         </Fluent:Button.Icon>
                     </Fluent:Button>
                     <Fluent:Button Header="{x:Static resx:Resources.Check_Database_Default_NOK}" IsEnabled="False" Size="Middle" IsHitTestVisible="True"
-                                   ToolTip="{x:Static resx:Resources.Check_Database_Default_No}"
+                                   ToolTip="{Binding DatabaseHash}"
                                    Visibility="{Binding DatabaseDefault, Converter={StaticResource BoolVisibiltyInvertedConverter}}">
                         <Fluent:Button.Icon>
                             <ContentControl ContentTemplate="{StaticResource extBtnDatabaseAlert}"/>
