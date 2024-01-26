@@ -286,6 +286,10 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="VCREDIST\REGKEY_VC_REDIST.txt" />
+    <Resource Include="View\SplashScreen2.jpg" />
+    <None Include="Helpers\Geocode\cities500.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <Content Include="VCREDIST\VC_redist.x86.exe" />
     <Resource Include="View\SplashScreen.png" />
     <Resource Include="FodyWeavers.xml">

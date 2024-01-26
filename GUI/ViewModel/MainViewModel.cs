@@ -348,7 +348,7 @@ namespace ResTB.GUI.ViewModel
             }
 
             // get geonames places for offline search of POIs
-            GeoCoder = new Geocoder("HN");                      //HN or CH, hard coded so far
+            GeoCoder = new Geocoder("cities500");                      //HN or CH, hard coded so far
             if (GeoCoder.Places != null)
                 Places = new ObservableCollection<Place>(GeoCoder.Places);
 

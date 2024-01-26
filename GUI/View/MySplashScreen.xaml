@@ -16,7 +16,7 @@
     </Control.BorderThickness>
     <Control.Resources>
         <!--<BitmapImage x:Key="SplashScreen" UriSource="pack://application:,,,/Design/SplashScreen.png" />-->
-        <BitmapImage x:Key="SplashScreen" UriSource="SplashScreen.png" />
+        <BitmapImage x:Key="SplashScreen" UriSource="SplashScreen2.jpg" />
     </Control.Resources>
     <Control.Background>
         <ImageBrush ImageSource="{StaticResource SplashScreen}"/>
@@ -27,10 +27,10 @@
 
         <StackPanel HorizontalAlignment="Right" DockPanel.Dock="Top" Background="Transparent" VerticalAlignment="Top">
             <!--<Decorator Height="250" />-->
-            <TextBlock Text="{x:Static resx:Resources.App_Name_ES}"  Margin="5" Padding="3"
+            <TextBlock Text="MiResiliencia"  Margin="5" Padding="3"
                        Foreground="Black" FontSize="40" TextWrapping="Wrap" Background="White" TextAlignment="Right" HorizontalAlignment="Right"/>
             <!--<Decorator Height="10" />-->
-            <TextBlock Text="{x:Static resx:Resources.App_Teaser_ES}"  Margin="5" MaxWidth="500" Padding="3"
+            <TextBlock Text="Risk and Cost-Effectiveness Analysis of Disaster Risk Reduction Measures"  Margin="5" MaxWidth="500" Padding="3"
                        Foreground="Black" FontSize="18" TextWrapping="Wrap" Background="White" TextAlignment="Right" HorizontalAlignment="Right" />
             <!--<Decorator Height="10" />-->
             <TextBlock Margin="5" Padding="3"
