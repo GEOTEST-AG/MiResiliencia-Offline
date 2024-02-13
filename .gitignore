@@ -2740,3 +2740,4 @@ __pycache__/
 /PostgreSQLPortable_10.4.1/PostgreSQLPortable
 /InnoSetup/sign_program.bat
 /InnoSetup/sign_setup.bat
+/InnoSetup/Output/setup_offline.exe
