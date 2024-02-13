@@ -116,7 +116,7 @@
     <value>Export project</value>
   </data>
   <data name="App_Name" xml:space="preserve">
-    <value>MiResiliencia Honduras</value>
+    <value>MiResiliencia</value>
   </data>
   <data name="Project_Name" xml:space="preserve">
     <value>Project name</value>
@@ -461,7 +461,7 @@
     <value>Análisis del Riesgo y de la Costo-eficiencia de Medidas para Reducción de Riesgos a Desastres</value>
   </data>
   <data name="App_Name_ES" xml:space="preserve">
-    <value>MiResiliencia Honduras</value>
+    <value>MiResiliencia</value>
   </data>
   <data name="DamagePotential_Selected" xml:space="preserve">
     <value>Selected damage potential</value>

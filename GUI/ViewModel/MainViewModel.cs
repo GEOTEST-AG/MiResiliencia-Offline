@@ -342,7 +342,7 @@ namespace ResTB.GUI.ViewModel
 
                 // checks the db for correctness 
                 string md5dbhash = "";
-                DatabaseDefault = MD5Checker.CheckMD5Hash("2bf4999a441e6cc18fbe2c4ac86b2469", out md5dbhash);
+                DatabaseDefault = MD5Checker.CheckMD5Hash("aa06a63aef45e7077340ff7e1a3732d9", out md5dbhash);
                 DatabaseHash = md5dbhash;
 
             }
