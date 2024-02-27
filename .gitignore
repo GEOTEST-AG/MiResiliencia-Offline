@@ -2741,3 +2741,4 @@ __pycache__/
 /InnoSetup/sign_program.bat
 /InnoSetup/sign_setup.bat
 /InnoSetup/Output/setup_offline.exe
+/InnoSetup/Output/setup.exe
