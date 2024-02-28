@@ -117,6 +117,15 @@
                     <Button Content="{x:Static resx:Resources.Project_Import}" Margin="5"  HorizontalContentAlignment="Left" Background="White"
                             Command="{Binding ImportProjectCommand}" ContentTemplate="{StaticResource extBtnDatabaseImportContent}" />
 
+                    <ComboBox ItemsSource="{Binding Languages}" Margin="5"  HorizontalContentAlignment="Left" Background="White"  SelectedItem="{Binding SelectedLanguage}" IsSynchronizedWithCurrentItem="True" >
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectionChanged">
+                                <i:InvokeCommandAction Command="{Binding LanguageCommand}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+
+                    </ComboBox>
+
                 </StackPanel>
 
                 <Border BorderBrush="White" DockPanel.Dock="Top" BorderThickness="1"
@@ -305,6 +314,11 @@
                             <ContentControl ContentTemplate="{StaticResource extBtnPanArrow}"/>
                         </Fluent:Button.LargeIcon>
                     </Fluent:Button>
+                </Fluent:RibbonGroupBox>
+                <Fluent:RibbonGroupBox>
+                    <Fluent:ComboBox Margin="0,10,10,0" Header="{x:Static resx:Resources.Language}" ItemsSource="{Binding Languages}"  SelectedItem="{Binding SelectedLanguage}" IsSynchronizedWithCurrentItem="True" >
+
+                    </Fluent:ComboBox>
                 </Fluent:RibbonGroupBox>
                 <Fluent:RibbonGroupBox >
                     <Fluent:Button Header="{x:Static resx:Resources.GUI_Help}" Size="Large" Command="{Binding HelpCommand}" 
@@ -628,7 +642,6 @@
                                                          Text="{x:Static resx:Resources.PleaseSelect}" 
                                                          InputWidth="150"
                                                          ItemsSource="{Binding NatHazards}"
-                                                         DisplayMemberPath="Name"
                                                          SelectedItem ="{Binding SelectedNatHazard}">
                                         </Fluent:ComboBox>
 
@@ -737,7 +750,6 @@
                                         <Fluent:ComboBox Header="{x:Static resx:Resources.DamagePotential_Objektclass}" IsEditable="False"
                                                          Text="{x:Static resx:Resources.PleaseSelect}"
                                                          InputWidth="200"
-                                                         DisplayMemberPath="Name"
                                                          SelectedItem ="{Binding SelectedObjectClass}"
                                                          ItemsSource="{Binding ObjectClasses}"
                                                          >
@@ -745,7 +757,6 @@
                                         <Fluent:ComboBox Header="{x:Static resx:Resources.DamagePotential_Object}"  IsEditable="False"
                                                          Text="{x:Static resx:Resources.PleaseSelect}" 
                                                          InputWidth="200"
-                                                         DisplayMemberPath="Name"
                                                          SelectedItem ="{Binding SelectedObjectParameter}"
                                                          ItemsSource="{Binding FilteredObjectParameters}"
                                                          >
@@ -918,7 +929,7 @@
                                             </DataGridTextColumn>-->
 
                                             <DataGridTextColumn Header="{x:Static resx:Resources.Resilience_Criteria}"  
-                                                                Binding="{Binding ResilienceWeight.ResilienceFactor.Preparedness}" 
+                                                                Binding="{Binding ResilienceWeight.ResilienceFactor}" 
                                                                 IsReadOnly="True" Width="195" FontSize="14"
                                                             >
                                                 <DataGridTextColumn.ElementStyle>
@@ -1148,7 +1159,6 @@
                                                          Text="{x:Static resx:Resources.PleaseSelect}" 
                                                          InputWidth="150"
                                                          ItemsSource="{Binding NatHazards}"
-                                                         DisplayMemberPath="Name"
                                                          SelectedItem ="{Binding SelectedNatHazard}">
                                         </Fluent:ComboBox>
 
@@ -1291,7 +1301,7 @@
                                             </DataGridTextColumn>-->
 
                                             <DataGridTextColumn Header="{x:Static resx:Resources.Resilience_Criteria}"  
-                                                                Binding="{Binding ResilienceWeight.ResilienceFactor.Preparedness}" 
+                                                                Binding="{Binding ResilienceWeight.ResilienceFactor}" 
                                                                 IsReadOnly="True" Width="200" FontSize="14"
                                                             >
                                                 <DataGridTextColumn.ElementStyle>

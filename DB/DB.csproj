@@ -109,6 +109,14 @@
     <Compile Include="Migrations\202009081259225_damageExtentPart.designer.cs">
       <DependentUpon>202009081259225_damageExtentPart.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202402280842568_Translations.cs" />
+    <Compile Include="Migrations\202402280842568_Translations.designer.cs">
+      <DependentUpon>202402280842568_Translations.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202402281054590_Translation_Name.cs" />
+    <Compile Include="Migrations\202402281054590_Translation_Name.designer.cs">
+      <DependentUpon>202402281054590_Translation_Name.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\DamageExtent.cs" />
     <Compile Include="Models\IKClasses.cs" />
@@ -150,6 +158,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202009081259225_damageExtentPart.resx">
       <DependentUpon>202009081259225_damageExtentPart.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202402280842568_Translations.resx">
+      <DependentUpon>202402280842568_Translations.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202402281054590_Translation_Name.resx">
+      <DependentUpon>202402281054590_Translation_Name.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

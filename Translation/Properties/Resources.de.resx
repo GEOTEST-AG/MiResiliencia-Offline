@@ -609,4 +609,19 @@
   <data name="Check_Database_Default_NOK" xml:space="preserve">
     <value>Defaultwerte geändert</value>
   </data>
+  <data name="Language" xml:space="preserve">
+    <value>Sprache</value>
+  </data>
+  <data name="English" xml:space="preserve">
+    <value>Englisch</value>
+  </data>
+  <data name="Spanish" xml:space="preserve">
+    <value>Spanisch</value>
+  </data>
+  <data name="Restart" xml:space="preserve">
+    <value>Neustart erforderlich</value>
+  </data>
+  <data name="Restart_Message" xml:space="preserve">
+    <value>Bitte starten sie die Anwendung neu, damit die Einstellungen angewendet werden.</value>
+  </data>
 </root>

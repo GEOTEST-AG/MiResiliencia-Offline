@@ -639,4 +639,19 @@
   <data name="Check_Database_Default_NOK" xml:space="preserve">
     <value>Valores por defecto modificados</value>
   </data>
+  <data name="Language" xml:space="preserve">
+    <value>Idioma</value>
+  </data>
+  <data name="English" xml:space="preserve">
+    <value>Inglés</value>
+  </data>
+  <data name="Spanish" xml:space="preserve">
+    <value>Español</value>
+  </data>
+  <data name="Restart" xml:space="preserve">
+    <value>Reinicio necesario</value>
+  </data>
+  <data name="Restart_Message" xml:space="preserve">
+    <value>Reinicie la aplicación para que se apliquen los ajustes.</value>
+  </data>
 </root>

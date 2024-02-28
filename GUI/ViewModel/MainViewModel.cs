@@ -27,15 +27,19 @@ using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
+using System.Windows.Input;
+using System.Windows.Markup;
 using Xceed.Wpf.Toolkit.PropertyGrid;
 
 namespace ResTB.GUI.ViewModel
@@ -313,6 +317,12 @@ namespace ResTB.GUI.ViewModel
         private int SelectedShapeIndex { get; set; } = -1;
 
         public string Version { get; private set; }
+
+
+        public List<LanguageModel> Languages { get; private set; } = new List<LanguageModel>()
+        { new LanguageModel() {Language = "en-US", Text = $"{Resources.English}" }, new LanguageModel() {Language = "es-HN", Text = $"{Resources.Spanish}"} };
+       
+        public LanguageModel SelectedLanguage { get; set; }
 
         public MainViewModel()
         {
@@ -1090,6 +1100,34 @@ namespace ResTB.GUI.ViewModel
             }
         }
 
+        #endregion
+
+        #region SettingsCommand
+
+        private RelayCommand _languageCommand;
+        public RelayCommand LanguageCommand
+        {
+            get
+            {
+                return _languageCommand
+                    ?? (_languageCommand = new RelayCommand(
+                    () =>
+                    {
+                        var configFile = ConfigurationManager.OpenExeConfiguration("ResTBDesktop.exe");
+                        if (SelectedLanguage != null)
+                        {
+
+                            configFile.AppSettings.Settings["DefaultCulture"].Value = SelectedLanguage.Language;
+                        }
+                        configFile.Save();
+
+                        MessageBoxMessage.Send($"{Resources.Restart}", $"{Resources.Restart_Message}", true);
+
+                    },
+                    () => true
+                    ));
+            }
+        }
         #endregion
 
         #region ProjectCommands
@@ -2674,7 +2712,7 @@ namespace ResTB.GUI.ViewModel
 
             SelectedMergedPropertyDefinitions = new PropertyDefinitionCollection();
 
-            var propDef = new PropertyDefinition();
+            var propDef = new Xceed.Wpf.Toolkit.PropertyGrid.PropertyDefinition();
             propDef.TargetProperties.Add(nameof(Objectparameter.Unity));
 #if DEBUG
             propDef.TargetProperties.Add(nameof(Objectparameter.IsStandard));
@@ -2682,7 +2720,9 @@ namespace ResTB.GUI.ViewModel
 #endif
             foreach (ObjectparameterHasProperties ohp in tempObjParam.HasProperties)
             {
-                propDef.TargetProperties.Add(ohp.Property);
+                if (ohp.Property=="Name") propDef.TargetProperties.Add("Name_Translated");
+                else if (ohp.Property == "Description") propDef.TargetProperties.Add("Descritption_Translated");
+                else propDef.TargetProperties.Add(ohp.Property);
             }
             SelectedMergedPropertyDefinitions.Add(propDef);
 

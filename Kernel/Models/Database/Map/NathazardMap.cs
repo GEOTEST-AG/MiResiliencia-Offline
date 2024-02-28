@@ -19,6 +19,8 @@ namespace ResTB_API.Models.Database.Map
             ReadOnly();
             Id(x => x.ID).GeneratedBy.Assigned().Column("\"ID\"");
             Map(x => x.Name).Column("\"Name\"");
+            Map(x => x.Name_EN).Column("\"Name_EN\"");
+            Map(x => x.Name_ES).Column("\"Name_ES\"");
 
         }
     }

@@ -287,7 +287,7 @@
                     {
                         <tr>
                             <td>
-                                @process.NatHazard.Name
+                                @process.NatHazard.ToString()
                             </td>
                             <td>
                                 @process.CollectiveRiskTotal.Item1.ToString("C0") @Raw(ResFormat.DF_PerYear)
@@ -420,7 +420,7 @@
                                         "data: [{2:F0},{3:F0}], " +
                                         "backgroundColor: [\"{4}\",\"{4}\"], " +
                                         "stack: \"{5}\" " +
-                                        "}} ", hazard.Name, ResSummary.TXT_Person, valueP1, valueP2, color, hazard.ID);
+                                        "}} ", hazard.ToString(), ResSummary.TXT_Person, valueP1, valueP2, color, hazard.ID);
                                     datasets2.Add(dataset);
 
                                     if (!colorsDic2.TryGetValue(colorID + 2, out color)) { color = "gray"; }
@@ -430,7 +430,7 @@
                                         "data: [{2:F0},{3:F0}], " +
                                         "backgroundColor: [\"{4}\",\"{4}\"], " +
                                         "stack: \"{5}\" " +
-                                        "}} ", hazard.Name, ResSummary.TXT_Property, valueS1, valueS2, color, hazard.ID);
+                                        "}} ", hazard.ToString(), ResSummary.TXT_Property, valueS1, valueS2, color, hazard.ID);
                                     datasets2.Add(dataset);
 
                                     if (!colorsDic2.TryGetValue(colorID + 3, out color)) { color = "darkgray"; }
@@ -440,7 +440,7 @@
                                         "data: [{2:F0},{3:F0}], " +
                                         "backgroundColor: [\"{4}\",\"{4}\"], " +
                                         "stack: \"{5}\" " +
-                                        "}} ", hazard.Name, ResSummary.TXT_Indirect, valueI1, valueI2, color, hazard.ID);
+                                        "}} ", hazard.ToString(), ResSummary.TXT_Indirect, valueI1, valueI2, color, hazard.ID);
                                     datasets2.Add(dataset);
 
 
@@ -566,7 +566,7 @@
                                     <div class="card-head collapsed style-danger" data-toggle="collapse" data-parent="#processes" data-target="#processes-@i">
                                         <header>
                                             @if (ViewBag.attachCss ?? false)
-                                            {<h2 class="bg-danger">@ResSummary.TXT_NatHazard @hazard.Name </h2>}
+                                            {<h2 class="bg-danger">@ResSummary.TXT_NatHazard @hazard.ToString() </h2>}
                                         else
                                         { <h2>@ResSummary.TXT_NatHazard @hazard.Name </h2>}
                                         </header>
@@ -655,7 +655,7 @@
                                                                 }
                                                                 else
                                                                 {
-                                                                    processTitle = process.ScenarioResults.FirstOrDefault().NatHazard.Name + " " + process.ScenarioResults.FirstOrDefault().BeforeActionString;
+                                                                    processTitle = process.ScenarioResults.FirstOrDefault().NatHazard.ToString() + " " + process.ScenarioResults.FirstOrDefault().BeforeActionString;
 
                                                                     foreach (ScenarioResult item in process.ScenarioResults)
                                                                     {
@@ -688,7 +688,7 @@
                                                                             "label: \"{0} {1}\", " +
                                                                             "data: [{2:F0},{3:F0},{4:F0}], " +
                                                                             "backgroundColor: [\"{5}\",\"{5}\",\"{5}\"]" +
-                                                                            "}} ", item.NatHazard.Name, item.IkClass.Description, item.DamageExtentPerson, item.DamageExtentProperty, item.DamageExtentIndirect,
+                                                                            "}} ", item.NatHazard.ToString(), item.IkClass.Description, item.DamageExtentPerson, item.DamageExtentProperty, item.DamageExtentIndirect,
                                                                             color)
                                                                             ;
 
@@ -803,7 +803,7 @@
                                                                         color = "black";
                                                                     }
 
-                                                                    processTitle = process.NatHazard.Name + " " + process.BeforeActionString;
+                                                                    processTitle = process.NatHazard.ToString() + " " + process.BeforeActionString;
 
                                                                     randomID += process.NatHazard.ID * 10 + Convert.ToInt32(process.BeforeAction) * 1;
 
@@ -811,7 +811,7 @@
                                                                                 "label: \"{0}\", " +
                                                                                 "data: [{1:F0},{2:F0},{3:F0}], " +
                                                                                 "backgroundColor: [\"{4}\",\"{4}\",\"{4}\"]" +
-                                                                                "}} ", process.NatHazard.Name, process.CollectiveRiskPerson.Item1, process.CollectiveRiskProperty.Item1, process.CollectiveRiskIndirect.Item1,
+                                                                                "}} ", process.NatHazard.ToString(), process.CollectiveRiskPerson.Item1, process.CollectiveRiskProperty.Item1, process.CollectiveRiskIndirect.Item1,
                                                                                 color
                                                                                 );
 
@@ -940,7 +940,7 @@
                                                                         @*HEADER*@
                                                                         <div class="card-head collapsed style-default" data-toggle="collapse" data-parent="#scenarios-@sId" data-target="#scenario-@j">
                                                                             <header>
-                                                                                <h4>@ResSummary.TXT_Scenario: @scenario.NatHazard.Name - @scenario.BeforeActionString - @scenario.IkClass.Description</h4>
+                                                                                <h4>@ResSummary.TXT_Scenario: @scenario.NatHazard.ToString() - @scenario.BeforeActionString - @scenario.IkClass.Description</h4>
                                                                             </header>
                                                                             <div class="tools">
                                                                                 <a class="btn btn-icon-toggle"><i class="fa fa-angle-down"></i></a>

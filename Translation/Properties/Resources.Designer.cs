@@ -338,7 +338,18 @@ namespace ResTB.Translation.Properties {
                 return ResourceManager.GetString("Edit_Geometry", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   Looks up a localized string similar to English.
+        /// </summary>
+        public static string English
+        {
+            get
+            {
+                return ResourceManager.GetString("English", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to Export.
         /// </summary>
@@ -527,7 +538,18 @@ namespace ResTB.Translation.Properties {
                 return ResourceManager.GetString("Intensity_medium", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   Looks up a localized string similar to Language.
+        /// </summary>
+        public static string Language
+        {
+            get
+            {
+                return ResourceManager.GetString("Language", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to Fit layer to view.
         /// </summary>
@@ -1490,7 +1512,29 @@ namespace ResTB.Translation.Properties {
                 return ResourceManager.GetString("Resilience_SocialCapacity", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   Looks up a localized string similar to Retart.
+        /// </summary>
+        public static string Restart
+        {
+            get
+            {
+                return ResourceManager.GetString("Restart", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Restart Message.
+        /// </summary>
+        public static string Restart_Message
+        {
+            get
+            {
+                return ResourceManager.GetString("Restart_Message", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to Calculation finished..
         /// </summary>
@@ -1598,7 +1642,18 @@ namespace ResTB.Translation.Properties {
                 return ResourceManager.GetString("Search_Hits", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   Looks up a localized string similar to Spanish.
+        /// </summary>
+        public static string Spanish
+        {
+            get
+            {
+                return ResourceManager.GetString("Spanish", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to Map.
         /// </summary>
