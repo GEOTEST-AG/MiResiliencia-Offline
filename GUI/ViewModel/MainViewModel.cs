@@ -432,6 +432,11 @@ namespace ResTB.GUI.ViewModel
             catch (Exception ex2)
             {   //emtpy 
             }
+
+            CultureInfo currentCulture = Thread.CurrentThread.CurrentCulture;
+            if (currentCulture.TwoLetterISOLanguageName.ToLower() == "en") SelectedLanguage = Languages.Where(m => m.Language == "en-US").FirstOrDefault();
+            else if (currentCulture.TwoLetterISOLanguageName.ToLower() == "es") SelectedLanguage = Languages.Where(m => m.Language == "es-HN").FirstOrDefault();
+
         }
 
         /// <summary>
@@ -475,7 +480,11 @@ namespace ResTB.GUI.ViewModel
 
             using (ResTBContext db = new DB.ResTBContext())
             {
-                hazards = await db.NatHazards.AsNoTracking().Where(n => n.ID > 2).OrderBy(h => h.Name).ToListAsync(); //id=2 is used for resilience weights default!
+                
+                CultureInfo currentCulture = Thread.CurrentThread.CurrentCulture;
+                if (currentCulture.TwoLetterISOLanguageName.ToLower() == "en") hazards = await db.NatHazards.AsNoTracking().Where(n => n.ID > 2).OrderBy(h => h.Name_EN).ToListAsync(); //id=2 is used for resilience weights default!
+                else if (currentCulture.TwoLetterISOLanguageName.ToLower() == "es") hazards = await db.NatHazards.AsNoTracking().Where(n => n.ID > 2).OrderBy(h => h.Name_ES).ToListAsync(); //id=2 is used for resilience weights default!
+                else hazards = await db.NatHazards.AsNoTracking().Where(n => n.ID > 2).OrderBy(h => h.Name).ToListAsync(); //id=2 is used for resilience weights default!
             }
 
             NatHazards = new ObservableCollection<NatHazard>(hazards);
