@@ -33,6 +33,7 @@ using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -352,10 +353,31 @@ namespace ResTB.GUI.ViewModel
 
                 // checks the db for correctness 
                 string md5dbhash = "";
-                DatabaseDefault = MD5Checker.CheckMD5Hash("aa06a63aef45e7077340ff7e1a3732d9", out md5dbhash);
+                DatabaseDefault = MD5Checker.CheckMD5Hash("1bddd92c5dee2b68eeab4bf3abb8d309", out md5dbhash);
                 DatabaseHash = md5dbhash;
 
             }
+
+            // get Language from db
+            using (ResTBContext db = new DB.ResTBContext())
+            {
+                Settings s = db.Settings.FirstOrDefault();
+                if (s!=null)
+                {
+                    var culture = new CultureInfo(s.Language);
+                    Thread.CurrentThread.CurrentCulture = culture;
+                    Thread.CurrentThread.CurrentUICulture = culture;
+                }
+                else
+                {
+                    var culture = new CultureInfo("en-US");
+                    Thread.CurrentThread.CurrentCulture = culture;
+                    Thread.CurrentThread.CurrentUICulture = culture;
+                }
+
+            }
+                
+
 
             // get geonames places for offline search of POIs
             GeoCoder = new Geocoder("cities500");                      //HN or CH, hard coded so far
@@ -1122,13 +1144,30 @@ namespace ResTB.GUI.ViewModel
                     ?? (_languageCommand = new RelayCommand(
                     () =>
                     {
-                        var configFile = ConfigurationManager.OpenExeConfiguration("ResTBDesktop.exe");
+                        /*var configFile = ConfigurationManager.OpenExeConfiguration("ResTBDesktop.exe");
                         if (SelectedLanguage != null)
                         {
 
                             configFile.AppSettings.Settings["DefaultCulture"].Value = SelectedLanguage.Language;
                         }
-                        configFile.Save();
+                        configFile.Save();*/
+
+                        using (ResTBContext db = new DB.ResTBContext())
+                        {
+                            Settings s = db.Settings.FirstOrDefault();
+                            if (s == null)
+                            {
+                                s = new Settings() { Language = SelectedLanguage.Language };
+                                db.Settings.Add(s);
+                            }
+                            else
+                            {
+                                s.Language = SelectedLanguage.Language;
+                                db.Entry(s).State = EntityState.Modified;
+                            }
+                            db.SaveChanges();
+
+                        }
 
                         MessageBoxMessage.Send($"{Resources.Restart}", $"{Resources.Restart_Message}", true);
 

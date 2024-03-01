@@ -49,6 +49,7 @@ namespace ResTB.DB
         public DbSet<ResTB.DB.Models.WillingnessToPay> WillingnessToPays { get; set; }
         public DbSet<ResTB.DB.Models.DamageExtent> DamageExtents { get; set; }
         public DbSet<ResTB.DB.Models.Standard_PrA> StandardPrAs { get; set; }
+        public DbSet<ResTB.DB.Models.Settings> Settings { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
