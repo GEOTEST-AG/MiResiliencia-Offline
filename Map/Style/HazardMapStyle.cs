@@ -38,12 +38,15 @@ namespace ResTB.Map.Style
 
             ct = sf.Categories.Add("Medium");
             ct.Expression = "[Index] < 7";
-            ct.DrawingOptions.FillColor = utils.ColorByName(tkMapColor.Yellow);
+            ct.DrawingOptions.FillColor = utils.ColorByName(tkMapColor.Blue);
 
+            ct = sf.Categories.Add("Medium");
+            ct.Expression = "[Index] = 4";
+            ct.DrawingOptions.FillColor = utils.ColorByName(tkMapColor.Yellow);
 
             ct = sf.Categories.Add("Low");
             ct.Expression = "[Index] < 3";
-            ct.DrawingOptions.FillColor = utils.ColorByName(tkMapColor.Green);
+            ct.DrawingOptions.FillColor = utils.ColorByName(tkMapColor.Yellow);
 
             sf.Categories.ApplyExpressions();
         }

@@ -250,7 +250,7 @@
     <value>Pérdida económica diara</value>
   </data>
   <data name="App_Name" xml:space="preserve">
-    <value>MiResiliencia Honduras</value>
+    <value>MiResiliencia</value>
   </data>
   <data name="Info_Edit_Polygone" xml:space="preserve">
     <value>Doble clic para cerrar polígono, esc para cancelar polígono</value>
@@ -511,7 +511,7 @@
     <value>Análisis del Riesgo y de la Costo-eficiencia de Medidas para Reducción de Riesgos a Desastres</value>
   </data>
   <data name="App_Name_ES" xml:space="preserve">
-    <value>MiResiliencia Honduras</value>
+    <value>MiResiliencia</value>
   </data>
   <data name="DamagePotential_Selected" xml:space="preserve">
     <value>Selección de objeto amenazado</value>
@@ -638,5 +638,20 @@
   </data>
   <data name="Check_Database_Default_NOK" xml:space="preserve">
     <value>Valores por defecto modificados</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Idioma</value>
+  </data>
+  <data name="English" xml:space="preserve">
+    <value>Inglés</value>
+  </data>
+  <data name="Spanish" xml:space="preserve">
+    <value>Español</value>
+  </data>
+  <data name="Restart" xml:space="preserve">
+    <value>Reinicio necesario</value>
+  </data>
+  <data name="Restart_Message" xml:space="preserve">
+    <value>Reinicie la aplicación para que se apliquen los ajustes.</value>
   </data>
 </root>

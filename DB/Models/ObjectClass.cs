@@ -1,6 +1,8 @@
 ﻿using ResTB.Translation;
 using ResTB.Translation.Properties;
 using System.ComponentModel;
+using System.Globalization;
+using System.Threading;
 
 namespace ResTB.DB.Models
 {
@@ -27,10 +29,15 @@ namespace ResTB.DB.Models
         public int ID { get; set; }
         [ReadOnly(true)]
         public string Name { get; set; }
+        public string Name_EN { get; set; }
+        public string Name_ES { get; set; }
 
         public override string ToString()
         {
-            return $"{Name}";
+            CultureInfo currentCulture = Thread.CurrentThread.CurrentCulture;
+            if (currentCulture.TwoLetterISOLanguageName.ToLower() == "en") return $"{Name_EN}";
+            else if (currentCulture.TwoLetterISOLanguageName.ToLower() == "es") return $"{Name_ES}";
+            else return $"{Name}";
         }
     }
 }

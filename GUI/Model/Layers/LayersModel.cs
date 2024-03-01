@@ -384,10 +384,10 @@ namespace ResTB.GUI.Model.Layers
                         }
 
                         // Add or create NatHazard Group
-                        LayersModel natHazardGroup = beforeOrAfter.Children.Where(m => m.Name == hazardMapLayer.NatHazard.Name).FirstOrDefault();
+                        LayersModel natHazardGroup = beforeOrAfter.Children.Where(m => m.Name == hazardMapLayer.NatHazard.ToString()).FirstOrDefault();
                         if (natHazardGroup == null)
                         {
-                            natHazardGroup = new LayersModel(hazardMapLayer.NatHazard.Name);
+                            natHazardGroup = new LayersModel(hazardMapLayer.NatHazard.ToString());
                             beforeOrAfter.Children.Add(natHazardGroup);
                         }
                         natHazardGroup.Children.Add(new LayersModel(hazardMapLayer.Index.ToString(), hazardMapLayer));

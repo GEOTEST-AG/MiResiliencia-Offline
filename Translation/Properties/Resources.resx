@@ -116,7 +116,7 @@
     <value>Export project</value>
   </data>
   <data name="App_Name" xml:space="preserve">
-    <value>MiResiliencia Honduras</value>
+    <value>MiResiliencia</value>
   </data>
   <data name="Project_Name" xml:space="preserve">
     <value>Project name</value>
@@ -461,7 +461,7 @@
     <value>Análisis del Riesgo y de la Costo-eficiencia de Medidas para Reducción de Riesgos a Desastres</value>
   </data>
   <data name="App_Name_ES" xml:space="preserve">
-    <value>MiResiliencia Honduras</value>
+    <value>MiResiliencia</value>
   </data>
   <data name="DamagePotential_Selected" xml:space="preserve">
     <value>Selected damage potential</value>
@@ -618,5 +618,20 @@
   </data>
   <data name="Check_Database_Default_NOK" xml:space="preserve">
     <value>Modified default values</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="English" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="Spanish" xml:space="preserve">
+    <value>Spanish</value>
+  </data>
+  <data name="Restart" xml:space="preserve">
+    <value>Restart required</value>
+  </data>
+  <data name="Restart_Message" xml:space="preserve">
+    <value>Please restart the application so that the settings are applied.</value>
   </data>
 </root>

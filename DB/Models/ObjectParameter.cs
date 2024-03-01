@@ -6,7 +6,9 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Globalization;
 using System.Linq;
+using System.Threading;
 
 namespace ResTB.DB.Models
 {
@@ -28,10 +30,39 @@ namespace ResTB.DB.Models
 
         [LocalizedDisplayName(nameof(Resources.OP_Name), typeof(Resources))]
         [Display(Order = 1)]
+        [NotMapped]
+        public string Name_Translated
+        {
+            get
+            {
+                CultureInfo currentCulture = Thread.CurrentThread.CurrentCulture;
+                if (currentCulture.TwoLetterISOLanguageName.ToLower() == "en") return $"{Name_EN}";
+                else if (currentCulture.TwoLetterISOLanguageName.ToLower() == "es") return $"{Name_ES}";
+                else return $"{Name}";
+            }
+        }
+
         public string Name { get; set; } = string.Empty;
+
+        public string Name_EN { get; set; } = string.Empty;
+        public string Name_ES { get; set; } = string.Empty;
+
         [LocalizedDisplayName(nameof(Resources.Description), typeof(Resources))]
         [Display(Order = 2)]
+        [NotMapped]
+        public string Description_Translated { get
+            {
+                CultureInfo currentCulture = Thread.CurrentThread.CurrentCulture;
+                if (currentCulture.TwoLetterISOLanguageName.ToLower() == "en") return $"{Description_EN}";
+                else if (currentCulture.TwoLetterISOLanguageName.ToLower() == "es") return $"{Description_ES}";
+                else return $"{Description}";
+            } }
+
         public string Description { get; set; } = string.Empty;
+
+        public string Description_EN { get; set; } = string.Empty;
+        public string Description_ES { get; set; } = string.Empty;
+
         /// <summary>
         /// Value per Unit
         /// </summary>
@@ -103,6 +134,13 @@ namespace ResTB.DB.Models
         public ObservableCollection<ResilienceValues> ResilienceValuesMergedAfter =>
             new ObservableCollection<ResilienceValues>(ResilienceValuesMerged.Where(rv => rv.ResilienceWeight.BeforeAction == false));
 
+        public override string ToString()
+        {
+            CultureInfo currentCulture = Thread.CurrentThread.CurrentCulture;
+            if (currentCulture.TwoLetterISOLanguageName.ToLower() == "en") return $"{Name_EN}";
+            else if (currentCulture.TwoLetterISOLanguageName.ToLower() == "es") return $"{Name_ES}";
+            else return $"{Name}";
+        }
 
         public object Clone()
         {

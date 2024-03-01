@@ -27,15 +27,20 @@ using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
+using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
+using System.Windows.Input;
+using System.Windows.Markup;
 using Xceed.Wpf.Toolkit.PropertyGrid;
 
 namespace ResTB.GUI.ViewModel
@@ -314,6 +319,12 @@ namespace ResTB.GUI.ViewModel
 
         public string Version { get; private set; }
 
+
+        public List<LanguageModel> Languages { get; private set; } = new List<LanguageModel>()
+        { new LanguageModel() {Language = "en-US", Text = $"{Resources.English}" }, new LanguageModel() {Language = "es-HN", Text = $"{Resources.Spanish}"} };
+       
+        public LanguageModel SelectedLanguage { get; set; }
+
         public MainViewModel()
         {
             Version = $"{Resources.Version}: " + FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).ProductVersion;
@@ -342,13 +353,34 @@ namespace ResTB.GUI.ViewModel
 
                 // checks the db for correctness 
                 string md5dbhash = "";
-                DatabaseDefault = MD5Checker.CheckMD5Hash("2bf4999a441e6cc18fbe2c4ac86b2469", out md5dbhash);
+                DatabaseDefault = MD5Checker.CheckMD5Hash("1bddd92c5dee2b68eeab4bf3abb8d309", out md5dbhash);
                 DatabaseHash = md5dbhash;
 
             }
 
+            // get Language from db
+            using (ResTBContext db = new DB.ResTBContext())
+            {
+                Settings s = db.Settings.FirstOrDefault();
+                if (s!=null)
+                {
+                    var culture = new CultureInfo(s.Language);
+                    Thread.CurrentThread.CurrentCulture = culture;
+                    Thread.CurrentThread.CurrentUICulture = culture;
+                }
+                else
+                {
+                    var culture = new CultureInfo("en-US");
+                    Thread.CurrentThread.CurrentCulture = culture;
+                    Thread.CurrentThread.CurrentUICulture = culture;
+                }
+
+            }
+                
+
+
             // get geonames places for offline search of POIs
-            GeoCoder = new Geocoder("HN");                      //HN or CH, hard coded so far
+            GeoCoder = new Geocoder("cities500");                      //HN or CH, hard coded so far
             if (GeoCoder.Places != null)
                 Places = new ObservableCollection<Place>(GeoCoder.Places);
 
@@ -422,6 +454,11 @@ namespace ResTB.GUI.ViewModel
             catch (Exception ex2)
             {   //emtpy 
             }
+
+            CultureInfo currentCulture = Thread.CurrentThread.CurrentCulture;
+            if (currentCulture.TwoLetterISOLanguageName.ToLower() == "en") SelectedLanguage = Languages.Where(m => m.Language == "en-US").FirstOrDefault();
+            else if (currentCulture.TwoLetterISOLanguageName.ToLower() == "es") SelectedLanguage = Languages.Where(m => m.Language == "es-HN").FirstOrDefault();
+
         }
 
         /// <summary>
@@ -465,7 +502,11 @@ namespace ResTB.GUI.ViewModel
 
             using (ResTBContext db = new DB.ResTBContext())
             {
-                hazards = await db.NatHazards.AsNoTracking().Where(n => n.ID > 2).OrderBy(h => h.Name).ToListAsync(); //id=2 is used for resilience weights default!
+                
+                CultureInfo currentCulture = Thread.CurrentThread.CurrentCulture;
+                if (currentCulture.TwoLetterISOLanguageName.ToLower() == "en") hazards = await db.NatHazards.AsNoTracking().Where(n => n.ID > 2).OrderBy(h => h.Name_EN).ToListAsync(); //id=2 is used for resilience weights default!
+                else if (currentCulture.TwoLetterISOLanguageName.ToLower() == "es") hazards = await db.NatHazards.AsNoTracking().Where(n => n.ID > 2).OrderBy(h => h.Name_ES).ToListAsync(); //id=2 is used for resilience weights default!
+                else hazards = await db.NatHazards.AsNoTracking().Where(n => n.ID > 2).OrderBy(h => h.Name).ToListAsync(); //id=2 is used for resilience weights default!
             }
 
             NatHazards = new ObservableCollection<NatHazard>(hazards);
@@ -1090,6 +1131,51 @@ namespace ResTB.GUI.ViewModel
             }
         }
 
+        #endregion
+
+        #region SettingsCommand
+
+        private RelayCommand _languageCommand;
+        public RelayCommand LanguageCommand
+        {
+            get
+            {
+                return _languageCommand
+                    ?? (_languageCommand = new RelayCommand(
+                    () =>
+                    {
+                        /*var configFile = ConfigurationManager.OpenExeConfiguration("ResTBDesktop.exe");
+                        if (SelectedLanguage != null)
+                        {
+
+                            configFile.AppSettings.Settings["DefaultCulture"].Value = SelectedLanguage.Language;
+                        }
+                        configFile.Save();*/
+
+                        using (ResTBContext db = new DB.ResTBContext())
+                        {
+                            Settings s = db.Settings.FirstOrDefault();
+                            if (s == null)
+                            {
+                                s = new Settings() { Language = SelectedLanguage.Language };
+                                db.Settings.Add(s);
+                            }
+                            else
+                            {
+                                s.Language = SelectedLanguage.Language;
+                                db.Entry(s).State = EntityState.Modified;
+                            }
+                            db.SaveChanges();
+
+                        }
+
+                        MessageBoxMessage.Send($"{Resources.Restart}", $"{Resources.Restart_Message}", true);
+
+                    },
+                    () => true
+                    ));
+            }
+        }
         #endregion
 
         #region ProjectCommands
@@ -2674,7 +2760,7 @@ namespace ResTB.GUI.ViewModel
 
             SelectedMergedPropertyDefinitions = new PropertyDefinitionCollection();
 
-            var propDef = new PropertyDefinition();
+            var propDef = new Xceed.Wpf.Toolkit.PropertyGrid.PropertyDefinition();
             propDef.TargetProperties.Add(nameof(Objectparameter.Unity));
 #if DEBUG
             propDef.TargetProperties.Add(nameof(Objectparameter.IsStandard));
@@ -2682,7 +2768,9 @@ namespace ResTB.GUI.ViewModel
 #endif
             foreach (ObjectparameterHasProperties ohp in tempObjParam.HasProperties)
             {
-                propDef.TargetProperties.Add(ohp.Property);
+                if (ohp.Property=="Name") propDef.TargetProperties.Add("Name_Translated");
+                else if (ohp.Property == "Description") propDef.TargetProperties.Add("Descritption_Translated");
+                else propDef.TargetProperties.Add(ohp.Property);
             }
             SelectedMergedPropertyDefinitions.Add(propDef);
 

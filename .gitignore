@@ -2737,3 +2737,8 @@ __pycache__/
 /PostgreSQLPortable_10.4.1/App/AppInfo/appicon_16.png
 /PostgreSQLPortable_10.4.1/App/AppInfo/appicon_128.png
 /PostgreSQLPortable_10.4.1/App/AppInfo/appicon.ico
+/PostgreSQLPortable_10.4.1/PostgreSQLPortable
+/InnoSetup/sign_program.bat
+/InnoSetup/sign_setup.bat
+/InnoSetup/Output/setup_offline.exe
+/InnoSetup/Output/setup.exe

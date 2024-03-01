@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace ResTB.DB.Models
@@ -11,6 +13,8 @@ namespace ResTB.DB.Models
     {
         public int ID { get; set; }
         public string Name { get; set; }
+        public string Name_EN { get; set; }
+        public string Name_ES { get; set; }
 
         public List<PrA> PrAs { get; set; }
         public List<Intensity> Intensities { get; set; }
@@ -36,7 +40,10 @@ namespace ResTB.DB.Models
 
         public override string ToString()
         {
-            return $"{Name}";
+            CultureInfo currentCulture = Thread.CurrentThread.CurrentCulture;
+            if (currentCulture.TwoLetterISOLanguageName.ToLower() == "en") return $"{Name_EN}";
+            else if (currentCulture.TwoLetterISOLanguageName.ToLower() == "es") return $"{Name_ES}";
+            else return $"{Name}";
         }
     }
 }
